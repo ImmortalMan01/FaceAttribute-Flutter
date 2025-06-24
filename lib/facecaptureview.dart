@@ -10,6 +10,7 @@ import 'package:facesdk_plugin/facedetection_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
 import 'person.dart';
+import 'localization.dart';
 
 enum ViewMode {
   MODE_NONE,
@@ -204,39 +205,39 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
       } else if (faceCaptureState.index ==
           FaceCaptureState.MULTIPLE_FACES.index) {
         setState(() {
-          _warningTxt = "Multiple face detected!";
+          _warningTxt = AppLocalizations.of(context).t('multipleFace');
         });
       } else if (faceCaptureState.index ==
           FaceCaptureState.FIT_IN_CIRCLE.index) {
         setState(() {
-          _warningTxt = "Fit in circle!";
+          _warningTxt = AppLocalizations.of(context).t('fitCircle');
         });
       } else if (faceCaptureState.index == FaceCaptureState.MOVE_CLOSER.index) {
         setState(() {
-          _warningTxt = "Move closer!";
+          _warningTxt = AppLocalizations.of(context).t('moveCloser');
         });
       } else if (faceCaptureState.index == FaceCaptureState.NO_FRONT.index) {
         setState(() {
-          _warningTxt = "Not fronted face!";
+          _warningTxt = AppLocalizations.of(context).t('notFronted');
         });
       } else if (faceCaptureState.index ==
           FaceCaptureState.FACE_OCCLUDED.index) {
         setState(() {
-          _warningTxt = "Face occluded!";
+          _warningTxt = AppLocalizations.of(context).t('faceOccluded');
         });
       } else if (faceCaptureState.index == FaceCaptureState.EYE_CLOSED.index) {
         setState(() {
-          _warningTxt = "Eye closed!";
+          _warningTxt = AppLocalizations.of(context).t('eyeClosed');
         });
       } else if (faceCaptureState.index ==
           FaceCaptureState.MOUTH_OPENED.index) {
         setState(() {
-          _warningTxt = "Mouth opened!";
+          _warningTxt = AppLocalizations.of(context).t('mouthOpened');
         });
       } else if (faceCaptureState.index ==
           FaceCaptureState.SPOOFED_FACE.index) {
         setState(() {
-          _warningTxt = "Spoof face";
+          _warningTxt = AppLocalizations.of(context).t('spoofFace');
         });
       } else {
         // createClipedImage();
@@ -281,27 +282,27 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
 
         String livenessScore = "";
         if (_currentFace['liveness'] > _livenessThreshold) {
-          livenessScore =
-              "Liveness: Real, score = ${_currentFace['liveness'].toStringAsFixed(3)}";
+          livenessScore = AppLocalizations.of(context).t('livenessReal') +
+              _currentFace['liveness'].toStringAsFixed(3);
         } else {
-          livenessScore =
-              "Liveness: Spoof, score = ${_currentFace['liveness'].toStringAsFixed(3)}";
+          livenessScore = AppLocalizations.of(context).t('livenessSpoof') +
+              _currentFace['liveness'].toStringAsFixed(3);
         }
 
         String qualityScore = "";
         if (_currentFace['face_quality'] < 0.5) {
-          qualityScore =
-              "Quality: Low, score = ${_currentFace['face_quality'].toStringAsFixed(3)}";
+          qualityScore = AppLocalizations.of(context).t('qualityLow') +
+              _currentFace['face_quality'].toStringAsFixed(3);
         } else if (_currentFace['face_quality'] < 0.75) {
-          qualityScore =
-              "Quality: Medium, score = ${_currentFace['face_quality'].toStringAsFixed(3)}";
+          qualityScore = AppLocalizations.of(context).t('qualityMedium') +
+              _currentFace['face_quality'].toStringAsFixed(3);
         } else {
-          qualityScore =
-              "Quality: High, score = ${_currentFace['face_quality'].toStringAsFixed(3)}";
+          qualityScore = AppLocalizations.of(context).t('qualityHigh') +
+              _currentFace['face_quality'].toStringAsFixed(3);
         }
 
-        String luminanceScore =
-            "Luminance: ${_currentFace['face_luminance'].toStringAsFixed(3)}";
+        String luminanceScore = AppLocalizations.of(context).t('luminance') +
+            _currentFace['face_luminance'].toStringAsFixed(3);
 
         setState(() {
           _warningTxt = "";
@@ -411,7 +412,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Face Recognition'),
+          title: Text(AppLocalizations.of(context).t('appTitle')),
           toolbarHeight: 70,
           centerTitle: true,
         ),
@@ -588,7 +589,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
                                 Theme.of(context).colorScheme.primaryContainer,
                           ),
                           onPressed: () => registerFace(context),
-                          child: const Text('Enroll'),
+                          child: Text(AppLocalizations.of(context).t('enroll')),
                         ),
                       ]),
                 )),

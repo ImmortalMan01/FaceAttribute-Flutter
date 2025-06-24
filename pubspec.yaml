@@ -38,6 +38,10 @@ dependencies:
   facesdk_plugin:
     path: ./facesdk_plugin
   flutter_exif_rotation: ^0.5.1
+  flutter_localizations:
+    sdk: flutter
+  shared_preferences:
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

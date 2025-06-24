@@ -8,6 +8,7 @@ import 'package:facesdk_plugin/facedetection_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
 import 'person.dart';
+import 'localization.dart';
 
 // ignore: must_be_immutable
 class FaceRecognitionView extends StatefulWidget {
@@ -157,7 +158,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Face Recognition'),
+          title: Text(AppLocalizations.of(context).t('appTitle')),
           toolbarHeight: 70,
           centerTitle: true,
         ),
@@ -202,7 +203,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text('Enrolled')
+                                      Text(AppLocalizations.of(context).t('enrolled'))
                                     ],
                                   )
                                 : const SizedBox(
@@ -223,7 +224,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                                       const SizedBox(
                                         height: 5,
                                       ),
-                                      const Text('Identified')
+                                      Text(AppLocalizations.of(context).t('identified'))
                                     ],
                                   )
                                 : const SizedBox(
@@ -240,7 +241,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               width: 16,
                             ),
                             Text(
-                              'Identified: $_identifiedName',
+                              AppLocalizations.of(context).t('identifiedName') +
+                                  _identifiedName,
                               style: const TextStyle(fontSize: 18),
                             )
                           ],
@@ -254,7 +256,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               width: 16,
                             ),
                             Text(
-                              'Similarity: $_identifiedSimilarity',
+                              AppLocalizations.of(context).t('similarity') +
+                                  _identifiedSimilarity,
                               style: const TextStyle(fontSize: 18),
                             )
                           ],
@@ -268,7 +271,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               width: 16,
                             ),
                             Text(
-                              'Liveness score: $_identifiedLiveness',
+                              AppLocalizations.of(context).t('livenessScore') +
+                                  _identifiedLiveness,
                               style: const TextStyle(fontSize: 18),
                             )
                           ],
@@ -282,7 +286,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               width: 16,
                             ),
                             Text(
-                              'Yaw: $_identifiedYaw',
+                              AppLocalizations.of(context).t('yaw') +
+                                  _identifiedYaw,
                               style: const TextStyle(fontSize: 18),
                             )
                           ],
@@ -296,7 +301,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               width: 16,
                             ),
                             Text(
-                              'Roll: $_identifiedRoll',
+                              AppLocalizations.of(context).t('roll') +
+                                  _identifiedRoll,
                               style: const TextStyle(fontSize: 18),
                             )
                           ],
@@ -310,7 +316,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               width: 16,
                             ),
                             Text(
-                              'Pitch: $_identifiedPitch',
+                              AppLocalizations.of(context).t('pitch') +
+                                  _identifiedPitch,
                               style: const TextStyle(fontSize: 18),
                             )
                           ],
@@ -324,7 +331,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                                 Theme.of(context).colorScheme.primaryContainer,
                           ),
                           onPressed: () => faceRecognitionStart(),
-                          child: const Text('Try again'),
+                          child: Text(AppLocalizations.of(context).t('tryAgain')),
                         ),
                       ]),
                 )),

@@ -324,7 +324,8 @@ class MyHomePageState extends State<MyHomePage> {
         toolbarHeight: 70,
         centerTitle: true,
       ),
-      body: Container(
+      body: SafeArea(
+        child: Container(
         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
           children: <Widget>[

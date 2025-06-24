@@ -416,7 +416,8 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
           toolbarHeight: 70,
           centerTitle: true,
         ),
-        body: Stack(
+        body: SafeArea(
+          child: Stack(
           children: <Widget>[
             FaceCaptureDetectionView(faceRecognitionViewState: this),
             Visibility(

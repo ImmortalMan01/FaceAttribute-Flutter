@@ -207,7 +207,7 @@ class SettingsPageState extends State<SettingsPage> {
                 value: Text(AppLocalizations.of(context)
                     .t(_cameraLensNames[_selectedCameraLens])),
                 leading: const Icon(Icons.camera),
-                onPressed: (value) => _showDialog(
+                onPressed: (BuildContext context) => _showDialog(
                   CupertinoPicker(
                     magnification: 1.22,
                     squeeze: 1.2,
@@ -240,7 +240,7 @@ class SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context).t('language')),
                 value: Text(_languageNames[_selectedLanguage]),
                 leading: const Icon(Icons.language),
-                onPressed: (value) => _showDialog(
+                onPressed: (BuildContext context) => _showDialog(
                   CupertinoPicker(
                     magnification: 1.22,
                     squeeze: 1.2,
@@ -269,7 +269,7 @@ class SettingsPageState extends State<SettingsPage> {
                 value: Text(AppLocalizations.of(context)
                     .t(_livenessLevelNames[_selectedLivenessLevel])),
                 leading: const Icon(Icons.person_pin_outlined),
-                onPressed: (value) => _showDialog(
+                onPressed: (BuildContext context) => _showDialog(
                   CupertinoPicker(
                     magnification: 1.22,
                     squeeze: 1.2,
@@ -299,7 +299,7 @@ class SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context).t('livenessThreshold')),
                 value: Text(_livenessThreshold),
                 leading: const Icon(Icons.person_pin_outlined),
-                onPressed: (value) => showDialog<String>(
+                onPressed: (BuildContext context) => showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     title: Text(AppLocalizations.of(context).t('livenessThreshold')),
@@ -324,7 +324,7 @@ class SettingsPageState extends State<SettingsPage> {
                 title: Text(AppLocalizations.of(context).t('identifyThreshold')),
                 leading: const Icon(Icons.person_search),
                 value: Text(_identifyThreshold),
-                onPressed: (value) => showDialog<String>(
+                onPressed: (BuildContext context) => showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
                     title: Text(AppLocalizations.of(context).t('identifyThreshold')),
@@ -353,12 +353,12 @@ class SettingsPageState extends State<SettingsPage> {
               SettingsTile.navigation(
                 title: Text(AppLocalizations.of(context).t('restoreDefaults')),
                 leading: const Icon(Icons.restore),
-                onPressed: (value) => restoreSettings(),
+                onPressed: (BuildContext context) => restoreSettings(),
               ),
               SettingsTile.navigation(
                 title: Text(AppLocalizations.of(context).t('clearAllPerson')),
                 leading: const Icon(Icons.clear_all),
-                onPressed: (value) {
+                onPressed: (BuildContext context) {
                   widget.homePageState.deleteAllPerson();
                 },
               ),

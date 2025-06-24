@@ -40,8 +40,11 @@ dependencies:
   flutter_exif_rotation: ^0.5.1
   flutter_localizations:
     sdk: flutter
-  shared_preferences:
-  fluttertoast:
+  shared_preferences: ^2.5.3
+  fluttertoast: ^8.2.12
+  settings_ui: ^2.0.2
+  image_picker: ^1.1.2
+  sqflite: ^2.4.2
 
 dev_dependencies:
   flutter_test:
@@ -53,11 +56,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  settings_ui: ^2.0.2
-  image_picker: ^1.1.2
-  sqflite: 2.4.1
-  fluttertoast:
-  shared_preferences:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

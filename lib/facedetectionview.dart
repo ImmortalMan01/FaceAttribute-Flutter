@@ -162,7 +162,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           toolbarHeight: 70,
           centerTitle: true,
         ),
-        body: Stack(
+        body: SafeArea(
+          child: Stack(
           children: <Widget>[
             FaceDetectionView(faceRecognitionViewState: this),
             SizedBox(

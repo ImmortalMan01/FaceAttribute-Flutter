@@ -197,8 +197,9 @@ class SettingsPageState extends State<SettingsPage> {
         toolbarHeight: 70,
         centerTitle: true,
       ),
-      body: SettingsList(
-        sections: [
+      body: SafeArea(
+        child: SettingsList(
+          sections: [
   SettingsSection(
             title: Text(AppLocalizations.of(context).t('cameraLens')),
             tiles: <SettingsTile>[
@@ -364,7 +365,8 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ],
           ),
-        ],
+          ],
+        ),
       ),
     );
   }

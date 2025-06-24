@@ -12,9 +12,11 @@ class AboutPage extends StatelessWidget {
         toolbarHeight: 70,
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Text(AppLocalizations.of(context).t('aboutContent')),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(AppLocalizations.of(context).t('aboutContent')),
+        ),
       ),
     );
   }

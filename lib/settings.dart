@@ -24,13 +24,18 @@ class LivenessDetectionLevel {
 }
 
 const double _kItemExtent = 40.0;
+const List<String> _cameraLensNames = <String>[
+  'Back',
+  'Front',
+];
 const List<String> _livenessLevelNames = <String>[
   'Best Accuracy',
   'Light Weight',
 ];
 
 class SettingsPageState extends State<SettingsPage> {
-  bool _cameraLens = false;
+  /// 0 for back camera, 1 for front camera
+  int _selectedCameraLens = 1;
   String _livenessThreshold = "0.7";
   String _identifyThreshold = "0.8";
   List<LivenessDetectionLevel> livenessDetectionLevel = [
@@ -69,7 +74,7 @@ class SettingsPageState extends State<SettingsPage> {
     var identifyThreshold = prefs.getString("identify_threshold");
 
     setState(() {
-      _cameraLens = cameraLens == 1 ? true : false;
+      _selectedCameraLens = cameraLens ?? 1;
       _livenessThreshold = livenessThreshold ?? "0.7";
       _identifyThreshold = identifyThreshold ?? "0.8";
       _selectedLivenessLevel = livenessLevel ?? 0;
@@ -101,10 +106,10 @@ class SettingsPageState extends State<SettingsPage> {
 
   Future<void> updateCameraLens(value) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("camera_lens", value ? 1 : 0);
+    await prefs.setInt("camera_lens", value);
 
     setState(() {
-      _cameraLens = value;
+      _selectedCameraLens = value;
     });
   }
 
@@ -183,13 +188,31 @@ class SettingsPageState extends State<SettingsPage> {
           SettingsSection(
             title: const Text('Camera Lens'),
             tiles: <SettingsTile>[
-              SettingsTile.switchTile(
-                onToggle: (value) {
-                  updateCameraLens(value);
-                },
-                initialValue: _cameraLens,
+              SettingsTile.navigation(
+                title: const Text('Camera Lens'),
+                value: Text(_cameraLensNames[_selectedCameraLens]),
                 leading: const Icon(Icons.camera),
-                title: const Text('Front'),
+                onPressed: (value) => _showDialog(
+                  CupertinoPicker(
+                    magnification: 1.22,
+                    squeeze: 1.2,
+                    useMagnifier: true,
+                    itemExtent: _kItemExtent,
+                    scrollController: FixedExtentScrollController(
+                      initialItem: _selectedCameraLens,
+                    ),
+                    onSelectedItemChanged: (int selectedItem) {
+                      setState(() {
+                        _selectedCameraLens = selectedItem;
+                      });
+                      updateCameraLens(selectedItem);
+                    },
+                    children: List<Widget>.generate(_cameraLensNames.length,
+                        (int index) {
+                      return Center(child: Text(_cameraLensNames[index]));
+                    }),
+                  ),
+                ),
               ),
             ],
           ),

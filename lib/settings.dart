@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'main.dart';
 import 'localization.dart';
+import 'about.dart';
 
 class SettingsPage extends StatefulWidget {
   final MyHomePageState homePageState;
@@ -361,6 +362,22 @@ class SettingsPageState extends State<SettingsPage> {
                 leading: const Icon(Icons.clear_all),
                 onPressed: (BuildContext context) {
                   widget.homePageState.deleteAllPerson();
+                },
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: Text(AppLocalizations.of(context).t('about')),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                title: Text(AppLocalizations.of(context).t('about')),
+                leading: const Icon(Icons.info),
+                onPressed: (BuildContext context) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AboutPage()),
+                  );
                 },
               ),
             ],

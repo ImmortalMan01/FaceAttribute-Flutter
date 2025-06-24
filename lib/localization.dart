@@ -66,6 +66,7 @@ class AppLocalizations {
       'yaw': 'Yaw: ',
       'roll': 'Roll: ',
       'pitch': 'Pitch: ',
+      'enterName': 'Enter name',
       'tryAgain': 'Try again',
       'aboutTitle': 'KBY-AI Technology',
       'aboutContent':
@@ -127,6 +128,7 @@ class AppLocalizations {
       'yaw': 'Yalpalama: ',
       'roll': 'Dönme: ',
       'pitch': 'Eğim: ',
+      'enterName': 'İsim girin',
       'tryAgain': 'Tekrar dene',
       'aboutTitle': 'KBY-AI Teknoloji',
       'aboutContent':

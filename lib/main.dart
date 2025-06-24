@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
-import 'dart:math';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
@@ -275,6 +274,32 @@ class MyHomePageState extends State<MyHomePage> {
         fontSize: 16.0);
   }
 
+  Future<String?> _requestPersonName() async {
+    TextEditingController controller = TextEditingController();
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context).t('enterName')),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppLocalizations.of(context).t('cancel')),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, controller.text),
+              child: Text(AppLocalizations.of(context).t('ok')),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Future enrollPerson() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -285,10 +310,12 @@ class MyHomePageState extends State<MyHomePage> {
 
       final faces = await _facesdkPlugin.extractFaces(rotatedImage.path);
       for (var face in faces) {
-        num randomNumber =
-            10000 + Random().nextInt(10000); // from 0 upto 99 included
+        final name = await _requestPersonName();
+        if (name == null || name.isEmpty) {
+          continue;
+        }
         Person person = Person(
-            name: 'Person' + randomNumber.toString(),
+            name: name,
             faceJpg: face['faceJpg'],
             templates: face['templates']);
         insertPerson(person);

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -161,11 +160,39 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
     });
   }
 
+  Future<String?> _requestPersonName() async {
+    TextEditingController controller = TextEditingController();
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context).t('enterName')),
+          content: TextField(
+            controller: controller,
+            autofocus: true,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppLocalizations.of(context).t('cancel')),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, controller.text),
+              child: Text(AppLocalizations.of(context).t('ok')),
+            )
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> registerFace(BuildContext context) async {
-    num randomNumber =
-        10000 + Random().nextInt(10000); // from 0 upto 99 included
+    final name = await _requestPersonName();
+    if (name == null || name.isEmpty) {
+      return;
+    }
     Person person = Person(
-        name: 'Person' + randomNumber.toString(),
+        name: name,
         faceJpg: _capturedFace['faceJpg'],
         templates: _capturedFace['templates']);
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -624,7 +625,6 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
           ],
         ),
       ),
-    );
     ); // Close WillPopScope
   }
 }

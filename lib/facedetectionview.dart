@@ -339,7 +339,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           ],
         ),
       ),
-      );
+      )
     ); // Close WillPopScope
     
   }

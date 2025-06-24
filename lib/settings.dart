@@ -6,6 +6,7 @@ import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'main.dart';
+import 'localization.dart';
 
 class SettingsPage extends StatefulWidget {
   final MyHomePageState homePageState;
@@ -24,13 +25,11 @@ class LivenessDetectionLevel {
 }
 
 const double _kItemExtent = 40.0;
-const List<String> _cameraLensNames = <String>[
-  'Back',
-  'Front',
-];
-const List<String> _livenessLevelNames = <String>[
-  'Best Accuracy',
-  'Light Weight',
+const List<String> _cameraLensNames = <String>['back', 'front'];
+const List<String> _livenessLevelNames = <String>['best', 'light'];
+const List<String> _languageNames = <String>[
+  'English',
+  'Türkçe',
 ];
 
 class SettingsPageState extends State<SettingsPage> {
@@ -43,6 +42,7 @@ class SettingsPageState extends State<SettingsPage> {
     LivenessDetectionLevel('Light Weight', 1),
   ];
   int _selectedLivenessLevel = 0;
+  int _selectedLanguage = 0;
 
   final livenessController = TextEditingController();
   final identifyController = TextEditingController();
@@ -56,6 +56,7 @@ class SettingsPageState extends State<SettingsPage> {
       await prefs.setInt("liveness_level", 0);
       await prefs.setString("liveness_threshold", "0.7");
       await prefs.setString("identify_threshold", "0.8");
+      await prefs.setString("language_code", "en");
     }
   }
 
@@ -72,6 +73,7 @@ class SettingsPageState extends State<SettingsPage> {
     var livenessLevel = prefs.getInt("liveness_level");
     var livenessThreshold = prefs.getString("liveness_threshold");
     var identifyThreshold = prefs.getString("identify_threshold");
+    var languageCode = prefs.getString("language_code");
 
     setState(() {
       _selectedCameraLens = cameraLens ?? 1;
@@ -80,6 +82,7 @@ class SettingsPageState extends State<SettingsPage> {
       _selectedLivenessLevel = livenessLevel ?? 0;
       livenessController.text = _livenessThreshold;
       identifyController.text = _identifyThreshold;
+      _selectedLanguage = languageCode == 'tr' ? 1 : 0;
     });
   }
 
@@ -88,9 +91,11 @@ class SettingsPageState extends State<SettingsPage> {
     await prefs.setInt("first_write", 0);
     await initSettings();
     await loadSettings();
+    await prefs.setString("language_code", "en");
+    MyApp.setLocale(context, const Locale('en'));
 
     Fluttertoast.showToast(
-        msg: "Default settings restored!",
+        msg: AppLocalizations.of(context).t('restoreDefaults'),
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -111,6 +116,15 @@ class SettingsPageState extends State<SettingsPage> {
     setState(() {
       _selectedCameraLens = value;
     });
+  }
+
+  Future<void> updateLanguage(int value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("language_code", value == 1 ? 'tr' : 'en');
+    setState(() {
+      _selectedLanguage = value;
+    });
+    MyApp.setLocale(context, Locale(value == 1 ? 'tr' : 'en'));
   }
 
   Future<void> updateLivenessThreshold(BuildContext context) async {
@@ -179,20 +193,21 @@ class SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context).t('settings')),
         toolbarHeight: 70,
         centerTitle: true,
       ),
       body: SettingsList(
         sections: [
-          SettingsSection(
-            title: const Text('Camera Lens'),
+  SettingsSection(
+            title: Text(AppLocalizations.of(context).t('cameraLens')),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                title: const Text('Camera Lens'),
-                value: Text(_cameraLensNames[_selectedCameraLens]),
+                title: Text(AppLocalizations.of(context).t('cameraLens')),
+                value: Text(AppLocalizations.of(context)
+                    .t(_cameraLensNames[_selectedCameraLens])),
                 leading: const Icon(Icons.camera),
-                onPressed: (value) => _showDialog(
+                onPressed: (BuildContext context) => _showDialog(
                   CupertinoPicker(
                     magnification: 1.22,
                     squeeze: 1.2,
@@ -209,7 +224,9 @@ class SettingsPageState extends State<SettingsPage> {
                     },
                     children: List<Widget>.generate(_cameraLensNames.length,
                         (int index) {
-                      return Center(child: Text(_cameraLensNames[index]));
+                      return Center(
+                          child: Text(AppLocalizations.of(context)
+                              .t(_cameraLensNames[index])));
                     }),
                   ),
                 ),
@@ -217,13 +234,42 @@ class SettingsPageState extends State<SettingsPage> {
             ],
           ),
           SettingsSection(
-            title: const Text('Thresholds'),
+            title: Text(AppLocalizations.of(context).t('language')),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                title: const Text('Liveness Level'),
-                value: Text(_livenessLevelNames[_selectedLivenessLevel]),
+                title: Text(AppLocalizations.of(context).t('language')),
+                value: Text(_languageNames[_selectedLanguage]),
+                leading: const Icon(Icons.language),
+                onPressed: (BuildContext context) => _showDialog(
+                  CupertinoPicker(
+                    magnification: 1.22,
+                    squeeze: 1.2,
+                    useMagnifier: true,
+                    itemExtent: _kItemExtent,
+                    scrollController: FixedExtentScrollController(
+                      initialItem: _selectedLanguage,
+                    ),
+                    onSelectedItemChanged: (int selectedItem) {
+                      updateLanguage(selectedItem);
+                    },
+                    children: List<Widget>.generate(_languageNames.length,
+                        (int index) {
+                      return Center(child: Text(_languageNames[index]));
+                    }),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: Text(AppLocalizations.of(context).t('thresholds')),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                title: Text(AppLocalizations.of(context).t('livenessLevel')),
+                value: Text(AppLocalizations.of(context)
+                    .t(_livenessLevelNames[_selectedLivenessLevel])),
                 leading: const Icon(Icons.person_pin_outlined),
-                onPressed: (value) => _showDialog(
+                onPressed: (BuildContext context) => _showDialog(
                   CupertinoPicker(
                     magnification: 1.22,
                     squeeze: 1.2,
@@ -242,19 +288,21 @@ class SettingsPageState extends State<SettingsPage> {
                     },
                     children: List<Widget>.generate(_livenessLevelNames.length,
                         (int index) {
-                      return Center(child: Text(_livenessLevelNames[index]));
+                      return Center(
+                          child: Text(AppLocalizations.of(context)
+                              .t(_livenessLevelNames[index])));
                     }),
                   ),
                 ),
               ),
               SettingsTile.navigation(
-                title: const Text('Liveness Threshold'),
+                title: Text(AppLocalizations.of(context).t('livenessThreshold')),
                 value: Text(_livenessThreshold),
                 leading: const Icon(Icons.person_pin_outlined),
-                onPressed: (value) => showDialog<String>(
+                onPressed: (BuildContext context) => showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Liveness Threshold'),
+                    title: Text(AppLocalizations.of(context).t('livenessThreshold')),
                     content: TextField(
                       controller: livenessController,
                       onChanged: (value) => {},
@@ -262,24 +310,24 @@ class SettingsPageState extends State<SettingsPage> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.pop(context, 'Cancel'),
-                        child: const Text('Cancel'),
+                        child: Text(AppLocalizations.of(context).t('cancel')),
                       ),
                       TextButton(
                         onPressed: () => updateLivenessThreshold(context),
-                        child: const Text('OK'),
+                        child: Text(AppLocalizations.of(context).t('ok')),
                       ),
                     ],
                   ),
                 ),
               ),
               SettingsTile.navigation(
-                title: const Text('Identify Threshold'),
+                title: Text(AppLocalizations.of(context).t('identifyThreshold')),
                 leading: const Icon(Icons.person_search),
                 value: Text(_identifyThreshold),
-                onPressed: (value) => showDialog<String>(
+                onPressed: (BuildContext context) => showDialog<String>(
                   context: context,
                   builder: (BuildContext context) => AlertDialog(
-                    title: const Text('Identify Threshold'),
+                    title: Text(AppLocalizations.of(context).t('identifyThreshold')),
                     content: TextField(
                       controller: identifyController,
                       onChanged: (value) => {},
@@ -287,11 +335,11 @@ class SettingsPageState extends State<SettingsPage> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () => Navigator.pop(context, 'Cancel'),
-                        child: const Text('Cancel'),
+                        child: Text(AppLocalizations.of(context).t('cancel')),
                       ),
                       TextButton(
                         onPressed: () => updateIdentifyThreshold(context),
-                        child: const Text('OK'),
+                        child: Text(AppLocalizations.of(context).t('ok')),
                       ),
                     ],
                   ),
@@ -300,17 +348,17 @@ class SettingsPageState extends State<SettingsPage> {
             ],
           ),
           SettingsSection(
-            title: const Text('Reset'),
+            title: Text(AppLocalizations.of(context).t('reset')),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                title: const Text('Restore default settings'),
+                title: Text(AppLocalizations.of(context).t('restoreDefaults')),
                 leading: const Icon(Icons.restore),
-                onPressed: (value) => restoreSettings(),
+                onPressed: (BuildContext context) => restoreSettings(),
               ),
               SettingsTile.navigation(
-                title: const Text('Clear all person'),
+                title: Text(AppLocalizations.of(context).t('clearAllPerson')),
                 leading: const Icon(Icons.clear_all),
-                onPressed: (value) {
+                onPressed: (BuildContext context) {
                   widget.homePageState.deleteAllPerson();
                 },
               ),

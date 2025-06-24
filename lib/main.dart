@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
 import 'dart:math';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
@@ -17,24 +18,64 @@ import 'person.dart';
 import 'personview.dart';
 import 'facedetectionview.dart';
 import 'facecaptureview.dart';
+import 'localization.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en');
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLocale();
+  }
+
+  Future<void> _loadLocale() async {
+    final prefs = await SharedPreferences.getInstance();
+    String code = prefs.getString('language_code') ?? 'en';
+    setState(() {
+      _locale = Locale(code);
+    });
+  }
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Face Recognition',
+        locale: _locale,
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        title: AppLocalizations(_locale).t('appTitle'),
         theme: ThemeData(
-          // Define the default brightness and colors.
           useMaterial3: true,
           brightness: Brightness.dark,
         ),
-        home: MyHomePage(title: 'Face Recognition'));
+        home: MyHomePage(title: AppLocalizations(_locale).t('appTitle')));
   }
 }
 
@@ -117,19 +158,19 @@ class MyHomePageState extends State<MyHomePage> {
     if (!mounted) return;
 
     if (facepluginState == -1) {
-      warningState = "Invalid license!";
+      warningState = AppLocalizations.of(context).t('invalidLicense');
       visibleWarning = true;
     } else if (facepluginState == -2) {
-      warningState = "License expired!";
+      warningState = AppLocalizations.of(context).t('licenseExpired');
       visibleWarning = true;
     } else if (facepluginState == -3) {
-      warningState = "Invalid license!";
+      warningState = AppLocalizations.of(context).t('invalidLicense');
       visibleWarning = true;
     } else if (facepluginState == -4) {
-      warningState = "No activated!";
+      warningState = AppLocalizations.of(context).t('noActivated');
       visibleWarning = true;
     } else if (facepluginState == -5) {
-      warningState = "Init error!";
+      warningState = AppLocalizations.of(context).t('initError');
       visibleWarning = true;
     }
 
@@ -203,7 +244,7 @@ class MyHomePageState extends State<MyHomePage> {
     });
 
     Fluttertoast.showToast(
-        msg: "All person deleted!",
+        msg: AppLocalizations.of(context).t('allPersonDeleted'),
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -225,7 +266,7 @@ class MyHomePageState extends State<MyHomePage> {
     });
 
     Fluttertoast.showToast(
-        msg: "Person removed!",
+        msg: AppLocalizations.of(context).t('personRemoved'),
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -255,7 +296,7 @@ class MyHomePageState extends State<MyHomePage> {
 
       if (faces.length == 0) {
         Fluttertoast.showToast(
-            msg: "No face detected!",
+            msg: AppLocalizations.of(context).t('noFaceDetected'),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -264,7 +305,7 @@ class MyHomePageState extends State<MyHomePage> {
             fontSize: 16.0);
       } else {
         Fluttertoast.showToast(
-            msg: "Person enrolled!",
+            msg: AppLocalizations.of(context).t('personEnrolled'),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             timeInSecForIosWeb: 1,
@@ -279,7 +320,7 @@ class MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Face Recognition'),
+        title: Text(AppLocalizations.of(context).t('appTitle')),
         toolbarHeight: 70,
         centerTitle: true,
       ),
@@ -287,13 +328,13 @@ class MyHomePageState extends State<MyHomePage> {
         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
           children: <Widget>[
-            const Card(
+            Card(
                 color: Color.fromARGB(255, 0x49, 0x45, 0x4F),
                 child: ListTile(
                   leading: Icon(Icons.tips_and_updates),
                   subtitle: Text(
-                    'KBY-AI offers SDKs for face recognition, liveness detection, and id document recognition.',
-                    style: TextStyle(fontSize: 13),
+                    AppLocalizations.of(context).t('subtitle'),
+                    style: const TextStyle(fontSize: 13),
                   ),
                 )),
             const SizedBox(
@@ -304,7 +345,7 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: ElevatedButton.icon(
-                      label: const Text('Enroll'),
+                      label: Text(AppLocalizations.of(context).t('enroll')),
                       icon: const Icon(
                         Icons.person_add,
                         // color: Colors.white70,
@@ -324,7 +365,7 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: ElevatedButton.icon(
-                      label: const Text('Identify'),
+                      label: Text(AppLocalizations.of(context).t('identify')),
                       icon: const Icon(
                         Icons.person_search,
                       ),
@@ -354,7 +395,7 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: ElevatedButton.icon(
-                      label: const Text('Settings'),
+                      label: Text(AppLocalizations.of(context).t('settings')),
                       icon: const Icon(
                         Icons.settings,
                       ),
@@ -380,7 +421,7 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: ElevatedButton.icon(
-                      label: const Text('Capture'),
+                      label: Text(AppLocalizations.of(context).t('capture')),
                       icon: const Icon(
                         Icons.person_pin,
                       ),

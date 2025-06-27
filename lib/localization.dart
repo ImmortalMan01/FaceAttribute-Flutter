@@ -74,6 +74,9 @@ class AppLocalizations {
       'female': 'Female',
       'enterName': 'Enter name',
       'tryAgain': 'Try again',
+      'logDetails': 'Log Details',
+      'name': 'Name: ',
+      'time': 'Time: ',
       'aboutTitle': 'OGULCAN-AI Technology',
       'aboutContent':
           'The Face Recognition System application provides secure and contactless access to buildings using advanced AI and biometric technologies. While it allows only authorized persons to enter, it also simplifies visitor management.\n\nThis project was created by software developer Ogulcan Topal with the dream of making technology a part of daily life. Developed with data privacy and security in mind, it is constantly updated to provide the best user experience.\n\nAbout the developer:\nOgulcan Topal is a developer passionate about artificial intelligence, mobile software, and automation systems. This application reflects his vision of modernizing security with practical solutions.'
@@ -142,6 +145,9 @@ class AppLocalizations {
       'female': 'Kadın',
       'enterName': 'İsim girin',
       'tryAgain': 'Tekrar dene',
+      'logDetails': 'Kayıt Detayları',
+      'name': 'İsim: ',
+      'time': 'Zaman: ',
       'aboutTitle': 'OGULCAN-AI Teknoloji',
       'aboutContent':
           'Yüz Tanıma Sistemi uygulaması, gelişmiş yapay zeka ve biyometrik teknolojilerle desteklenen, binalara güvenli ve temassız erişim sağlamak üzere geliştirilmiştir. Bu uygulama, yalnızca yetkili kişilerin giriş yapmasına olanak tanırken, aynı zamanda ziyaretçi yönetimini de kolaylaştırır.\n\nBu proje, teknolojiyi günlük hayatın bir parçası haline getirme hayaliyle, yazılım geliştiricisi Oğulcan Topal tarafından tasarlanmış ve hayata geçirilmiştir. Uygulama, veri gizliliği ve güvenliği esas alınarak geliştirilmiş olup, kullanıcı deneyimini en üst seviyede tutmak için sürekli olarak güncellenmektedir.\n\nGeliştirici Hakkında:\nOğulcan Topal, yapay zeka, mobil yazılım ve otomasyon sistemlerine tutkuyla bağlı bir geliştiricidir. Bu uygulama, onun pratik çözümlerle güvenliği modernleştirme vizyonunun bir yansımasıdır.'

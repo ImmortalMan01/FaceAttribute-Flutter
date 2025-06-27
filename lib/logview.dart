@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
+import 'log_detail_view.dart';
 
 class LogView extends StatelessWidget {
   final List<RecognitionLog> logList;
@@ -21,14 +22,17 @@ class LogView extends StatelessWidget {
                 itemCount: logList.length,
                 itemBuilder: (context, index) {
                   final log = logList[index];
-                  String genderText =
-                      log.gender == 0
-                          ? AppLocalizations.of(context).t('male')
-                          : AppLocalizations.of(context).t('female');
                   return ListTile(
                     title: Text(log.name),
-                    subtitle: Text(
-                        "${log.time}\n${AppLocalizations.of(context).t('age')}${log.age}, ${AppLocalizations.of(context).t('gender')}$genderText"),
+                    subtitle: Text(log.time),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LogDetailView(log: log),
+                        ),
+                      );
+                    },
                   );
                 },
               ),

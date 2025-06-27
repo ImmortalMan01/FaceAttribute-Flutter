@@ -137,8 +137,11 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
-    init();
+    // Delay heavy initialization until after the first frame so that
+    // the UI can render without blocking on native plugin calls.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      init();
+    });
   }
 
   Future<void> init() async {

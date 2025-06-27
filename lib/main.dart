@@ -11,6 +11,7 @@ import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:io' show Platform;
 import 'about.dart';
 import 'settings.dart';
@@ -77,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.dark,
       ),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
-      builder: (theme, darkTheme) => MaterialApp(
+      builder: (theme, darkTheme) => NeumorphicApp(
           locale: _locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: const [
@@ -87,8 +88,23 @@ class _MyAppState extends State<MyApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           title: AppLocalizations(_locale).t('appTitle'),
-          theme: theme,
-          darkTheme: darkTheme,
+          materialTheme: theme,
+          materialDarkTheme: darkTheme,
+          theme: NeumorphicThemeData(
+            baseColor: theme.colorScheme.background,
+            lightSource: LightSource.topLeft,
+            depth: 4,
+          ),
+          darkTheme: NeumorphicThemeData(
+            baseColor: darkTheme.colorScheme.background,
+            lightSource: LightSource.topLeft,
+            depth: 4,
+          ),
+          themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
+              ? ThemeMode.dark
+              : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
+                  ? ThemeMode.light
+                  : ThemeMode.system,
           home: MyHomePage(title: AppLocalizations(_locale).t('appTitle'))),
     );
   }
@@ -428,20 +444,19 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: NeumorphicAppBar(
         title: Text(AppLocalizations.of(context).t('appTitle')),
-        toolbarHeight: 70,
-        centerTitle: true,
       ),
       body: SafeArea(
         child: Container(
         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
           children: <Widget>[
-            Card(
-                color: Color.fromARGB(255, 0x49, 0x45, 0x4F),
+            Neumorphic(
+                padding: const EdgeInsets.all(12),
+                style: const NeumorphicStyle(depth: -2),
                 child: ListTile(
-                  leading: Icon(Icons.tips_and_updates),
+                  leading: const Icon(Icons.tips_and_updates),
                   subtitle: Text(
                     AppLocalizations.of(context).t('subtitle'),
                     style: const TextStyle(fontSize: 13),
@@ -454,39 +469,31 @@ class MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: ElevatedButton.icon(
-                      label: Text(AppLocalizations.of(context).t('enroll')),
-                      icon: const Icon(
-                        Icons.person_add,
-                        // color: Colors.white70,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          // foregroundColor: Colors.white70,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)),
-                          )),
-                      onPressed: enrollPerson),
+                  child: NeumorphicButton(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      style: const NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          boxShape:
+                              NeumorphicBoxShape.stadium()),
+                      onPressed: enrollPerson,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.person_add),
+                          const SizedBox(width: 8),
+                          Text(AppLocalizations.of(context).t('enroll')),
+                        ],
+                      )),
                 ),
                 const SizedBox(width: 20),
                 Expanded(
                   flex: 1,
-                  child: ElevatedButton.icon(
-                      label: Text(AppLocalizations.of(context).t('identify')),
-                      icon: const Icon(
-                        Icons.person_search,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)),
-                          )),
+                  child: NeumorphicButton(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      style: const NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          boxShape:
+                              NeumorphicBoxShape.stadium()),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -496,7 +503,15 @@ class MyHomePageState extends State<MyHomePage> {
                                     addLog: insertLog,
                                   )),
                         );
-                      }),
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.person_search),
+                          const SizedBox(width: 8),
+                          Text(AppLocalizations.of(context).t('identify')),
+                        ],
+                      )),
                 ),
               ],
             ),
@@ -505,19 +520,12 @@ class MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: ElevatedButton.icon(
-                      label: Text(AppLocalizations.of(context).t('settings')),
-                      icon: const Icon(
-                        Icons.settings,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)),
-                          )),
+                  child: NeumorphicButton(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      style: const NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          boxShape:
+                              NeumorphicBoxShape.stadium()),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -526,24 +534,25 @@ class MyHomePageState extends State<MyHomePage> {
                                     homePageState: this,
                                   )),
                         );
-                      }),
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.settings),
+                          const SizedBox(width: 8),
+                          Text(AppLocalizations.of(context).t('settings')),
+                        ],
+                      )),
                 ),
                 const SizedBox(width: 20),
                 Expanded(
                   flex: 1,
-                  child: ElevatedButton.icon(
-                      label: Text(AppLocalizations.of(context).t('capture')),
-                      icon: const Icon(
-                        Icons.person_pin,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)),
-                          )),
+                  child: NeumorphicButton(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      style: const NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          boxShape:
+                              NeumorphicBoxShape.stadium()),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -553,7 +562,15 @@ class MyHomePageState extends State<MyHomePage> {
                                     insertPerson: insertPerson,
                                   )),
                         );
-                      }),
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.person_pin),
+                          const SizedBox(width: 8),
+                          Text(AppLocalizations.of(context).t('capture')),
+                        ],
+                      )),
                 ),
               ],
             ),
@@ -563,19 +580,12 @@ class MyHomePageState extends State<MyHomePage> {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: ElevatedButton.icon(
-                      label: Text(AppLocalizations.of(context).t('logs')),
-                      icon: const Icon(
-                        Icons.list,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12.0)),
-                          )),
+                  child: NeumorphicButton(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      style: const NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          boxShape:
+                              NeumorphicBoxShape.stadium()),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -584,7 +594,15 @@ class MyHomePageState extends State<MyHomePage> {
                                     logList: logList,
                                   )),
                         );
-                      }),
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.list),
+                          const SizedBox(width: 8),
+                          Text(AppLocalizations.of(context).t('logs')),
+                        ],
+                      )),
                 ),
               ],
             ),

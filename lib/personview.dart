@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'person.dart';
 import 'main.dart';
 
@@ -32,7 +33,8 @@ class _PersonViewState extends State<PersonView> {
         itemBuilder: (BuildContext context, int index) {
           return SizedBox(
               height: 75,
-              child: Card(
+              child: Neumorphic(
+                  style: const NeumorphicStyle(depth: -2),
                   child: Row(
                 children: [
                   const SizedBox(

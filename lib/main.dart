@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
@@ -21,12 +22,16 @@ import 'logview.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final savedThemeMode = await AdaptiveTheme.getThemeMode();
+  runApp(MyApp(savedThemeMode: savedThemeMode));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final AdaptiveThemeMode? savedThemeMode;
+
+  const MyApp({super.key, this.savedThemeMode});
 
   static void setLocale(BuildContext context, Locale newLocale) {
     _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
@@ -62,21 +67,30 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        locale: _locale,
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        title: AppLocalizations(_locale).t('appTitle'),
-        theme: ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-        ),
-        home: MyHomePage(title: AppLocalizations(_locale).t('appTitle')));
+    return AdaptiveTheme(
+      light: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+      ),
+      dark: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+      ),
+      initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
+      builder: (theme, darkTheme) => MaterialApp(
+          locale: _locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          title: AppLocalizations(_locale).t('appTitle'),
+          theme: theme,
+          darkTheme: darkTheme,
+          home: MyHomePage(title: AppLocalizations(_locale).t('appTitle'))),
+    );
   }
 }
 

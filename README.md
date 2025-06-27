@@ -177,5 +177,8 @@ To run this repo successfully, license should be required based on each `applica
 #### 2.2 FaceDetectionInterface
   To build the native camera screen and process face detection, please refer to the [lib/facedetectionview.dart](https://github.com/kby-ai/FaceRecognition-Flutter/blob/main/lib/facedetectionview.dart) file in the repository. 
   
-  This file contains the necessary code for implementing the camera screen and performing face detection.
+This file contains the necessary code for implementing the camera screen and performing face detection.
+
+### Adaptive Theme
+This project now supports light and dark themes using the `adaptive_theme` package. You can switch themes from the settings page.
   

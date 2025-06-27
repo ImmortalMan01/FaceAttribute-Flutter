@@ -141,11 +141,14 @@ class MyHomePageState extends State<MyHomePage> {
     // Delay heavy initialization until after the first frame so that
     // the UI can render without blocking on native plugin calls.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await init();
-      if (mounted) {
-        setState(() {
-          _initializing = false;
-        });
+      try {
+        await init();
+      } finally {
+        if (mounted) {
+          setState(() {
+            _initializing = false;
+          });
+        }
       }
     });
   }

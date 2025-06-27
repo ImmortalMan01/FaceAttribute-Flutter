@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class RecognitionLog {
   final String name;
   final String time;
@@ -26,5 +28,14 @@ class RecognitionLog {
       'age': age,
       'gender': gender,
     };
+  }
+
+  String get formattedTime {
+    try {
+      final parsed = DateTime.parse(time);
+      return DateFormat('yyyy-MM-dd HH:mm:ss').format(parsed);
+    } catch (_) {
+      return time;
+    }
   }
 }

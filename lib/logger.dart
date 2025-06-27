@@ -23,6 +23,10 @@ class AppLogger {
   }
 
   static void e(String message, [dynamic error, StackTrace? stackTrace]) {
-    _logger.e(message, error, stackTrace);
+    _logger.e(
+      message,
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 }

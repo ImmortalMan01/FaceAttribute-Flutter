@@ -606,12 +606,17 @@ class MyHomePageState extends State<MyHomePage> {
                         child: Container(
                           width: double.infinity,
                           height: 40,
-                          color: Colors.redAccent,
+                          color:
+                              Theme.of(context).colorScheme.errorContainer,
                           child: Center(
                             child: Text(
                               _warningState,
                               textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onErrorContainer),
                             ),
                           ),
                         ))

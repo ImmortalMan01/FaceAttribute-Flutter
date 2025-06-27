@@ -37,6 +37,20 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
   String _identifiedPitch = "";
   String _identifiedAge = "";
   String _identifiedGender = "";
+  final List<int> _ageHistory = [];
+  static const int _ageWindow = 5;
+
+  int _smoothedAge(int newAge) {
+    _ageHistory.add(newAge);
+    if (_ageHistory.length > _ageWindow) {
+      _ageHistory.removeAt(0);
+    }
+    int sum = 0;
+    for (var age in _ageHistory) {
+      sum += age;
+    }
+    return (sum / _ageHistory.length).round();
+  }
   // ignore: prefer_typing_uninitialized_variables
   var _identifiedFace;
   // ignore: prefer_typing_uninitialized_variables
@@ -68,6 +82,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
     setState(() {
       _faces = null;
       _recognized = false;
+      _ageHistory.clear();
     });
 
     await faceDetectionViewController?.startCamera(cameraLens ?? 1);
@@ -122,7 +137,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           maxYaw = face['yaw'];
           maxRoll = face['roll'];
           maxPitch = face['pitch'];
-          maxAge = face['age'];
+          maxAge = _smoothedAge(face['age']);
           maxGender = face['gender'];
           identifedFace = face['faceJpg'];
           enrolledFace = person.faceJpg;

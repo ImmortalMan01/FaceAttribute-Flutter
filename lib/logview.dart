@@ -24,7 +24,7 @@ class LogView extends StatelessWidget {
                   final log = logList[index];
                   return ListTile(
                     title: Text(log.name),
-                    subtitle: Text(log.time),
+                    subtitle: Text(log.formattedTime),
                     onTap: () {
                       Navigator.push(
                         context,

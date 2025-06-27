@@ -25,7 +25,7 @@ class LogDetailView extends StatelessWidget {
             children: [
               Text('${AppLocalizations.of(context).t('name')}${log.name}'),
               const SizedBox(height: 8),
-              Text('${AppLocalizations.of(context).t('time')}${log.time}'),
+              Text('${AppLocalizations.of(context).t('time')}${log.formattedTime}'),
               const SizedBox(height: 8),
               Text('${AppLocalizations.of(context).t('age')}${log.age}'),
               const SizedBox(height: 8),

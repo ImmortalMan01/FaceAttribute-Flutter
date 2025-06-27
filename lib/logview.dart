@@ -21,9 +21,14 @@ class LogView extends StatelessWidget {
                 itemCount: logList.length,
                 itemBuilder: (context, index) {
                   final log = logList[index];
+                  String genderText =
+                      log.gender == 0
+                          ? AppLocalizations.of(context).t('male')
+                          : AppLocalizations.of(context).t('female');
                   return ListTile(
                     title: Text(log.name),
-                    subtitle: Text(log.time),
+                    subtitle: Text(
+                        "${log.time}\n${AppLocalizations.of(context).t('age')}${log.age}, ${AppLocalizations.of(context).t('gender')}$genderText"),
                   );
                 },
               ),

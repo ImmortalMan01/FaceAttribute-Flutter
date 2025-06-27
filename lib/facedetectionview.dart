@@ -34,6 +34,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
   String _identifiedYaw = "";
   String _identifiedRoll = "";
   String _identifiedPitch = "";
+  String _identifiedAge = "";
+  String _identifiedGender = "";
   // ignore: prefer_typing_uninitialized_variables
   var _identifiedFace;
   // ignore: prefer_typing_uninitialized_variables
@@ -88,6 +90,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
     double maxYaw = -1;
     double maxRoll = -1;
     double maxPitch = -1;
+    int maxAge = -1;
+    int maxGender = 0;
     // ignore: prefer_typing_uninitialized_variables
     var enrolledFace, identifedFace;
     if (faces.length > 0) {
@@ -117,6 +121,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           maxYaw = face['yaw'];
           maxRoll = face['roll'];
           maxPitch = face['pitch'];
+          maxAge = face['age'];
+          maxGender = face['gender'];
           identifedFace = face['faceJpg'];
           enrolledFace = person.faceJpg;
         }
@@ -137,13 +143,19 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
         _identifiedYaw = maxYaw.toString();
         _identifiedRoll = maxRoll.toString();
         _identifiedPitch = maxPitch.toString();
+        _identifiedAge = maxAge.toString();
+        _identifiedGender = maxGender == 0
+            ? AppLocalizations.of(context).t('male')
+            : AppLocalizations.of(context).t('female');
         _enrolledFace = enrolledFace;
         _identifiedFace = identifedFace;
       });
       if (recognized) {
         widget.addLog(RecognitionLog(
             name: maxSimilarityName,
-            time: DateTime.now().toIso8601String()));
+            time: DateTime.now().toIso8601String(),
+            age: maxAge,
+            gender: maxGender));
         faceDetectionViewController?.stopCamera();
         setState(() {
           _faces = null;
@@ -324,6 +336,36 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                             Text(
                               AppLocalizations.of(context).t('pitch') +
                                   _identifiedPitch,
+                              style: const TextStyle(fontSize: 18),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Text(
+                              AppLocalizations.of(context).t('age') +
+                                  _identifiedAge,
+                              style: const TextStyle(fontSize: 18),
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Text(
+                              AppLocalizations.of(context).t('gender') +
+                                  _identifiedGender,
                               style: const TextStyle(fontSize: 18),
                             )
                           ],

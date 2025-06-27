@@ -107,7 +107,11 @@ To run this repo successfully, license should be required based on each `applica
   flutter clean
   flutter pub get
   flutter run
-  ```  
+  ```
+### 3. InsightFace Age Model
+  This project can optionally estimate age using [InsightFace](https://github.com/deepinsight/insightface).
+  Download `genderage.onnx` from the InsightFace releases and place it under `assets/genderage.onnx`.
+  The application will load this model at runtime using the `onnxruntime` package.
   If you plan to run the iOS app, please refer to the following [link](https://docs.flutter.dev/deployment/ios) for detailed instructions.</br>
 ## About SDK
 ### 1. Setup

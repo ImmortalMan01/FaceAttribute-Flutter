@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:facesdk_plugin/facedetection_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
+import 'insightface_age_estimator.dart';
 import 'logger.dart';
 import 'person.dart';
 import 'recognition_log.dart';
@@ -122,7 +123,13 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           maxYaw = face['yaw'];
           maxRoll = face['roll'];
           maxPitch = face['pitch'];
-          maxAge = face['age'];
+          // Override age using InsightFace estimator
+          try {
+            maxAge = await InsightFaceAgeEstimator.instance
+                .estimateAge(face['faceJpg']);
+          } catch (_) {
+            maxAge = face['age'];
+          }
           maxGender = face['gender'];
           identifedFace = face['faceJpg'];
           enrolledFace = person.faceJpg;

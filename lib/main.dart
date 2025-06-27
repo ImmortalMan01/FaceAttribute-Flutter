@@ -128,6 +128,7 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   String _warningState = "";
   bool _visibleWarning = false;
+  bool _initializing = true;
 
   List<Person> personList = [];
   List<RecognitionLog> logList = [];
@@ -139,8 +140,13 @@ class MyHomePageState extends State<MyHomePage> {
     super.initState();
     // Delay heavy initialization until after the first frame so that
     // the UI can render without blocking on native plugin calls.
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      init();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await init();
+      if (mounted) {
+        setState(() {
+          _initializing = false;
+        });
+      }
     });
   }
 
@@ -456,6 +462,12 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_initializing) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: NeumorphicAppBar(
         title: Text(AppLocalizations.of(context).t('appTitle')),

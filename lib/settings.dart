@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'main.dart';
 import 'localization.dart';
@@ -32,6 +33,7 @@ const List<String> _languageNames = <String>[
   'English',
   'Türkçe',
 ];
+const List<String> _themeNames = <String>['lightTheme', 'darkTheme', 'systemTheme'];
 
 class SettingsPageState extends State<SettingsPage> {
   /// 0 for back camera, 1 for front camera
@@ -44,6 +46,7 @@ class SettingsPageState extends State<SettingsPage> {
   ];
   int _selectedLivenessLevel = 0;
   int _selectedLanguage = 0;
+  int _selectedTheme = 2;
   bool _estimateAgeGender = true;
 
   final livenessController = TextEditingController();
@@ -78,6 +81,7 @@ class SettingsPageState extends State<SettingsPage> {
     var identifyThreshold = prefs.getString("identify_threshold");
     var languageCode = prefs.getString("language_code");
     var estimateAgeGender = prefs.getBool("estimate_age_gender");
+    var themeMode = await AdaptiveTheme.getThemeMode();
 
     setState(() {
       _selectedCameraLens = cameraLens ?? 1;
@@ -87,6 +91,11 @@ class SettingsPageState extends State<SettingsPage> {
       livenessController.text = _livenessThreshold;
       identifyController.text = _identifyThreshold;
       _selectedLanguage = languageCode == 'tr' ? 1 : 0;
+      _selectedTheme = themeMode == AdaptiveThemeMode.dark
+          ? 1
+          : themeMode == AdaptiveThemeMode.light
+              ? 0
+              : 2;
       _estimateAgeGender = estimateAgeGender ?? true;
     });
   }
@@ -98,6 +107,10 @@ class SettingsPageState extends State<SettingsPage> {
     await loadSettings();
     await prefs.setString("language_code", "en");
     MyApp.setLocale(context, const Locale('en'));
+    AdaptiveTheme.of(context).setSystem();
+    setState(() {
+      _selectedTheme = 2;
+    });
 
     Fluttertoast.showToast(
         msg: AppLocalizations.of(context).t('restoreDefaults'),
@@ -130,6 +143,19 @@ class SettingsPageState extends State<SettingsPage> {
       _selectedLanguage = value;
     });
     MyApp.setLocale(context, Locale(value == 1 ? 'tr' : 'en'));
+  }
+
+  Future<void> updateTheme(int value) async {
+    setState(() {
+      _selectedTheme = value;
+    });
+    if (value == 0) {
+      AdaptiveTheme.of(context).setLight();
+    } else if (value == 1) {
+      AdaptiveTheme.of(context).setDark();
+    } else {
+      AdaptiveTheme.of(context).setSystem();
+    }
   }
 
   Future<void> updateEstimateAgeGender(bool value) async {
@@ -269,6 +295,37 @@ class SettingsPageState extends State<SettingsPage> {
                     children: List<Widget>.generate(_languageNames.length,
                         (int index) {
                       return Center(child: Text(_languageNames[index]));
+                    }),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SettingsSection(
+            title: Text(AppLocalizations.of(context).t('theme')),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                title: Text(AppLocalizations.of(context).t('theme')),
+                value: Text(AppLocalizations.of(context)
+                    .t(_themeNames[_selectedTheme])),
+                leading: const Icon(Icons.brightness_6),
+                onPressed: (BuildContext context) => _showDialog(
+                  CupertinoPicker(
+                    magnification: 1.22,
+                    squeeze: 1.2,
+                    useMagnifier: true,
+                    itemExtent: _kItemExtent,
+                    scrollController: FixedExtentScrollController(
+                      initialItem: _selectedTheme,
+                    ),
+                    onSelectedItemChanged: (int selectedItem) {
+                      updateTheme(selectedItem);
+                    },
+                    children:
+                        List<Widget>.generate(_themeNames.length, (int index) {
+                      return Center(
+                          child: Text(AppLocalizations.of(context)
+                              .t(_themeNames[index])));
                     }),
                   ),
                 ),

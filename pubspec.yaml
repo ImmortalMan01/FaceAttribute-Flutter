@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.5.3
   fluttertoast: ^8.2.12
   settings_ui: ^2.0.2
+  adaptive_theme: ^3.7.0
   image_picker: ^1.1.2
   sqflite: ^2.4.2
   logger: ^2.0.2

@@ -152,7 +152,14 @@ class MyHomePageState extends State<MyHomePage> {
     List<RecognitionLog> logList = [];
 
     try {
-      if (Platform.isAndroid) {
+      if (!Platform.isAndroid && !Platform.isIOS) {
+        setState(() {
+          _warningState =
+              AppLocalizations.of(context).t('unsupportedPlatform');
+          _visibleWarning = true;
+        });
+        return;
+      } else if (Platform.isAndroid) {
         facepluginState = await _facesdkPlugin.setActivation(
             "jmmEAcBHenipyeBgRVbnncSD905Yqv5ooWGF6OIBaJVbHveX9cxtLFSOFK6lM0530bHYEKeq4lax"
             "AotSJ08XN19t9YgBlAK3DX556BhAdjLK0cNrqp4xgV0szHh8UL1TbGGoIRQsq7cRDJHH/oqVLh1+"
@@ -160,7 +167,7 @@ class MyHomePageState extends State<MyHomePage> {
             "3aAqVfDi+SO0xwa9W405IfQ0t7hThWc/MxilEgr2+LNEOM/NnWmUOvbVKsK9RokUWyY2bDJjiJ9B"
             "GmhjIqDnNTbHTONh6ZNcWpZBbYt3jmSWXls7Mg==") ??
             -1;
-      } else {
+      } else if (Platform.isIOS) {
         facepluginState = await _facesdkPlugin.setActivation(
             "mCl744lTkL7Dz3MZr2/oCwS0H5g9L8Fl6IiB/2EZ8Gz37x9rP8rnW/E1FKauvJdAEly2v6jiESZa"
             "p1OT99zvcvlZ9uI0COOrDVg9e1ytM4/6AJru4i5iSybtW3P7rRkGycFikDBxRzPytTJRuqLQuQ9r"

@@ -20,3 +20,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class com.kbyai.facesdk.** {*;}
+-keep class io.fotoapparat.** {*;}
+-keep class com.kbyai.facesdk_plugin.** {*;}

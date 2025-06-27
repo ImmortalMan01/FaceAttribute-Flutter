@@ -550,11 +550,10 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
               margin: const EdgeInsets.only(right: 20, top: 64),
               alignment: Alignment.topRight,
               child: Text(
-                _warningTxt, // Equivalent to android:text=""
-                style: const TextStyle(
-                  color: Colors
-                      .redAccent, // Equivalent to android:textColor="@android:color/holo_red_light"
-                  fontSize: 16, // Equivalent to android:textSize="16sp"
+                _warningTxt,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                  fontSize: 16,
                 ),
               ), // Equivalent to constraintEnd_toEndOf and constraintTop_toTopOf
             ),

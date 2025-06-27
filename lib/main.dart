@@ -83,34 +83,36 @@ class _MyAppState extends State<MyApp> {
         brightness: Brightness.dark,
       ),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
-      builder: (theme, darkTheme) => NeumorphicApp(
-          locale: _locale,
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          title: AppLocalizations(_locale).t('appTitle'),
-          materialTheme: theme,
-          materialDarkTheme: darkTheme,
-          theme: NeumorphicThemeData(
-            baseColor: theme.colorScheme.background,
-            lightSource: LightSource.topLeft,
-            depth: 4,
-          ),
-          darkTheme: NeumorphicThemeData(
-            baseColor: darkTheme.colorScheme.background,
-            lightSource: LightSource.topLeft,
-            depth: 4,
-          ),
-          themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
-              ? ThemeMode.dark
-              : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
-                  ? ThemeMode.light
-                  : ThemeMode.system,
-          home: MyHomePage(title: AppLocalizations(_locale).t('appTitle'))),
+      builder: (theme, darkTheme) => Builder(
+            builder: (context) => NeumorphicApp(
+                locale: _locale,
+                supportedLocales: AppLocalizations.supportedLocales,
+                localizationsDelegates: const [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                title: AppLocalizations(_locale).t('appTitle'),
+                materialTheme: theme,
+                materialDarkTheme: darkTheme,
+                theme: NeumorphicThemeData(
+                  baseColor: theme.colorScheme.background,
+                  lightSource: LightSource.topLeft,
+                  depth: 4,
+                ),
+                darkTheme: NeumorphicThemeData(
+                  baseColor: darkTheme.colorScheme.background,
+                  lightSource: LightSource.topLeft,
+                  depth: 4,
+                ),
+                themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
+                    ? ThemeMode.dark
+                    : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
+                        ? ThemeMode.light
+                        : ThemeMode.system,
+                home:
+                    MyHomePage(title: AppLocalizations(_locale).t('appTitle')))),
     );
   }
 }

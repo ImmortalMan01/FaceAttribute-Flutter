@@ -34,16 +34,18 @@ class InsightFaceAgeEstimator {
     for (int y = 0; y < inputSize; y++) {
       for (int x = 0; x < inputSize; x++) {
         final pixel = resized.getPixel(x, y);
-        buffer[index++] = img.getBlue(pixel).toDouble();
-        buffer[index++] = img.getGreen(pixel).toDouble();
-        buffer[index++] = img.getRed(pixel).toDouble();
+        // The image package returns a Pixel object with r, g, b getters.
+        buffer[index++] = pixel.b.toDouble();
+        buffer[index++] = pixel.g.toDouble();
+        buffer[index++] = pixel.r.toDouble();
       }
     }
 
     final inputTensor =
         OrtValueTensor.createTensorWithDataList(buffer, [1, 3, inputSize, inputSize]);
     final outputs = _session!.run(OrtRunOptions(), {'data': inputTensor});
-    final List<double> result = outputs.first!.value.cast<double>();
+    final List<double> result =
+        (outputs.first!.value as List<dynamic>).cast<double>();
     inputTensor.release();
     outputs.forEach((e) => e?.release());
 

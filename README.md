@@ -131,6 +131,11 @@ To run this repo successfully, license should be required based on each `applica
     import 'package:facesdk_plugin/facesdk_plugin.dart';
     import 'package:facesdk_plugin/facedetection_interface.dart';
   ```
+  - If you enable code shrinking (`minifyEnabled true`), make sure the plugin
+    classes are kept by adding the following rule to `android/app/proguard-rules.pro`:
+    ```
+    -keep class com.kbyai.facesdk_plugin.** {*;}
+    ```
 ### 2 API Usages
 #### 2.1 Facesdk Plugin
   - Activate the `FacesdkPlugin` by calling the `setActivation` method:

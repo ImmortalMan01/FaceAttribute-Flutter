@@ -672,12 +672,13 @@ class _FaceCaptureDetectionViewState extends State<FaceCaptureDetectionView> {
         ?.initHandler();
 
     int? livenessLevel = prefs.getInt("liveness_level");
+    bool? estimateAgeGender = prefs.getBool("estimate_age_gender");
     await widget.faceRecognitionViewState._facesdkPlugin.setParam({
       'check_liveness_level': livenessLevel ?? 0,
       'check_eye_closeness': true,
       'check_face_occlusion': true,
       'check_mouth_opened': true,
-      'estimate_age_gender': true
+      'estimate_age_gender': estimateAgeGender ?? true
     });
 
     await widget.faceRecognitionViewState.faceDetectionViewController

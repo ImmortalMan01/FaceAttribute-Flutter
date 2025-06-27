@@ -211,7 +211,7 @@ class MyHomePageState extends State<MyHomePage> {
       p.join(await getDatabasesPath(), 'log.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text)');
+            'CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text, age INTEGER, gender INTEGER)');
       },
       version: 1,
     );

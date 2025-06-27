@@ -83,8 +83,6 @@ class _MyAppState extends State<MyApp> {
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   final String title;
-  var personList = <Person>[];
-  var logList = <RecognitionLog>[];
 
   MyHomePage({super.key, required this.title});
 
@@ -95,6 +93,9 @@ class MyHomePage extends StatefulWidget {
 class MyHomePageState extends State<MyHomePage> {
   String _warningState = "";
   bool _visibleWarning = false;
+
+  List<Person> personList = [];
+  List<RecognitionLog> logList = [];
 
   final _facesdkPlugin = FacesdkPlugin();
 
@@ -181,8 +182,8 @@ class MyHomePageState extends State<MyHomePage> {
     setState(() {
       _warningState = warningState;
       _visibleWarning = visibleWarning;
-      widget.personList = personList;
-      widget.logList = logList;
+      this.personList = personList;
+      this.logList = logList;
     });
   }
 
@@ -252,7 +253,7 @@ class MyHomePageState extends State<MyHomePage> {
         conflictAlgorithm: ConflictAlgorithm.replace);
 
     setState(() {
-      widget.logList.insert(0, log);
+      logList.insert(0, log);
     });
   }
 
@@ -271,7 +272,7 @@ class MyHomePageState extends State<MyHomePage> {
     );
 
     setState(() {
-      widget.personList.add(person);
+      personList.add(person);
     });
   }
 
@@ -280,7 +281,7 @@ class MyHomePageState extends State<MyHomePage> {
     await db.delete('person');
 
     setState(() {
-      widget.personList.clear();
+      personList.clear();
     });
 
     Fluttertoast.showToast(
@@ -298,11 +299,11 @@ class MyHomePageState extends State<MyHomePage> {
 
     final db = await createDB();
     await db.delete('person',
-        where: 'name=?', whereArgs: [widget.personList[index].name]);
+        where: 'name=?', whereArgs: [personList[index].name]);
 
     // ignore: invalid_use_of_protected_member
     setState(() {
-      widget.personList.removeAt(index);
+      personList.removeAt(index);
     });
 
     Fluttertoast.showToast(
@@ -318,13 +319,13 @@ class MyHomePageState extends State<MyHomePage> {
   Future<void> updatePersonName(int index, String newName) async {
     final db = await createDB();
     await db.update('person', {'name': newName},
-        where: 'name=?', whereArgs: [widget.personList[index].name]);
+        where: 'name=?', whereArgs: [personList[index].name]);
 
     setState(() {
-      widget.personList[index] = Person(
+      personList[index] = Person(
           name: newName,
-          faceJpg: widget.personList[index].faceJpg,
-          templates: widget.personList[index].templates);
+          faceJpg: personList[index].faceJpg,
+          templates: personList[index].templates);
     });
 
     Fluttertoast.showToast(
@@ -477,7 +478,7 @@ class MyHomePageState extends State<MyHomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => FaceRecognitionView(
-                                    personList: widget.personList,
+                                    personList: personList,
                                     addLog: insertLog,
                                   )),
                         );
@@ -534,7 +535,7 @@ class MyHomePageState extends State<MyHomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => FaceCaptureView(
-                                    personList: widget.personList,
+                                    personList: personList,
                                     insertPerson: insertPerson,
                                   )),
                         );
@@ -566,7 +567,7 @@ class MyHomePageState extends State<MyHomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => LogView(
-                                    logList: widget.logList,
+                                    logList: logList,
                                   )),
                         );
                       }),
@@ -580,7 +581,7 @@ class MyHomePageState extends State<MyHomePage> {
                 child: Stack(
               children: [
                 PersonView(
-                  personList: widget.personList,
+                  personList: personList,
                   homePageState: this,
                 ),
                 Column(

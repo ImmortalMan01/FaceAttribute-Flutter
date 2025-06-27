@@ -17,6 +17,8 @@ import 'person.dart';
 import 'personview.dart';
 import 'facedetectionview.dart';
 import 'facecaptureview.dart';
+import 'logview.dart';
+import 'recognition_log.dart';
 import 'localization.dart';
 
 void main() {
@@ -82,6 +84,7 @@ class _MyAppState extends State<MyApp> {
 class MyHomePage extends StatefulWidget {
   final String title;
   var personList = <Person>[];
+  var logList = <RecognitionLog>[];
 
   MyHomePage({super.key, required this.title});
 
@@ -136,6 +139,7 @@ class MyHomePageState extends State<MyHomePage> {
     } catch (e) {}
 
     List<Person> personList = await loadAllPersons();
+    List<RecognitionLog> logList = await loadAllLogs();
     await SettingsPageState.initSettings();
 
     final prefs = await SharedPreferences.getInstance();
@@ -177,6 +181,7 @@ class MyHomePageState extends State<MyHomePage> {
       _warningState = warningState;
       _visibleWarning = visibleWarning;
       widget.personList = personList;
+      widget.logList = logList;
     });
   }
 
@@ -201,6 +206,19 @@ class MyHomePageState extends State<MyHomePage> {
     return database;
   }
 
+  Future<Database> createLogDB() async {
+    final database = openDatabase(
+      p.join(await getDatabasesPath(), 'log.db'),
+      onCreate: (db, version) {
+        return db.execute(
+            'CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text)');
+      },
+      version: 1,
+    );
+
+    return database;
+  }
+
   // A method that retrieves all the dogs from the dogs table.
   Future<List<Person>> loadAllPersons() async {
     // Get a reference to the database.
@@ -212,6 +230,28 @@ class MyHomePageState extends State<MyHomePage> {
     // Convert the List<Map<String, dynamic> into a List<Dog>.
     return List.generate(maps.length, (i) {
       return Person.fromMap(maps[i]);
+    });
+  }
+
+  Future<List<RecognitionLog>> loadAllLogs() async {
+    final db = await createLogDB();
+
+    final List<Map<String, dynamic>> maps =
+        await db.query('log', orderBy: 'id DESC');
+
+    return List.generate(maps.length, (i) {
+      return RecognitionLog.fromMap(maps[i]);
+    });
+  }
+
+  Future<void> insertLog(RecognitionLog log) async {
+    final db = await createLogDB();
+
+    await db.insert('log', log.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+
+    setState(() {
+      widget.logList.insert(0, log);
     });
   }
 
@@ -411,6 +451,7 @@ class MyHomePageState extends State<MyHomePage> {
                           MaterialPageRoute(
                               builder: (context) => FaceRecognitionView(
                                     personList: widget.personList,
+                                    addLog: insertLog,
                                   )),
                         );
                       }),
@@ -468,6 +509,37 @@ class MyHomePageState extends State<MyHomePage> {
                               builder: (context) => FaceCaptureView(
                                     personList: widget.personList,
                                     insertPerson: insertPerson,
+                                  )),
+                        );
+                      }),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ElevatedButton.icon(
+                      label: Text(AppLocalizations.of(context).t('logs')),
+                      icon: const Icon(
+                        Icons.list,
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.only(top: 10, bottom: 10),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(12.0)),
+                          )),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LogView(
+                                    logList: widget.logList,
                                   )),
                         );
                       }),

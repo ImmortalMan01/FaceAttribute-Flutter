@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:facesdk_plugin/facedetection_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
+import 'logger.dart';
 import 'person.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
@@ -96,19 +97,19 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
     var enrolledFace, identifedFace;
     if (faces.length > 0) {
       var face = faces[0];
-      print('x1: ' + face['x1'].toString() + ', y1: ' + face['y1'].toString() + ', x2: ' + face['x2'].toString() + ', y2: ' + face['y2'].toString());
-      print('liveness: ' + face['liveness'].toString());
-      print('yaw: ' + face['yaw'].toString());
-      print('roll: ' + face['roll'].toString());
-      print('pitch: ' + face['pitch'].toString());
-      print('face_quality: ' + face['face_quality'].toString());
-      print('face_luminance: ' + face['face_luminance'].toString());
-      print('left_eye_closed: ' + face['left_eye_closed'].toString());
-      print('right_eye_closed: ' + face['right_eye_closed'].toString());
-      print('face_occlusion: ' + face['face_occlusion'].toString());
-      print('mouth_opened: ' + face['mouth_opened'].toString());
-      print('age: ' + face['age'].toString());
-      print('gender: ' + face['gender'].toString());
+      AppLogger.d('x1: ' + face['x1'].toString() + ', y1: ' + face['y1'].toString() + ', x2: ' + face['x2'].toString() + ', y2: ' + face['y2'].toString());
+      AppLogger.d('liveness: ' + face['liveness'].toString());
+      AppLogger.d('yaw: ' + face['yaw'].toString());
+      AppLogger.d('roll: ' + face['roll'].toString());
+      AppLogger.d('pitch: ' + face['pitch'].toString());
+      AppLogger.d('face_quality: ' + face['face_quality'].toString());
+      AppLogger.d('face_luminance: ' + face['face_luminance'].toString());
+      AppLogger.d('left_eye_closed: ' + face['left_eye_closed'].toString());
+      AppLogger.d('right_eye_closed: ' + face['right_eye_closed'].toString());
+      AppLogger.d('face_occlusion: ' + face['face_occlusion'].toString());
+      AppLogger.d('mouth_opened: ' + face['mouth_opened'].toString());
+      AppLogger.d('age: ' + face['age'].toString());
+      AppLogger.d('gender: ' + face['gender'].toString());
 
       for (var person in widget.personList) {
         double similarity = await _facesdkPlugin.similarityCalculation(

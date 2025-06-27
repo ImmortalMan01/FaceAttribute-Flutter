@@ -41,6 +41,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
   var _identifiedFace;
   // ignore: prefer_typing_uninitialized_variables
   var _enrolledFace;
+  final List<int> _ageHistory = [];
+  static const int _ageHistoryLength = 5;
   final _facesdkPlugin = FacesdkPlugin();
   FaceDetectionViewController? faceDetectionViewController;
 
@@ -123,6 +125,12 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           maxRoll = face['roll'];
           maxPitch = face['pitch'];
           maxAge = face['age'];
+          _ageHistory.add(maxAge);
+          if (_ageHistory.length > _ageHistoryLength) {
+            _ageHistory.removeAt(0);
+          }
+          maxAge =
+              (_ageHistory.reduce((a, b) => a + b) / _ageHistory.length).round();
           maxGender = face['gender'];
           identifedFace = face['faceJpg'];
           enrolledFace = person.faceJpg;

@@ -314,6 +314,32 @@ class MyHomePageState extends State<MyHomePage> {
         fontSize: 16.0);
   }
 
+  Future<void> updatePersonName(int index, String newName) async {
+    final db = await createDB();
+    await db.update('person', {'name': newName},
+        where: 'name=?', whereArgs: [widget.personList[index].name]);
+
+    setState(() {
+      widget.personList[index] = Person(
+          name: newName,
+          faceJpg: widget.personList[index].faceJpg,
+          templates: widget.personList[index].templates);
+    });
+
+    Fluttertoast.showToast(
+        msg: AppLocalizations.of(context).t('personRenamed'),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+  Future<String?> requestPersonName() async {
+    return _requestPersonName();
+  }
+
   Future<String?> _requestPersonName() async {
     TextEditingController controller = TextEditingController();
     return showDialog<String>(

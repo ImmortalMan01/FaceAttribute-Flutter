@@ -19,6 +19,12 @@ class _PersonViewState extends State<PersonView> {
     await widget.homePageState.deletePerson(index);
   }
 
+  renamePerson(int index) async {
+    final newName = await widget.homePageState.requestPersonName();
+    if (newName == null || newName.isEmpty) return;
+    await widget.homePageState.updatePersonName(index, newName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -45,6 +51,10 @@ class _PersonViewState extends State<PersonView> {
                   ),
                   Text(widget.personList[index].name),
                   const Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () => renamePerson(index),
+                  ),
                   IconButton(
                     icon: const Icon(Icons.delete),
                     onPressed: () => deletePerson(index),

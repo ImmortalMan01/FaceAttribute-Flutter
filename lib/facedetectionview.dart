@@ -8,14 +8,16 @@ import 'package:facesdk_plugin/facedetection_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:facesdk_plugin/facesdk_plugin.dart';
 import 'person.dart';
+import 'recognition_log.dart';
 import 'localization.dart';
 
 // ignore: must_be_immutable
 class FaceRecognitionView extends StatefulWidget {
   final List<Person> personList;
+  final Function(RecognitionLog) addLog;
   FaceDetectionViewController? faceDetectionViewController;
 
-  FaceRecognitionView({super.key, required this.personList});
+  FaceRecognitionView({super.key, required this.personList, required this.addLog});
 
   @override
   State<StatefulWidget> createState() => FaceRecognitionViewState();
@@ -139,6 +141,9 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
         _identifiedFace = identifedFace;
       });
       if (recognized) {
+        widget.addLog(RecognitionLog(
+            name: maxSimilarityName,
+            time: DateTime.now().toIso8601String()));
         faceDetectionViewController?.stopCamera();
         setState(() {
           _faces = null;

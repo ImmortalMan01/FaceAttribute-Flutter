@@ -37,6 +37,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
   String _identifiedPitch = "";
   String _identifiedAge = "";
   String _identifiedGender = "";
+  bool _estimateAgeGender = true;
   // ignore: prefer_typing_uninitialized_variables
   var _identifiedFace;
   // ignore: prefer_typing_uninitialized_variables
@@ -55,9 +56,11 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
     final prefs = await SharedPreferences.getInstance();
     String? livenessThreshold = prefs.getString("liveness_threshold");
     String? identifyThreshold = prefs.getString("identify_threshold");
+    bool? estimateAgeGender = prefs.getBool("estimate_age_gender");
     setState(() {
       _livenessThreshold = double.parse(livenessThreshold ?? "0.7");
       _identifyThreshold = double.parse(identifyThreshold ?? "0.8");
+      _estimateAgeGender = estimateAgeGender ?? true;
     });
   }
 
@@ -92,7 +95,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
     double maxRoll = -1;
     double maxPitch = -1;
     int maxAge = -1;
-    int maxGender = 0;
+    int maxGender = -1;
     // ignore: prefer_typing_uninitialized_variables
     var enrolledFace, identifedFace;
     if (faces.length > 0) {
@@ -108,8 +111,10 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
       AppLogger.d('right_eye_closed: ' + face['right_eye_closed'].toString());
       AppLogger.d('face_occlusion: ' + face['face_occlusion'].toString());
       AppLogger.d('mouth_opened: ' + face['mouth_opened'].toString());
-      AppLogger.d('age: ' + face['age'].toString());
-      AppLogger.d('gender: ' + face['gender'].toString());
+      if (_estimateAgeGender) {
+        AppLogger.d('age: ' + face['age'].toString());
+        AppLogger.d('gender: ' + face['gender'].toString());
+      }
 
       for (var person in widget.personList) {
         double similarity = await _facesdkPlugin.similarityCalculation(
@@ -122,8 +127,10 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           maxYaw = face['yaw'];
           maxRoll = face['roll'];
           maxPitch = face['pitch'];
-          maxAge = face['age'];
-          maxGender = face['gender'];
+          if (_estimateAgeGender) {
+            maxAge = face['age'];
+            maxGender = face['gender'];
+          }
           identifedFace = face['faceJpg'];
           enrolledFace = person.faceJpg;
         }
@@ -144,10 +151,12 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
         _identifiedYaw = maxYaw.toString();
         _identifiedRoll = maxRoll.toString();
         _identifiedPitch = maxPitch.toString();
-        _identifiedAge = maxAge.toString();
-        _identifiedGender = maxGender == 0
-            ? AppLocalizations.of(context).t('male')
-            : AppLocalizations.of(context).t('female');
+        _identifiedAge = _estimateAgeGender ? maxAge.toString() : '';
+        _identifiedGender = _estimateAgeGender
+            ? (maxGender == 0
+                ? AppLocalizations.of(context).t('male')
+                : AppLocalizations.of(context).t('female'))
+            : '';
         _enrolledFace = enrolledFace;
         _identifiedFace = identifedFace;
       });
@@ -155,8 +164,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
         widget.addLog(RecognitionLog(
             name: maxSimilarityName,
             time: DateTime.now().toIso8601String(),
-            age: maxAge,
-            gender: maxGender));
+            age: _estimateAgeGender ? maxAge : -1,
+            gender: _estimateAgeGender ? maxGender : -1));
         faceDetectionViewController?.stopCamera();
         setState(() {
           _faces = null;
@@ -344,32 +353,38 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Text(
-                              AppLocalizations.of(context).t('age') +
-                                  _identifiedAge,
-                              style: const TextStyle(fontSize: 18),
-                            )
-                          ],
+                        Visibility(
+                          visible: _estimateAgeGender,
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              Text(
+                                AppLocalizations.of(context).t('age') +
+                                    _identifiedAge,
+                                style: const TextStyle(fontSize: 18),
+                              )
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Text(
-                              AppLocalizations.of(context).t('gender') +
-                                  _identifiedGender,
-                              style: const TextStyle(fontSize: 18),
-                            )
-                          ],
+                        Visibility(
+                          visible: _estimateAgeGender,
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 16,
+                              ),
+                              Text(
+                                AppLocalizations.of(context).t('gender') +
+                                    _identifiedGender,
+                                style: const TextStyle(fontSize: 18),
+                              )
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 16,

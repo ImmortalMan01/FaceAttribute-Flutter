@@ -16,8 +16,8 @@ class RecognitionLog {
     return RecognitionLog(
       name: data['name'],
       time: data['time'],
-      age: data['age'] ?? 0,
-      gender: data['gender'] ?? 0,
+      age: data['age'] ?? -1,
+      gender: data['gender'] ?? -1,
     );
   }
 

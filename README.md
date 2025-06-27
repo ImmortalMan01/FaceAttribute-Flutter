@@ -161,6 +161,8 @@ To run this repo successfully, license should be required based on each `applica
         'check_mouth_opened': true,
         'estimate_age_gender': true
       });
+  // Set estimate_age_gender to false if age/gender estimation
+  // is not required.
   ```
   - Extract faces using the `extractFaces` method:
   ```dart

@@ -25,7 +25,12 @@ import 'localization.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final savedThemeMode = await AdaptiveTheme.getThemeMode();
+  AdaptiveThemeMode? savedThemeMode;
+  try {
+    savedThemeMode = await AdaptiveTheme.getThemeMode();
+  } catch (_) {
+    savedThemeMode = AdaptiveThemeMode.system;
+  }
   runApp(MyApp(savedThemeMode: savedThemeMode));
 }
 
@@ -140,44 +145,40 @@ class MyHomePageState extends State<MyHomePage> {
     int facepluginState = -1;
     String warningState = "";
     bool visibleWarning = false;
+    List<Person> personList = [];
+    List<RecognitionLog> logList = [];
 
     try {
       if (Platform.isAndroid) {
-        await _facesdkPlugin
-            .setActivation(
-                "jmmEAcBHenipyeBgRVbnncSD905Yqv5ooWGF6OIBaJVbHveX9cxtLFSOFK6lM0530bHYEKeq4lax"
-                "AotSJ08XN19t9YgBlAK3DX556BhAdjLK0cNrqp4xgV0szHh8UL1TbGGoIRQsq7cRDJHH/oqVLh1+"
-                "Lo64nz7HMPqicL0YgEPlIfcOm+SAhj6hPXsav0F87V88YyWDlmlaw07PROXkjI2YlHhyfQ+ANXhx"
-                "3aAqVfDi+SO0xwa9W405IfQ0t7hThWc/MxilEgr2+LNEOM/NnWmUOvbVKsK9RokUWyY2bDJjiJ9B"
-                "GmhjIqDnNTbHTONh6ZNcWpZBbYt3jmSWXls7Mg==")
-            .then((value) => facepluginState = value ?? -1);
+        facepluginState = await _facesdkPlugin.setActivation(
+            "jmmEAcBHenipyeBgRVbnncSD905Yqv5ooWGF6OIBaJVbHveX9cxtLFSOFK6lM0530bHYEKeq4lax"
+            "AotSJ08XN19t9YgBlAK3DX556BhAdjLK0cNrqp4xgV0szHh8UL1TbGGoIRQsq7cRDJHH/oqVLh1+"
+            "Lo64nz7HMPqicL0YgEPlIfcOm+SAhj6hPXsav0F87V88YyWDlmlaw07PROXkjI2YlHhyfQ+ANXhx"
+            "3aAqVfDi+SO0xwa9W405IfQ0t7hThWc/MxilEgr2+LNEOM/NnWmUOvbVKsK9RokUWyY2bDJjiJ9B"
+            "GmhjIqDnNTbHTONh6ZNcWpZBbYt3jmSWXls7Mg==") ??
+            -1;
       } else {
-        await _facesdkPlugin
-            .setActivation(
-                "mCl744lTkL7Dz3MZr2/oCwS0H5g9L8Fl6IiB/2EZ8Gz37x9rP8rnW/E1FKauvJdAEly2v6jiESZa"
-                "p1OT99zvcvlZ9uI0COOrDVg9e1ytM4/6AJru4i5iSybtW3P7rRkGycFikDBxRzPytTJRuqLQuQ9r"
-                "XbiiBfcN/kvgEXpY3o1r7mAQbB9wpSdrL+xeXhl86mTTo7BAoyzphfYdVd6n0l3suZSiMYMpt9t7"
-                "U5AU3CaiJW7iTbibVXjp9F60D32M4/LRlontvqJfK8s2PqI5w3Eam0ElXxfP5aQTXuh0aZ/XMp7g"
-                "NrR7GECzigNCg/vameeobUPkVd9OFk+lgQpVeg==")
-            .then((value) => facepluginState = value ?? -1);
+        facepluginState = await _facesdkPlugin.setActivation(
+            "mCl744lTkL7Dz3MZr2/oCwS0H5g9L8Fl6IiB/2EZ8Gz37x9rP8rnW/E1FKauvJdAEly2v6jiESZa"
+            "p1OT99zvcvlZ9uI0COOrDVg9e1ytM4/6AJru4i5iSybtW3P7rRkGycFikDBxRzPytTJRuqLQuQ9r"
+            "XbiiBfcN/kvgEXpY3o1r7mAQbB9wpSdrL+xeXhl86mTTo7BAoyzphfYdVd6n0l3suZSiMYMpt9t7"
+            "U5AU3CaiJW7iTbibVXjp9F60D32M4/LRlontvqJfK8s2PqI5w3Eam0ElXxfP5aQTXuh0aZ/XMp7g"
+            "NrR7GECzigNCg/vameeobUPkVd9OFk+lgQpVeg==") ??
+            -1;
       }
 
       if (facepluginState == 0) {
-        await _facesdkPlugin
-            .init()
-            .then((value) => facepluginState = value ?? -1);
+        facepluginState = await _facesdkPlugin.init() ?? -1;
       }
-    } catch (e) {}
 
-    List<Person> personList = await loadAllPersons();
-    List<RecognitionLog> logList = await loadAllLogs();
-    await SettingsPageState.initSettings();
+      personList = await loadAllPersons();
+      logList = await loadAllLogs();
+      await SettingsPageState.initSettings();
 
-    final prefs = await SharedPreferences.getInstance();
-    int? livenessLevel = prefs.getInt("liveness_level");
-    bool? estimateAgeGender = prefs.getBool("estimate_age_gender");
+      final prefs = await SharedPreferences.getInstance();
+      int? livenessLevel = prefs.getInt("liveness_level");
+      bool? estimateAgeGender = prefs.getBool("estimate_age_gender");
 
-    try {
       await _facesdkPlugin.setParam({
         'check_liveness_level': livenessLevel ?? 0,
         'check_eye_closeness': true,
@@ -185,28 +186,30 @@ class MyHomePageState extends State<MyHomePage> {
         'check_mouth_opened': true,
         'estimate_age_gender': estimateAgeGender ?? true
       });
-    } catch (e) {}
+    } catch (e) {
+      warningState = e.toString();
+      visibleWarning = true;
+    }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    if (facepluginState == -1) {
-      warningState = AppLocalizations.of(context).t('invalidLicense');
-      visibleWarning = true;
-    } else if (facepluginState == -2) {
-      warningState = AppLocalizations.of(context).t('licenseExpired');
-      visibleWarning = true;
-    } else if (facepluginState == -3) {
-      warningState = AppLocalizations.of(context).t('invalidLicense');
-      visibleWarning = true;
-    } else if (facepluginState == -4) {
-      warningState = AppLocalizations.of(context).t('noActivated');
-      visibleWarning = true;
-    } else if (facepluginState == -5) {
-      warningState = AppLocalizations.of(context).t('initError');
-      visibleWarning = true;
+    if (warningState.isEmpty) {
+      if (facepluginState == -1) {
+        warningState = AppLocalizations.of(context).t('invalidLicense');
+        visibleWarning = true;
+      } else if (facepluginState == -2) {
+        warningState = AppLocalizations.of(context).t('licenseExpired');
+        visibleWarning = true;
+      } else if (facepluginState == -3) {
+        warningState = AppLocalizations.of(context).t('invalidLicense');
+        visibleWarning = true;
+      } else if (facepluginState == -4) {
+        warningState = AppLocalizations.of(context).t('noActivated');
+        visibleWarning = true;
+      } else if (facepluginState == -5) {
+        warningState = AppLocalizations.of(context).t('initError');
+        visibleWarning = true;
+      }
     }
 
     setState(() {

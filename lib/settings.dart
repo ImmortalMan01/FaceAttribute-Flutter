@@ -44,6 +44,7 @@ class SettingsPageState extends State<SettingsPage> {
   ];
   int _selectedLivenessLevel = 0;
   int _selectedLanguage = 0;
+  bool _estimateAgeGender = true;
 
   final livenessController = TextEditingController();
   final identifyController = TextEditingController();
@@ -58,6 +59,7 @@ class SettingsPageState extends State<SettingsPage> {
       await prefs.setString("liveness_threshold", "0.7");
       await prefs.setString("identify_threshold", "0.8");
       await prefs.setString("language_code", "en");
+      await prefs.setBool("estimate_age_gender", true);
     }
   }
 
@@ -75,6 +77,7 @@ class SettingsPageState extends State<SettingsPage> {
     var livenessThreshold = prefs.getString("liveness_threshold");
     var identifyThreshold = prefs.getString("identify_threshold");
     var languageCode = prefs.getString("language_code");
+    var estimateAgeGender = prefs.getBool("estimate_age_gender");
 
     setState(() {
       _selectedCameraLens = cameraLens ?? 1;
@@ -84,6 +87,7 @@ class SettingsPageState extends State<SettingsPage> {
       livenessController.text = _livenessThreshold;
       identifyController.text = _identifyThreshold;
       _selectedLanguage = languageCode == 'tr' ? 1 : 0;
+      _estimateAgeGender = estimateAgeGender ?? true;
     });
   }
 
@@ -126,6 +130,14 @@ class SettingsPageState extends State<SettingsPage> {
       _selectedLanguage = value;
     });
     MyApp.setLocale(context, Locale(value == 1 ? 'tr' : 'en'));
+  }
+
+  Future<void> updateEstimateAgeGender(bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("estimate_age_gender", value);
+    setState(() {
+      _estimateAgeGender = value;
+    });
   }
 
   Future<void> updateLivenessThreshold(BuildContext context) async {
@@ -346,6 +358,13 @@ class SettingsPageState extends State<SettingsPage> {
                     ],
                   ),
                 ),
+              ),
+              SettingsTile.switchTile(
+                title:
+                    Text(AppLocalizations.of(context).t('estimateAgeGender')),
+                leading: const Icon(Icons.person_outline),
+                initialValue: _estimateAgeGender,
+                onToggle: (value) => updateEstimateAgeGender(value),
               ),
             ],
           ),

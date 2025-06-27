@@ -29,12 +29,12 @@ android {
     compileSdkVersion 35  // Updated from 31 to 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17  // Updated from 1_8 to 17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21  // Updated from 1_8 to 21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     kotlinOptions {
-        jvmTarget = '17'  // Updated from '1.8' to '17'
+        jvmTarget = '21'  // Updated from '1.8' to '21'
     }
 
     sourceSets {

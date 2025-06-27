@@ -8,9 +8,12 @@ class LogDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String genderText = log.gender == 0
-        ? AppLocalizations.of(context).t('male')
-        : AppLocalizations.of(context).t('female');
+    String genderText = '';
+    if (log.gender == 0) {
+      genderText = AppLocalizations.of(context).t('male');
+    } else if (log.gender == 1) {
+      genderText = AppLocalizations.of(context).t('female');
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).t('logDetails')),
@@ -27,9 +30,12 @@ class LogDetailView extends StatelessWidget {
               const SizedBox(height: 8),
               Text('${AppLocalizations.of(context).t('time')}${log.formattedTime}'),
               const SizedBox(height: 8),
-              Text('${AppLocalizations.of(context).t('age')}${log.age}'),
-              const SizedBox(height: 8),
-              Text('${AppLocalizations.of(context).t('gender')}$genderText'),
+              if (log.age >= 0) ...[
+                Text('${AppLocalizations.of(context).t('age')}${log.age}'),
+                const SizedBox(height: 8),
+              ],
+              if (log.gender >= 0)
+                Text('${AppLocalizations.of(context).t('gender')}$genderText'),
             ],
           ),
         ),

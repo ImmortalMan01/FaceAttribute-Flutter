@@ -13,7 +13,6 @@ class LogView extends StatelessWidget {
     return Scaffold(
       appBar: NeumorphicAppBar(
         title: Text(AppLocalizations.of(context).t('logs')),
-        toolbarHeight: 70,
         centerTitle: true,
       ),
       body: SafeArea(

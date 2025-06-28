@@ -778,14 +778,14 @@ class _CaptureViewState extends State<CaptureView>
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return CustomPaint(
       painter: CapturePainter(
         _animation.value,
         widget.viewMode,
         widget.currentFace,
-        Theme.of(context).brightness == Brightness.light
-            ? Colors.white
-            : Colors.black,
+        scheme.background,
+        scheme,
       ),
       child: Container(),
     );
@@ -799,10 +799,11 @@ class CapturePainter extends CustomPainter {
   final Paint eraserPaint;
   final dynamic currentFace;
   final Color overlayColor;
+  final ColorScheme scheme;
   late ui.Image roiImage;
 
-  CapturePainter(
-      this.animateValue, this.viewMode, this.currentFace, this.overlayColor)
+  CapturePainter(this.animateValue, this.viewMode, this.currentFace,
+      this.overlayColor, this.scheme)
       : eraserPaint = Paint()
           ..color = Colors.transparent
           ..blendMode = BlendMode.clear;
@@ -820,8 +821,7 @@ class CapturePainter extends CustomPainter {
     Paint outSideActiveRoundPaint = Paint()
       ..style = PaintingStyle.stroke // Equivalent to Paint.Style.STROKE in Java
       ..strokeWidth = 4 // Set stroke width
-      ..color = const Color(
-          0xFFE6E1E5) // Set the color (use the actual color value or from your theme)
+      ..color = scheme.outline
       ..isAntiAlias = true; // Equivalent to setAntiAlias(true) in Java
 
     Size frameSize = const Size(720, 1280);
@@ -905,7 +905,7 @@ class CapturePainter extends CustomPainter {
         // Paint for the border circle
         final borderPaint = Paint()
           ..style = PaintingStyle.fill
-          ..color = const Color(0xFF492532) // Replace with the correct color
+          ..color = scheme.primary
           ..isAntiAlias = true;
 
         // Create a path for the circular shape using borderRect
@@ -977,7 +977,7 @@ class CapturePainter extends CustomPainter {
       Paint paint = Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 10
-        ..color = const Color(0xFFEADDFF)
+        ..color = scheme.primaryContainer
         ..isAntiAlias = true;
 
       if (viewMode == ViewMode.NO_FACE_PREPARE ||
@@ -1087,8 +1087,7 @@ class CapturePainter extends CustomPainter {
         final Paint paint1 = Paint()
           ..style = PaintingStyle.fill
           ..strokeWidth = 6
-          ..color = const Color(
-              0x80EADDFF) // Replace with actual color value or use a theme color
+          ..color = scheme.primaryContainer.withOpacity(0.5)
           ..isAntiAlias = true;
 
         var yaw = currentFace['yaw'];
@@ -1137,7 +1136,7 @@ class CapturePainter extends CustomPainter {
         // Paint for drawing the circle
         final Paint paint1 = Paint()
           ..style = PaintingStyle.stroke
-          ..color = Colors.tealAccent // Replace with your actual color
+          ..color = scheme.tertiary
           ..strokeWidth = 7
           ..isAntiAlias = true;
 

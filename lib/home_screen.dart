@@ -221,7 +221,7 @@ class NeumorphicBottomNavigation extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    NeumorphicIcon(icon.icon, size: 24),
+                    NeumorphicIcon(icon.icon!, size: 24),
                     const SizedBox(height: 4),
                     Text(item.label ?? ''),
                   ],

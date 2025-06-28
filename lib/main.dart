@@ -77,6 +77,12 @@ class _MyAppState extends State<MyApp> {
       surface: const Color(0xFFFFFFFF),
       background: const Color(0xFFF6F3FF),
     );
+    final buttonTheme = FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        shape: const StadiumBorder(),
+      ),
+    );
     final darkScheme = ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.dark,
@@ -89,10 +95,12 @@ class _MyAppState extends State<MyApp> {
       light: ThemeData(
         useMaterial3: true,
         colorScheme: lightScheme,
+        filledButtonTheme: buttonTheme,
       ),
       dark: ThemeData(
         useMaterial3: true,
         colorScheme: darkScheme,
+        filledButtonTheme: buttonTheme,
       ),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => Builder(
@@ -151,15 +159,6 @@ class MyHomePageState extends State<MyHomePage> {
 
   final _facesdkPlugin = FacesdkPlugin();
 
-  ButtonStyle _buttonStyle(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    return FilledButton.styleFrom(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      backgroundColor: scheme.primaryContainer,
-      foregroundColor: scheme.onPrimaryContainer,
-      shape: const StadiumBorder(),
-    );
-  }
 
   @override
   void initState() {
@@ -521,21 +520,13 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: FilledButton(
-                      style: _buttonStyle(context),
                       onPressed: enrollPerson,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.person_add,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer),
+                          const Icon(Icons.person_add),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('enroll'),
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer)),
+                          Text(AppLocalizations.of(context).t('enroll')),
                         ],
                       )),
                 ),
@@ -543,7 +534,6 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: FilledButton(
-                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -557,16 +547,9 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.person_search,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer),
+                          const Icon(Icons.person_search),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('identify'),
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer)),
+                          Text(AppLocalizations.of(context).t('identify')),
                         ],
                       )),
                 ),
@@ -578,7 +561,6 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: FilledButton(
-                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -591,16 +573,9 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.settings,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer),
+                          const Icon(Icons.settings),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('settings'),
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer)),
+                          Text(AppLocalizations.of(context).t('settings')),
                         ],
                       )),
                 ),
@@ -608,7 +583,6 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   flex: 1,
                   child: FilledButton(
-                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -622,16 +596,9 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.person_pin,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer),
+                          const Icon(Icons.person_pin),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('capture'),
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer)),
+                          Text(AppLocalizations.of(context).t('capture')),
                         ],
                       )),
                 ),
@@ -644,7 +611,6 @@ class MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   child: FilledButton(
-                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -657,16 +623,9 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.list,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onPrimaryContainer),
+                          const Icon(Icons.list),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('logs'),
-                              style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onPrimaryContainer)),
+                          Text(AppLocalizations.of(context).t('logs')),
                         ],
                       )),
                 ),

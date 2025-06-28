@@ -13,6 +13,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:io' show Platform;
+import 'home_screen.dart';
+import 'app_theme.dart';
 import 'about.dart';
 import 'settings.dart';
 import 'person.dart';
@@ -74,14 +76,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveTheme(
-      light: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.light,
-      ),
-      dark: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-      ),
+      light: AppTheme.lightTheme(),
+      dark: AppTheme.darkTheme(),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => Builder(
             builder: (context) => NeumorphicApp(
@@ -96,23 +92,14 @@ class _MyAppState extends State<MyApp> {
                 title: AppLocalizations(_locale).t('appTitle'),
                 materialTheme: theme,
                 materialDarkTheme: darkTheme,
-                theme: NeumorphicThemeData(
-                  baseColor: theme.colorScheme.background,
-                  lightSource: LightSource.topLeft,
-                  depth: 4,
-                ),
-                darkTheme: NeumorphicThemeData(
-                  baseColor: darkTheme.colorScheme.background,
-                  lightSource: LightSource.topLeft,
-                  depth: 4,
-                ),
+                theme: AppTheme.lightNeumorphicTheme(),
+                darkTheme: AppTheme.darkNeumorphicTheme(),
                 themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
                     ? ThemeMode.dark
                     : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
                         ? ThemeMode.light
                         : ThemeMode.system,
-                home:
-                    MyHomePage(title: AppLocalizations(_locale).t('appTitle')))),
+                home: const HomeScreen())),
     );
   }
 }

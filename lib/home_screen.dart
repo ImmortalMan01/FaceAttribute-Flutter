@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: NeumorphicTheme.baseColor(context),
         appBar: NeumorphicAppBar(
           title: Text('Home', style: Theme.of(context).textTheme.titleLarge),
-          style: const NeumorphicStyle(depth: 4),
+          buttonStyle: const NeumorphicStyle(depth: 4),
           actions: [
             PopupMenuButton<AdaptiveThemeMode>(
               onSelected: (mode) {
@@ -124,9 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildActionButton(IconData icon, String label) {
     return NeumorphicButton(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      style: const NeumorphicStyle(
+      style: NeumorphicStyle(
         depth: 4,
-        boxShape: NeumorphicBoxShape.roundRect(BorderRadius.all(Radius.circular(16))),
+        boxShape: NeumorphicBoxShape.roundRect(
+          const BorderRadius.all(Radius.circular(16)),
+        ),
       ),
       duration: const Duration(milliseconds: 150),
       onPressed: () {},
@@ -176,6 +178,59 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+    );
+  }
+}
+
+class NeumorphicBottomNavigation extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+  final List<BottomNavigationBarItem> items;
+
+  const NeumorphicBottomNavigation({
+    super.key,
+    required this.selectedIndex,
+    required this.onTap,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = NeumorphicTheme.accentColor(context);
+    return Row(
+      children: List.generate(items.length, (index) {
+        final selected = index == selectedIndex;
+        final item = items[index];
+        final icon = item.icon as Icon;
+        return Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Semantics(
+              selected: selected,
+              button: true,
+              child: NeumorphicButton(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                duration: const Duration(milliseconds: 150),
+                style: NeumorphicStyle(
+                  depth: selected ? 4 : -4,
+                  color: selected ? accent : null,
+                  boxShape: const NeumorphicBoxShape.stadium(),
+                ),
+                onPressed: () => onTap(index),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    NeumorphicIcon(icon.icon, size: 24),
+                    const SizedBox(height: 4),
+                    Text(item.label ?? ''),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }

@@ -32,6 +32,9 @@ class AppTheme {
       accentColor: Color(0xFF3B82F6),
       variantColor: Color(0xFFF59E0B),
       depth: 4,
+      appBarTheme: NeumorphicAppBarThemeData(
+        buttonStyle: NeumorphicStyle(depth: 4),
+      ),
     );
   }
 
@@ -64,6 +67,9 @@ class AppTheme {
       accentColor: Color(0xFF60A5FA),
       variantColor: Color(0xFFFBBF24),
       depth: 4,
+      appBarTheme: NeumorphicAppBarThemeData(
+        buttonStyle: NeumorphicStyle(depth: 4),
+      ),
     );
   }
 }

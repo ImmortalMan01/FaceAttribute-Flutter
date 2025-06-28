@@ -32,18 +32,17 @@ class _PersonViewState extends State<PersonView> {
         itemBuilder: (BuildContext context, int index) {
           return Card(
             color: Theme.of(context).colorScheme.surfaceVariant,
-            margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+            margin: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 8.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             child: ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(28.0),
-                child: Image.memory(
-                  widget.personList[index].faceJpg,
-                  width: 56,
-                  height: 56,
-                ),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+              leading: CircleAvatar(
+                radius: 28,
+                backgroundImage:
+                    MemoryImage(widget.personList[index].faceJpg),
               ),
               title: Text(
                 widget.personList[index].name,

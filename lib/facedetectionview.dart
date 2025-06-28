@@ -18,7 +18,7 @@ class FaceRecognitionView extends StatefulWidget {
   final Function(RecognitionLog) addLog;
   FaceDetectionViewController? faceDetectionViewController;
 
-  const FaceRecognitionView({super.key, required this.personList, required this.addLog});
+  FaceRecognitionView({super.key, required this.personList, required this.addLog});
 
   @override
   State<StatefulWidget> createState() => FaceRecognitionViewState();
@@ -420,7 +420,7 @@ class FaceDetectionView extends StatefulWidget
     implements FaceDetectionInterface {
   FaceRecognitionViewState faceRecognitionViewState;
 
-  const FaceDetectionView({super.key, required this.faceRecognitionViewState});
+  FaceDetectionView({super.key, required this.faceRecognitionViewState});
 
   @override
   Future<void> onFaceDetected(faces) async {

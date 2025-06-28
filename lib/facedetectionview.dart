@@ -271,7 +271,11 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                             Text(
                               AppLocalizations.of(context).t('identifiedName') +
                                   _identifiedName,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
                             )
                           ],
                         ),
@@ -286,7 +290,11 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                             Text(
                               AppLocalizations.of(context).t('similarity') +
                                   _identifiedSimilarity,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground),
                             )
                           ],
                         ),
@@ -301,7 +309,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                             Text(
                               AppLocalizations.of(context).t('livenessScore') +
                                   _identifiedLiveness,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                             )
                           ],
                         ),
@@ -316,7 +324,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                             Text(
                               AppLocalizations.of(context).t('yaw') +
                                   _identifiedYaw,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                             )
                           ],
                         ),
@@ -331,7 +339,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                             Text(
                               AppLocalizations.of(context).t('roll') +
                                   _identifiedRoll,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                             )
                           ],
                         ),
@@ -346,7 +354,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                             Text(
                               AppLocalizations.of(context).t('pitch') +
                                   _identifiedPitch,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                             )
                           ],
                         ),
@@ -363,7 +371,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               Text(
                                 AppLocalizations.of(context).t('age') +
                                     _identifiedAge,
-                                style: const TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                               )
                             ],
                           ),
@@ -381,7 +389,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                               Text(
                                 AppLocalizations.of(context).t('gender') +
                                     _identifiedGender,
-                                style: const TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                               )
                             ],
                           ),

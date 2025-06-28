@@ -576,7 +576,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
                             ),
                             Text(
                               _capturedLiveness,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                             )
                           ],
                         ),
@@ -590,7 +590,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
                             ),
                             Text(
                               _capturedQuality,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                             )
                           ],
                         ),
@@ -604,7 +604,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
                             ),
                             Text(
                               _capturedLuminance,
-                              style: const TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onBackground),
                             )
                           ],
                         ),

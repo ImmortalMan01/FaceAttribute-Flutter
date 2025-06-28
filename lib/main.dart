@@ -137,15 +137,14 @@ class MyHomePageState extends State<MyHomePage> {
 
   final _facesdkPlugin = FacesdkPlugin();
 
-  NeumorphicStyle _buttonStyle(BuildContext context) {
+  ButtonStyle _buttonStyle(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return NeumorphicStyle(
-        shape: NeumorphicShape.flat,
-        boxShape: const NeumorphicBoxShape.stadium(),
-        color: scheme.primaryContainer,
-        depth: isDark ? 1 : 2,
-        intensity: 0.8);
+    return FilledButton.styleFrom(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      backgroundColor: scheme.primaryContainer,
+      foregroundColor: scheme.onPrimaryContainer,
+      shape: const StadiumBorder(),
+    );
   }
 
   @override
@@ -511,8 +510,7 @@ class MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: NeumorphicButton(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: FilledButton(
                       style: _buttonStyle(context),
                       onPressed: enrollPerson,
                       child: Row(
@@ -534,8 +532,7 @@ class MyHomePageState extends State<MyHomePage> {
                 const SizedBox(width: 20),
                 Expanded(
                   flex: 1,
-                  child: NeumorphicButton(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: FilledButton(
                       style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
@@ -570,8 +567,7 @@ class MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: NeumorphicButton(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: FilledButton(
                       style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
@@ -601,8 +597,7 @@ class MyHomePageState extends State<MyHomePage> {
                 const SizedBox(width: 20),
                 Expanded(
                   flex: 1,
-                  child: NeumorphicButton(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: FilledButton(
                       style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
@@ -638,8 +633,7 @@ class MyHomePageState extends State<MyHomePage> {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: NeumorphicButton(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: FilledButton(
                       style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(

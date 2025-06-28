@@ -779,8 +779,14 @@ class _CaptureViewState extends State<CaptureView>
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter:
-          CapturePainter(_animation.value, widget.viewMode, widget.currentFace),
+      painter: CapturePainter(
+        _animation.value,
+        widget.viewMode,
+        widget.currentFace,
+        Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
+      ),
       child: Container(),
     );
   }
@@ -792,9 +798,11 @@ class CapturePainter extends CustomPainter {
   bool scrimInited = false;
   final Paint eraserPaint;
   final dynamic currentFace;
+  final Color overlayColor;
   late ui.Image roiImage;
 
-  CapturePainter(this.animateValue, this.viewMode, this.currentFace)
+  CapturePainter(
+      this.animateValue, this.viewMode, this.currentFace, this.overlayColor)
       : eraserPaint = Paint()
           ..color = Colors.transparent
           ..blendMode = BlendMode.clear;
@@ -802,7 +810,7 @@ class CapturePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) async {
     final Paint overlayPaint = Paint()
-      ..color = Colors.black
+      ..color = overlayColor
       ..style = PaintingStyle.fill;
 
     // Draw a full-screen rectangle with overlay paint

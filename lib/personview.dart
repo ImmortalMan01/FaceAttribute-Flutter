@@ -33,10 +33,10 @@ class _PersonViewState extends State<PersonView> {
         itemBuilder: (BuildContext context, int index) {
           return Neumorphic(
             margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-            style: const NeumorphicStyle(
+            style: NeumorphicStyle(
               depth: 2,
               boxShape: NeumorphicBoxShape.roundRect(
-                BorderRadius.all(Radius.circular(12)),
+                const BorderRadius.all(Radius.circular(12)),
               ),
             ),
             child: ListTile(
@@ -51,7 +51,7 @@ class _PersonViewState extends State<PersonView> {
               title: NeumorphicText(
                 widget.personList[index].name,
                 style: const NeumorphicStyle(depth: 1),
-                textStyle: const NeumorphicTextStyle(fontSize: 16),
+                textStyle: NeumorphicTextStyle(fontSize: 16),
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,

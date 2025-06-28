@@ -10,7 +10,6 @@ class AboutPage extends StatelessWidget {
     return Scaffold(
       appBar: NeumorphicAppBar(
         title: Text(AppLocalizations.of(context).t('aboutTitle')),
-        toolbarHeight: 70,
         centerTitle: true,
       ),
       body: SafeArea(

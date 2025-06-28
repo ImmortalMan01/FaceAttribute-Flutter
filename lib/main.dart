@@ -113,14 +113,12 @@ class _MyAppState extends State<MyApp> {
                   accentColor: theme.colorScheme.primary,
                   variantColor: theme.colorScheme.secondary,
                   lightSource: LightSource.topLeft,
-                  depth: 4,
                 ),
                 darkTheme: NeumorphicThemeData(
                   baseColor: darkTheme.colorScheme.background,
                   accentColor: darkTheme.colorScheme.primary,
                   variantColor: darkTheme.colorScheme.secondary,
                   lightSource: LightSource.topLeft,
-                  depth: 4,
                 ),
                 themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
                     ? ThemeMode.dark
@@ -496,7 +494,7 @@ class MyHomePageState extends State<MyHomePage> {
     }
 
     return Scaffold(
-      appBar: NeumorphicAppBar(
+      appBar: AppBar(
         title: Text(AppLocalizations.of(context).t('appTitle')),
       ),
       body: SafeArea(
@@ -504,14 +502,15 @@ class MyHomePageState extends State<MyHomePage> {
         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
           children: <Widget>[
-            Neumorphic(
-                padding: const EdgeInsets.all(12),
-                style: const NeumorphicStyle(depth: -2),
-                child: ListTile(
-                  leading: const Icon(Icons.tips_and_updates),
-                  subtitle: Text(
-                    AppLocalizations.of(context).t('subtitle'),
-                    style: const TextStyle(fontSize: 13),
+            Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: ListTile(
+                    leading: const Icon(Icons.tips_and_updates),
+                    subtitle: Text(
+                      AppLocalizations.of(context).t('subtitle'),
+                      style: const TextStyle(fontSize: 13),
+                    ),
                   ),
                 )),
             const SizedBox(

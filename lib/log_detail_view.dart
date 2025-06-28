@@ -25,20 +25,37 @@ class LogDetailView extends StatelessWidget {
           margin: const EdgeInsets.all(16.0),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
               children: [
-                Text('${AppLocalizations.of(context).t('name')}${log.name}'),
-                const SizedBox(height: 8),
-                Text('${AppLocalizations.of(context).t('time')}${log.formattedTime}'),
-                const SizedBox(height: 8),
+                ListTile(
+                  leading: const Icon(Icons.person),
+                  title: Text(AppLocalizations.of(context).t('name')),
+                  trailing: Text(log.name),
+                ),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.schedule),
+                  title: Text(AppLocalizations.of(context).t('time')),
+                  trailing: Text(log.formattedTime),
+                ),
                 if (log.age >= 0) ...[
-                  Text('${AppLocalizations.of(context).t('age')}${log.age}'),
-                  const SizedBox(height: 8),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.cake),
+                    title: Text(AppLocalizations.of(context).t('age')),
+                    trailing: Text(log.age.toString()),
+                  ),
                 ],
-                if (log.gender >= 0)
-                  Text('${AppLocalizations.of(context).t('gender')}$genderText'),
+                if (log.gender >= 0) ...[
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.wc),
+                    title: Text(AppLocalizations.of(context).t('gender')),
+                    trailing: Text(genderText),
+                  ),
+                ],
               ],
+            ),
           ),
         ),
       ),

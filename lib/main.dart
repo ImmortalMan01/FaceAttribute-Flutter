@@ -91,6 +91,24 @@ class _MyAppState extends State<MyApp> {
       background: const Color(0xFF141218),
     );
 
+    final neumorphicLightTheme = NeumorphicThemeData(
+      baseColor: const Color(0xFFF2F4F8),
+      accentColor: const Color(0xFFA7C7E7),
+      variantColor: const Color(0xFFE0C3FC),
+      depth: 4,
+      intensity: 0.8,
+      lightSource: LightSource.topLeft,
+    );
+
+    final neumorphicDarkTheme = NeumorphicThemeData(
+      baseColor: const Color(0xFF222532),
+      accentColor: const Color(0xFF8AA1D2),
+      variantColor: const Color(0xFF775BAE),
+      depth: 4,
+      intensity: 0.6,
+      lightSource: LightSource.topLeft,
+    );
+
     return AdaptiveTheme(
       light: ThemeData(
         useMaterial3: true,
@@ -118,18 +136,8 @@ class _MyAppState extends State<MyApp> {
                 title: AppLocalizations(_locale).t('appTitle'),
                 materialTheme: theme,
                 materialDarkTheme: darkTheme,
-                theme: NeumorphicThemeData(
-                  baseColor: theme.colorScheme.background,
-                  accentColor: theme.colorScheme.primary,
-                  variantColor: theme.colorScheme.secondary,
-                  lightSource: LightSource.topLeft,
-                ),
-                darkTheme: NeumorphicThemeData(
-                  baseColor: darkTheme.colorScheme.background,
-                  accentColor: darkTheme.colorScheme.primary,
-                  variantColor: darkTheme.colorScheme.secondary,
-                  lightSource: LightSource.topLeft,
-                ),
+                theme: neumorphicLightTheme,
+                darkTheme: neumorphicDarkTheme,
                 themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
                     ? ThemeMode.dark
                     : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light

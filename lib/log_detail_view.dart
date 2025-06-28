@@ -59,7 +59,6 @@ class LogDetailView extends StatelessWidget {
           ),
         ),
       ),
-    ),
   );
   }
 }

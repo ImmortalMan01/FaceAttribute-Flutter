@@ -72,14 +72,27 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    const seedColor = Color(0xFF6750A4);
+    final lightScheme = ColorScheme.fromSeed(seedColor: seedColor).copyWith(
+      surface: const Color(0xFFFFFFFF),
+      background: const Color(0xFFF6F3FF),
+    );
+    final darkScheme = ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: Brightness.dark,
+    ).copyWith(
+      surface: const Color(0xFF1E1B24),
+      background: const Color(0xFF141218),
+    );
+
     return AdaptiveTheme(
       light: ThemeData(
         useMaterial3: true,
-        brightness: Brightness.light,
+        colorScheme: lightScheme,
       ),
       dark: ThemeData(
         useMaterial3: true,
-        brightness: Brightness.dark,
+        colorScheme: darkScheme,
       ),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => Builder(
@@ -97,11 +110,15 @@ class _MyAppState extends State<MyApp> {
                 materialDarkTheme: darkTheme,
                 theme: NeumorphicThemeData(
                   baseColor: theme.colorScheme.background,
+                  accentColor: theme.colorScheme.primary,
+                  variantColor: theme.colorScheme.secondary,
                   lightSource: LightSource.topLeft,
                   depth: 4,
                 ),
                 darkTheme: NeumorphicThemeData(
                   baseColor: darkTheme.colorScheme.background,
+                  accentColor: darkTheme.colorScheme.primary,
+                  variantColor: darkTheme.colorScheme.secondary,
                   lightSource: LightSource.topLeft,
                   depth: 4,
                 ),

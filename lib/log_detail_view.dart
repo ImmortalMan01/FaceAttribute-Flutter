@@ -20,25 +20,29 @@ class LogDetailView extends StatelessWidget {
         centerTitle: true,
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('${AppLocalizations.of(context).t('name')}${log.name}'),
-              const SizedBox(height: 8),
-              Text('${AppLocalizations.of(context).t('time')}${log.formattedTime}'),
-              const SizedBox(height: 8),
-              if (log.age >= 0) ...[
-                Text('${AppLocalizations.of(context).t('age')}${log.age}'),
+        child: Card(
+          color: Theme.of(context).colorScheme.surfaceVariant,
+          margin: const EdgeInsets.all(16.0),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${AppLocalizations.of(context).t('name')}${log.name}'),
                 const SizedBox(height: 8),
+                Text('${AppLocalizations.of(context).t('time')}${log.formattedTime}'),
+                const SizedBox(height: 8),
+                if (log.age >= 0) ...[
+                  Text('${AppLocalizations.of(context).t('age')}${log.age}'),
+                  const SizedBox(height: 8),
+                ],
+                if (log.gender >= 0)
+                  Text('${AppLocalizations.of(context).t('gender')}$genderText'),
               ],
-              if (log.gender >= 0)
-                Text('${AppLocalizations.of(context).t('gender')}$genderText'),
-            ],
           ),
         ),
       ),
+    );
     );
   }
 }

@@ -31,6 +31,7 @@ class _PersonViewState extends State<PersonView> {
         itemCount: widget.personList.length,
         itemBuilder: (BuildContext context, int index) {
           return Card(
+            color: Theme.of(context).colorScheme.surfaceVariant,
             margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),

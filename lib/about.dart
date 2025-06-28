@@ -13,6 +13,7 @@ class AboutPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: Card(
+          color: Theme.of(context).colorScheme.surfaceVariant,
           margin: const EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),

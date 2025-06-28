@@ -18,6 +18,7 @@ class LogView extends StatelessWidget {
         child: logList.isEmpty
             ? Center(child: Text(AppLocalizations.of(context).t('noLogs')))
             : Card(
+                color: Theme.of(context).colorScheme.surfaceVariant,
                 margin: const EdgeInsets.all(8.0),
                 child: ListView.builder(
                   itemCount: logList.length,

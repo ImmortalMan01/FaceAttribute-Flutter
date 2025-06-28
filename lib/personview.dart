@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'person.dart';
 import 'main.dart';
 
@@ -31,28 +30,20 @@ class _PersonViewState extends State<PersonView> {
     return ListView.builder(
         itemCount: widget.personList.length,
         itemBuilder: (BuildContext context, int index) {
-          return SizedBox(
-              height: 75,
-              child: Neumorphic(
-                  style: const NeumorphicStyle(depth: -2),
-                  child: Row(
+          return Card(
+            child: ListTile(
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(28.0),
+                child: Image.memory(
+                  widget.personList[index].faceJpg,
+                  width: 56,
+                  height: 56,
+                ),
+              ),
+              title: Text(widget.personList[index].name),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(28.0),
-                    child: Image.memory(
-                      widget.personList[index].faceJpg,
-                      width: 56,
-                      height: 56,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Text(widget.personList[index].name),
-                  const Spacer(),
                   IconButton(
                     icon: const Icon(Icons.edit),
                     onPressed: () => renamePerson(index),
@@ -61,11 +52,10 @@ class _PersonViewState extends State<PersonView> {
                     icon: const Icon(Icons.delete),
                     onPressed: () => deletePerson(index),
                   ),
-                  const SizedBox(
-                    width: 8,
-                  )
                 ],
-              )));
+              ),
+            ),
+          );
         });
   }
 }

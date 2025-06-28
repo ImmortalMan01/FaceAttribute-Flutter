@@ -3,49 +3,46 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class RelayService {
   static const String deviceName = 'BT04-A';
-  static const Guid serviceUuid = Guid('0000FFE0-0000-1000-8000-00805F9B34FB');
-  static const Guid characteristicUuid = Guid('FFE1');
+  static final Guid serviceUuid = Guid('0000FFE0-0000-1000-8000-00805F9B34FB');
+  static final Guid characteristicUuid = Guid('FFE1');
 
-  final FlutterBluePlus _ble = FlutterBluePlus.instance;
-  BluetoothDevice? _device;
-  BluetoothCharacteristic? _characteristic;
+  Future<void> sendRelay(int relay, bool on) async {
+    BluetoothDevice? target;
 
-  Future<void> _connect() async {
-    if (_device != null && _characteristic != null) return;
-
-    await _ble.startScan(timeout: const Duration(seconds: 5));
-    await for (final scan in _ble.scanResults) {
-      final result = scan.firstWhere(
-        (r) => r.device.name == deviceName,
-        orElse: () => null,
-      );
-      if (result != null) {
-        _device = result.device;
-        break;
+    // listen to scan results while scanning
+    final sub = FlutterBluePlus.scanResults.listen((results) {
+      for (final r in results) {
+        final advName = r.advertisementData.advName;
+        final name = advName.isNotEmpty ? advName : r.device.platformName;
+        if (name == deviceName) {
+          target = r.device;
+        }
       }
-    }
-    await _ble.stopScan();
+    });
 
-    if (_device == null) return;
-    await _device!.connect();
-    List<BluetoothService> services = await _device!.discoverServices();
-    for (var s in services) {
+    await FlutterBluePlus.startScan(
+        withNames: [deviceName], timeout: const Duration(seconds: 5));
+
+    // wait until scanning completes
+    await FlutterBluePlus.isScanning.where((v) => v == false).first;
+    await sub.cancel();
+
+    if (target == null) return;
+
+    await target!.connect();
+    final services = await target!.discoverServices();
+    for (final s in services) {
       if (s.uuid == serviceUuid) {
-        for (var c in s.characteristics) {
+        for (final c in s.characteristics) {
           if (c.uuid == characteristicUuid) {
-            _characteristic = c;
+            final cmd = _buildCommand(relay, on);
+            await c.write(cmd, withoutResponse: true);
             break;
           }
         }
       }
     }
-  }
-
-  Future<void> sendRelay(int relay, bool on) async {
-    await _connect();
-    if (_characteristic == null) return;
-    final cmd = _buildCommand(relay, on);
-    await _characteristic!.write(cmd, withoutResponse: true);
+    await target!.disconnect();
   }
 
   List<int> _buildCommand(int relay, bool on) {

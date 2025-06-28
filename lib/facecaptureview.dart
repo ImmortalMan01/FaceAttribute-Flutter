@@ -102,7 +102,7 @@ class FaceCaptureView extends StatefulWidget {
   FaceDetectionViewController? faceDetectionViewController;
   final Function(Person) insertPerson;
 
-  FaceCaptureView(
+  const FaceCaptureView(
       {super.key, required this.personList, required this.insertPerson});
 
   @override
@@ -633,7 +633,7 @@ class FaceCaptureDetectionView extends StatefulWidget
     implements FaceDetectionInterface {
   FaceCaptureViewState faceRecognitionViewState;
 
-  FaceCaptureDetectionView({super.key, required this.faceRecognitionViewState});
+  const FaceCaptureDetectionView({super.key, required this.faceRecognitionViewState});
 
   @override
   Future<void> onFaceDetected(faces) async {
@@ -787,7 +787,7 @@ class _CaptureViewState extends State<CaptureView>
         scheme.background,
         scheme,
       ),
-      child: Container(),
+      child: const SizedBox.expand(),
     );
   }
 }

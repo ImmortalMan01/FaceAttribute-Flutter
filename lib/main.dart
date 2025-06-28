@@ -145,7 +145,7 @@ class _MyAppState extends State<MyApp> {
 class MyHomePage extends StatefulWidget {
   final String title;
 
-  MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title});
 
   @override
   MyHomePageState createState() => MyHomePageState();

@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:io' show Platform;
@@ -349,14 +348,13 @@ class MyHomePageState extends State<MyHomePage> {
       personList.clear();
     });
 
-    Fluttertoast.showToast(
-        msg: AppLocalizations.of(context).t('allPersonDeleted'),
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppLocalizations.of(context).t('allPersonDeleted'),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onErrorContainer)),
+      backgroundColor: Theme.of(context).colorScheme.errorContainer,
+      duration: const Duration(seconds: 1),
+    ));
   }
 
   Future<void> deletePerson(index) async {
@@ -371,14 +369,13 @@ class MyHomePageState extends State<MyHomePage> {
       personList.removeAt(index);
     });
 
-    Fluttertoast.showToast(
-        msg: AppLocalizations.of(context).t('personRemoved'),
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppLocalizations.of(context).t('personRemoved'),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onErrorContainer)),
+      backgroundColor: Theme.of(context).colorScheme.errorContainer,
+      duration: const Duration(seconds: 1),
+    ));
   }
 
   Future<void> updatePersonName(int index, String newName) async {
@@ -393,14 +390,13 @@ class MyHomePageState extends State<MyHomePage> {
           templates: personList[index].templates);
     });
 
-    Fluttertoast.showToast(
-        msg: AppLocalizations.of(context).t('personRenamed'),
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppLocalizations.of(context).t('personRenamed'),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onErrorContainer)),
+      backgroundColor: Theme.of(context).colorScheme.errorContainer,
+      duration: const Duration(seconds: 1),
+    ));
   }
 
   Future<String?> requestPersonName() async {
@@ -454,24 +450,22 @@ class MyHomePageState extends State<MyHomePage> {
         insertPerson(person);
       }
 
-      if (faces.length == 0) {
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(context).t('noFaceDetected'),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+      if (faces.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context).t('noFaceDetected'),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onErrorContainer)),
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          duration: const Duration(seconds: 1),
+        ));
       } else {
-        Fluttertoast.showToast(
-            msg: AppLocalizations.of(context).t('personEnrolled'),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context).t('personEnrolled'),
+              style: TextStyle(
+                  color: Theme.of(context).colorScheme.onErrorContainer)),
+          backgroundColor: Theme.of(context).colorScheme.errorContainer,
+          duration: const Duration(seconds: 1),
+        ));
       }
     } catch (e) {}
   }

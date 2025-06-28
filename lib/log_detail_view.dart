@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
 
@@ -15,7 +16,7 @@ class LogDetailView extends StatelessWidget {
       genderText = AppLocalizations.of(context).t('female');
     }
     return Scaffold(
-      appBar: AppBar(
+      appBar: NeumorphicAppBar(
         title: Text(AppLocalizations.of(context).t('logDetails')),
         toolbarHeight: 70,
         centerTitle: true,

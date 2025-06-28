@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
 import 'log_detail_view.dart';
@@ -10,7 +11,7 @@ class LogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: NeumorphicAppBar(
         title: Text(AppLocalizations.of(context).t('logs')),
         toolbarHeight: 70,
         centerTitle: true,
@@ -18,11 +19,14 @@ class LogView extends StatelessWidget {
       body: SafeArea(
         child: logList.isEmpty
             ? Center(child: Text(AppLocalizations.of(context).t('noLogs')))
-            : ListView.builder(
-                itemCount: logList.length,
-                itemBuilder: (context, index) {
-                  final log = logList[index];
-                  return ListTile(
+            : Neumorphic(
+                margin: const EdgeInsets.all(8.0),
+                style: const NeumorphicStyle(depth: 2),
+                child: ListView.builder(
+                  itemCount: logList.length,
+                  itemBuilder: (context, index) {
+                    final log = logList[index];
+                    return ListTile(
                     title: Text(log.name),
                     subtitle: Text(log.formattedTime),
                     onTap: () {
@@ -34,7 +38,8 @@ class LogView extends StatelessWidget {
                       );
                     },
                   );
-                },
+                  },
+                ),
               ),
       ),
     );

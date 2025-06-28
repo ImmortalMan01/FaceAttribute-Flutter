@@ -96,11 +96,13 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
         colorScheme: lightScheme,
         filledButtonTheme: buttonTheme,
+        fontFamily: 'Inter',
       ),
       dark: ThemeData(
         useMaterial3: true,
         colorScheme: darkScheme,
         filledButtonTheme: buttonTheme,
+        fontFamily: 'Inter',
       ),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => Builder(

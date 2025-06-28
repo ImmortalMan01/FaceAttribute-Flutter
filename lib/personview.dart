@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'person.dart';
 import 'main.dart';
 
@@ -31,13 +30,10 @@ class _PersonViewState extends State<PersonView> {
     return ListView.builder(
         itemCount: widget.personList.length,
         itemBuilder: (BuildContext context, int index) {
-          return Neumorphic(
+          return Card(
             margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-            style: NeumorphicStyle(
-              depth: 2,
-              boxShape: NeumorphicBoxShape.roundRect(
-                const BorderRadius.all(Radius.circular(12)),
-              ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
             ),
             child: ListTile(
               leading: ClipRRect(
@@ -48,20 +44,19 @@ class _PersonViewState extends State<PersonView> {
                   height: 56,
                 ),
               ),
-              title: NeumorphicText(
+              title: Text(
                 widget.personList[index].name,
-                style: const NeumorphicStyle(depth: 1),
-                textStyle: NeumorphicTextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: NeumorphicIcon(Icons.edit, size: 24),
+                    icon: const Icon(Icons.edit, size: 24),
                     onPressed: () => renamePerson(index),
                   ),
                   IconButton(
-                    icon: NeumorphicIcon(Icons.delete, size: 24),
+                    icon: const Icon(Icons.delete, size: 24),
                     onPressed: () => deletePerson(index),
                   ),
                 ],

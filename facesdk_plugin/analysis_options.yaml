@@ -1,4 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
+# Exclude example code from analysis
+analyzer:
+  exclude:
+    - example/**
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

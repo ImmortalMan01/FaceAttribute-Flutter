@@ -503,7 +503,12 @@ class MyHomePageState extends State<MyHomePage> {
         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
           children: <Widget>[
-            Card(
+            Neumorphic(
+                style: NeumorphicStyle(
+                    boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+                    depth: 2,
+                    shape: NeumorphicShape.flat,
+                    color: NeumorphicTheme.baseColor(context)),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: ListTile(
@@ -521,21 +526,34 @@ class MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: FilledButton(
+                  child: NeumorphicButton(
                       onPressed: enrollPerson,
+                      style: NeumorphicStyle(
+                        color: NeumorphicTheme.accentColor(context),
+                        depth: 2,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(12)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.person_add),
+                          Icon(Icons.person_add,
+                              color: Theme.of(context).colorScheme.onPrimary),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('enroll')),
+                          Text(
+                            AppLocalizations.of(context).t('enroll'),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary),
+                          ),
                         ],
                       )),
                 ),
                 const SizedBox(width: 20),
                 Expanded(
                   flex: 1,
-                  child: FilledButton(
+                  child: NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -546,12 +564,25 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
+                      style: NeumorphicStyle(
+                        color: NeumorphicTheme.accentColor(context),
+                        depth: 2,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(12)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.person_search),
+                          Icon(Icons.person_search,
+                              color: Theme.of(context).colorScheme.onPrimary),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('identify')),
+                          Text(
+                            AppLocalizations.of(context).t('identify'),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary),
+                          ),
                         ],
                       )),
                 ),
@@ -562,7 +593,7 @@ class MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: FilledButton(
+                  child: NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -572,19 +603,32 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
+                      style: NeumorphicStyle(
+                        color: NeumorphicTheme.accentColor(context),
+                        depth: 2,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(12)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.settings),
+                          Icon(Icons.settings,
+                              color: Theme.of(context).colorScheme.onPrimary),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('settings')),
+                          Text(
+                            AppLocalizations.of(context).t('settings'),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary),
+                          ),
                         ],
                       )),
                 ),
                 const SizedBox(width: 20),
                 Expanded(
                   flex: 1,
-                  child: FilledButton(
+                  child: NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -595,12 +639,25 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
+                      style: NeumorphicStyle(
+                        color: NeumorphicTheme.accentColor(context),
+                        depth: 2,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(12)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.person_pin),
+                          Icon(Icons.person_pin,
+                              color: Theme.of(context).colorScheme.onPrimary),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('capture')),
+                          Text(
+                            AppLocalizations.of(context).t('capture'),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary),
+                          ),
                         ],
                       )),
                 ),
@@ -612,7 +669,7 @@ class MyHomePageState extends State<MyHomePage> {
             Row(
               children: <Widget>[
                 Expanded(
-                  child: FilledButton(
+                  child: NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -622,12 +679,25 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
+                      style: NeumorphicStyle(
+                        color: NeumorphicTheme.accentColor(context),
+                        depth: 2,
+                        boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(12)),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.list),
+                          Icon(Icons.list,
+                              color: Theme.of(context).colorScheme.onPrimary),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('logs')),
+                          Text(
+                            AppLocalizations.of(context).t('logs'),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary),
+                          ),
                         ],
                       )),
                 ),

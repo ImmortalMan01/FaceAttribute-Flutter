@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'main.dart';
 import 'localization.dart';
 import 'about.dart';
@@ -112,14 +111,13 @@ class SettingsPageState extends State<SettingsPage> {
       _selectedTheme = 2;
     });
 
-    Fluttertoast.showToast(
-        msg: AppLocalizations.of(context).t('restoreDefaults'),
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppLocalizations.of(context).t('restoreDefaults'),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onErrorContainer)),
+      backgroundColor: Theme.of(context).colorScheme.errorContainer,
+      duration: const Duration(seconds: 1),
+    ));
   }
 
   Future<void> updateLivenessLevel(value) async {

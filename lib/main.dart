@@ -10,7 +10,6 @@ import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'dart:io' show Platform;
 import 'about.dart';
 import 'settings.dart';
@@ -91,23 +90,6 @@ class _MyAppState extends State<MyApp> {
       background: const Color(0xFF141218),
     );
 
-    final neumorphicLightTheme = NeumorphicThemeData(
-      baseColor: const Color(0xFFF2F4F8),
-      accentColor: const Color(0xFFA7C7E7),
-      variantColor: const Color(0xFFE0C3FC),
-      depth: 4,
-      intensity: 0.8,
-      lightSource: LightSource.topLeft,
-    );
-
-    final neumorphicDarkTheme = NeumorphicThemeData(
-      baseColor: const Color(0xFF222532),
-      accentColor: const Color(0xFF8AA1D2),
-      variantColor: const Color(0xFF775BAE),
-      depth: 4,
-      intensity: 0.6,
-      lightSource: LightSource.topLeft,
-    );
 
     return AdaptiveTheme(
       light: ThemeData(
@@ -124,7 +106,7 @@ class _MyAppState extends State<MyApp> {
       ),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => Builder(
-            builder: (context) => NeumorphicApp(
+            builder: (context) => MaterialApp(
                 locale: _locale,
                 supportedLocales: AppLocalizations.supportedLocales,
                 localizationsDelegates: const [
@@ -134,10 +116,8 @@ class _MyAppState extends State<MyApp> {
                   GlobalCupertinoLocalizations.delegate,
                 ],
                 title: AppLocalizations(_locale).t('appTitle'),
-                materialTheme: theme,
-                materialDarkTheme: darkTheme,
-                theme: neumorphicLightTheme,
-                darkTheme: neumorphicDarkTheme,
+                theme: theme,
+                darkTheme: darkTheme,
                 themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
                     ? ThemeMode.dark
                     : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
@@ -511,12 +491,9 @@ class MyHomePageState extends State<MyHomePage> {
         margin: const EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
           children: <Widget>[
-            Neumorphic(
-                style: NeumorphicStyle(
-                    boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-                    depth: 2,
-                    shape: NeumorphicShape.flat,
-                    color: NeumorphicTheme.baseColor(context)),
+            Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: ListTile(
@@ -537,30 +514,23 @@ class MyHomePageState extends State<MyHomePage> {
                 mainAxisSpacing: 8,
                 childAspectRatio: 3.5,
                 children: [
-                  NeumorphicButton(
+                  FilledButton.icon(
                       onPressed: enrollPerson,
-                      style: NeumorphicStyle(
-                        color: NeumorphicTheme.accentColor(context),
-                        depth: 2,
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(12)),
+                      style: FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.person_add,
-                              color: Theme.of(context).colorScheme.onPrimary),
-                          const SizedBox(width: 8),
-                          Text(
-                            AppLocalizations.of(context).t('enroll'),
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary),
-                          ),
-                        ],
+                      icon: Icon(Icons.person_add,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                      label: Text(
+                        AppLocalizations.of(context).t('enroll'),
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onPrimary),
                       )),
-                  NeumorphicButton(
+                  FilledButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -571,28 +541,21 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
-                      style: NeumorphicStyle(
-                        color: NeumorphicTheme.accentColor(context),
-                        depth: 2,
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(12)),
+                      style: FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.person_search,
-                              color: Theme.of(context).colorScheme.onPrimary),
-                          const SizedBox(width: 8),
-                          Text(
-                            AppLocalizations.of(context).t('identify'),
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary),
-                          ),
-                        ],
+                      icon: Icon(Icons.person_search,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                      label: Text(
+                        AppLocalizations.of(context).t('identify'),
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).colorScheme.onPrimary),
                       )),
-                  NeumorphicButton(
+                  FilledButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -602,28 +565,20 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
-                      style: NeumorphicStyle(
-                        color: NeumorphicTheme.accentColor(context),
-                        depth: 2,
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(12)),
+                      style: FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.settings,
-                              color: Theme.of(context).colorScheme.onPrimary),
-                          const SizedBox(width: 8),
-                          Text(
-                            AppLocalizations.of(context).t('settings'),
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary),
-                          ),
-                        ],
+                      icon: Icon(Icons.settings,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                      label: Text(
+                        AppLocalizations.of(context).t('settings'),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
                       )),
-                  NeumorphicButton(
+                  FilledButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -634,28 +589,20 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
-                      style: NeumorphicStyle(
-                        color: NeumorphicTheme.accentColor(context),
-                        depth: 2,
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(12)),
+                      style: FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.person_pin,
-                              color: Theme.of(context).colorScheme.onPrimary),
-                          const SizedBox(width: 8),
-                          Text(
-                            AppLocalizations.of(context).t('capture'),
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary),
-                          ),
-                        ],
+                      icon: Icon(Icons.person_pin,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                      label: Text(
+                        AppLocalizations.of(context).t('capture'),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
                       )),
-                  NeumorphicButton(
+                  FilledButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -665,26 +612,18 @@ class MyHomePageState extends State<MyHomePage> {
                                   )),
                         );
                       },
-                      style: NeumorphicStyle(
-                        color: NeumorphicTheme.accentColor(context),
-                        depth: 2,
-                        boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(12)),
+                      style: FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.primary,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.list,
-                              color: Theme.of(context).colorScheme.onPrimary),
-                          const SizedBox(width: 8),
-                          Text(
-                            AppLocalizations.of(context).t('logs'),
-                            style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onPrimary),
-                          ),
-                        ],
+                      icon: Icon(Icons.list,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                      label: Text(
+                        AppLocalizations.of(context).t('logs'),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.onPrimary),
                       )),
                 ],
               ),

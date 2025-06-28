@@ -11,6 +11,7 @@ import 'logger.dart';
 import 'person.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
+import 'relay_service.dart';
 
 // ignore: must_be_immutable
 class FaceRecognitionView extends StatefulWidget {
@@ -43,6 +44,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
   // ignore: prefer_typing_uninitialized_variables
   var _enrolledFace;
   final _facesdkPlugin = FacesdkPlugin();
+  final RelayService _relayService = RelayService();
   FaceDetectionViewController? faceDetectionViewController;
 
   @override
@@ -166,6 +168,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
             time: DateTime.now().toIso8601String(),
             age: _estimateAgeGender ? maxAge : -1,
             gender: _estimateAgeGender ? maxGender : -1));
+        unawaited(_relayService.sendRelay(1, true));
         faceDetectionViewController?.stopCamera();
         setState(() {
           _faces = null;

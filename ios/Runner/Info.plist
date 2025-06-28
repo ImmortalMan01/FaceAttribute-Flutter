@@ -28,8 +28,10 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>camera usage</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>photo library usage</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>photo library usage</string>
+        <key>NSBluetoothAlwaysUsageDescription</key>
+        <string>Required to control BLE relay device</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

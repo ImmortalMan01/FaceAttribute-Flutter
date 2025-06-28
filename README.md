@@ -181,4 +181,7 @@ This file contains the necessary code for implementing the camera screen and per
 
 ### Adaptive Theme
 This project now supports light and dark themes using the `adaptive_theme` package. You can switch themes from the settings page.
+
+### BLE Relay Example
+The app demonstrates how to trigger a BLE relay when a face is successfully recognized. A `RelayService` class uses the `flutter_blue_plus` plugin to connect to modules like **BT37E04** and sends the command `A0 [relay] [state] [checksum]`.
   

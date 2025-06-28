@@ -139,12 +139,12 @@ To run this repo successfully, license should be required based on each `applica
     ...
     await _facesdkPlugin
             .setActivation(
-                "Os8QQO1k4+7MpzJ00bVHLv3UENK8YEB04ohoJsU29wwW1u4fBzrpF6MYoqxpxXw9m5LGd0fKsuiK"
-                "fETuwulmSR/gzdSndn8M/XrEMXnOtUs1W+XmB1SfKlNUkjUApax82KztTASiMsRyJ635xj8C6oE1"
-                "gzCe9fN0CT1ysqCQuD3fA66HPZ/Dhpae2GdKIZtZVOK8mXzuWvhnNOPb1lRLg4K1IL95djy0PKTh"
-                "BNPKNpI6nfDMnzcbpw0612xwHO3YKKvR7B9iqRbalL0jLblDsmnOqV7u1glLvAfSCL7F5G1grwxL"
-                "Yo1VrNPVGDWA/Qj6Z2tPC0ENQaB4u/vXAS0ipg==")
-            .then((value) => facepluginState = value ?? -1);  
+                "jmmEAcBHenipyeBgRVbnncSD905Yqv5ooWGF6OIBaJVbHveX9cxtLFSOFK6lM0530bHYEKeq4lax"
+                "AotSJ08XN19t9YgBlAK3DX556BhAdjLK0cNrqp4xgV0szHh8UL1TbGGoIRQsq7cRDJHH/oqVLh1+"
+                "Lo64nz7HMPqicL0YgEPlIfcOm+SAhj6hPXsav0F87V88YyWDlmlaw07PROXkjI2YlHhyfQ+ANXhx"
+                "3aAqVfDi+SO0xwa9W405IfQ0t7hThWc/MxilEgr2+LNEOM/NnWmUOvbVKsK9RokUWyY2bDJjiJ9B"
+                "GmhjIqDnNTbHTONh6ZNcWpZBbYt3jmSWXls7Mg==")
+            .then((value) => facepluginState = value ?? -1);
   ```
   - Initialize the `FacesdkPlugin`:
   ```dart

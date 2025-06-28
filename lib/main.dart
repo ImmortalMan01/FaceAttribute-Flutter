@@ -137,6 +137,17 @@ class MyHomePageState extends State<MyHomePage> {
 
   final _facesdkPlugin = FacesdkPlugin();
 
+  NeumorphicStyle _buttonStyle(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return NeumorphicStyle(
+        shape: NeumorphicShape.flat,
+        boxShape: const NeumorphicBoxShape.stadium(),
+        color: scheme.primaryContainer,
+        depth: isDark ? 1 : 2,
+        intensity: 0.8);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -501,17 +512,21 @@ class MyHomePageState extends State<MyHomePage> {
                   flex: 1,
                   child: NeumorphicButton(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      style: const NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape:
-                              NeumorphicBoxShape.stadium()),
+                      style: _buttonStyle(context),
                       onPressed: enrollPerson,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.person_add),
+                          Icon(Icons.person_add,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('enroll')),
+                          Text(AppLocalizations.of(context).t('enroll'),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer)),
                         ],
                       )),
                 ),
@@ -520,10 +535,7 @@ class MyHomePageState extends State<MyHomePage> {
                   flex: 1,
                   child: NeumorphicButton(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      style: const NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape:
-                              NeumorphicBoxShape.stadium()),
+                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -537,9 +549,16 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.person_search),
+                          Icon(Icons.person_search,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('identify')),
+                          Text(AppLocalizations.of(context).t('identify'),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer)),
                         ],
                       )),
                 ),
@@ -552,10 +571,7 @@ class MyHomePageState extends State<MyHomePage> {
                   flex: 1,
                   child: NeumorphicButton(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      style: const NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape:
-                              NeumorphicBoxShape.stadium()),
+                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -568,9 +584,16 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.settings),
+                          Icon(Icons.settings,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('settings')),
+                          Text(AppLocalizations.of(context).t('settings'),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer)),
                         ],
                       )),
                 ),
@@ -579,10 +602,7 @@ class MyHomePageState extends State<MyHomePage> {
                   flex: 1,
                   child: NeumorphicButton(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      style: const NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape:
-                              NeumorphicBoxShape.stadium()),
+                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -596,9 +616,16 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.person_pin),
+                          Icon(Icons.person_pin,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('capture')),
+                          Text(AppLocalizations.of(context).t('capture'),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer)),
                         ],
                       )),
                 ),
@@ -612,10 +639,7 @@ class MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   child: NeumorphicButton(
                       padding: const EdgeInsets.symmetric(vertical: 12),
-                      style: const NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape:
-                              NeumorphicBoxShape.stadium()),
+                      style: _buttonStyle(context),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -628,9 +652,16 @@ class MyHomePageState extends State<MyHomePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.list),
+                          Icon(Icons.list,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimaryContainer),
                           const SizedBox(width: 8),
-                          Text(AppLocalizations.of(context).t('logs')),
+                          Text(AppLocalizations.of(context).t('logs'),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimaryContainer)),
                         ],
                       )),
                 ),

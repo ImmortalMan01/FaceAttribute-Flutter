@@ -530,11 +530,14 @@ class MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 6,
             ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: NeumorphicButton(
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 8,
+                childAspectRatio: 3.5,
+                children: [
+                  NeumorphicButton(
                       onPressed: enrollPerson,
                       style: NeumorphicStyle(
                         color: NeumorphicTheme.accentColor(context),
@@ -557,11 +560,7 @@ class MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  flex: 1,
-                  child: NeumorphicButton(
+                  NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -593,15 +592,7 @@ class MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )),
-                ),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: NeumorphicButton(
+                  NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -632,11 +623,7 @@ class MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  flex: 1,
-                  child: NeumorphicButton(
+                  NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -668,16 +655,7 @@ class MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: NeumorphicButton(
+                  NeumorphicButton(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -708,8 +686,8 @@ class MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       )),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(
               height: 8,

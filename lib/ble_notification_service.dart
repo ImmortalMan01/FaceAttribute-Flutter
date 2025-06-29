@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_ble_peripheral/flutter_ble_peripheral.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class BleNotificationService {
   BleNotificationService._internal();
@@ -14,7 +15,18 @@ class BleNotificationService {
 
   Stream<String> get messages => _messages.stream;
 
+  Future<bool> _requestPermissions() async {
+    final statuses = await [
+      Permission.bluetoothScan,
+      Permission.bluetoothAdvertise,
+      Permission.bluetoothConnect,
+      Permission.locationWhenInUse,
+    ].request();
+    return statuses.values.every((status) => status.isGranted);
+  }
+
   Future<void> startScanning() async {
+    if (!await _requestPermissions()) return;
     await _scanSubscription?.cancel();
     _scanSubscription = FlutterBluePlus.scanResults.listen((results) {
       for (final r in results) {
@@ -39,6 +51,7 @@ class BleNotificationService {
   }
 
   Future<void> broadcastName(String name, {Duration duration = const Duration(seconds: 5)}) async {
+    if (!await _requestPermissions()) return;
     final data = AdvertiseData(
       includeDeviceName: true,
       localName: 'face:$name',

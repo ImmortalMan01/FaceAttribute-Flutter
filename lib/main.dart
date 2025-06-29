@@ -635,7 +635,9 @@ class MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary),
                       )),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(

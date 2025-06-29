@@ -625,10 +625,11 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
                         ),
                       ]),
                 )),
-          ],
+              ]);
+            }),
+          ),
         ),
-      ),
-      )
+      );
     ); // Close WillPopScope
   }
 }

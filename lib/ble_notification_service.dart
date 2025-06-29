@@ -29,7 +29,10 @@ class BleNotificationService {
         }
       }
     });
-    await FlutterBluePlus.startScan(timeout: const Duration(seconds: 0));
+    await FlutterBluePlus.startScan(
+      timeout: const Duration(seconds: 0),
+      androidUsesFineLocation: true,
+    );
   }
 
   Future<void> stopScanning() async {

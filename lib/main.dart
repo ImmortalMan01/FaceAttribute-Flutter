@@ -566,26 +566,7 @@ class MyHomePageState extends State<MyHomePage> {
                 TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      FilledButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LogView(logList: logList)),
-            );
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon: Icon(Icons.list, color: Theme.of(context).colorScheme.onPrimary),
-          label: Text(
-            AppLocalizations.of(context).t('logs'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-          ),
-        ),
+      // Removed logs button for simplified layout
     ];
   }
 
@@ -627,23 +608,36 @@ class MyHomePageState extends State<MyHomePage> {
                 builder: (context, orientation) {
                   final actions = _buildActionButtons();
                   if (orientation == Orientation.portrait) {
-                    return ListView.separated(
-                      itemCount: actions.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 8),
-                      itemBuilder: (context, index) => actions[index],
-                    );
-                  } else {
                     return GridView.builder(
                       itemCount: actions.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
+                        crossAxisCount: 2,
                         crossAxisSpacing: 12,
-                        mainAxisSpacing: 8,
-                        childAspectRatio: 3.0,
+                        mainAxisSpacing: 12,
+                        childAspectRatio: 1.4,
                       ),
-                      itemBuilder: (context, index) => actions[index],
+                      itemBuilder: (context, index) => ConstrainedBox(
+                        constraints:
+                            const BoxConstraints(minWidth: 120, maxWidth: 200),
+                        child: actions[index],
+                      ),
+                    );
+                  } else {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: actions
+                          .map((w) => Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  child: ConstrainedBox(
+                                    constraints: const BoxConstraints(
+                                        minWidth: 120, maxWidth: 200),
+                                    child: w,
+                                  ),
+                                ),
+                              ))
+                          .toList(),
                     );
                   }
                 },

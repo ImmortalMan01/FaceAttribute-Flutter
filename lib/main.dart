@@ -626,26 +626,30 @@ class MyHomePageState extends State<MyHomePage> {
               child: OrientationBuilder(
                 builder: (context, orientation) {
                   final actions = _buildActionButtons();
-                  if (orientation == Orientation.portrait) {
+                  final isPortrait = orientation == Orientation.portrait;
+
+                  if (isPortrait) {
+                    // Use a ListView in portrait mode for vertical layout
                     return ListView.separated(
                       itemCount: actions.length,
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 8),
                       itemBuilder: (context, index) => actions[index],
                     );
-                  } else {
-                    return GridView.builder(
-                      itemCount: actions.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 8,
-                        childAspectRatio: 3.0,
-                      ),
-                      itemBuilder: (context, index) => actions[index],
-                    );
                   }
+
+                  // Keep GridView layout for landscape mode
+                  return GridView.builder(
+                    itemCount: actions.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: 3.0,
+                    ),
+                    itemBuilder: (context, index) => actions[index],
+                  );
                 },
               ),
             ),

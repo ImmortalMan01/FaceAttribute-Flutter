@@ -482,11 +482,9 @@ class MyHomePageState extends State<MyHomePage> {
     } catch (e) {}
   }
 
-  List<Widget> _buildActionButtons(double width) {
+  List<Widget> _buildActionButtons() {
     return [
-      SizedBox(
-        width: width,
-        child: FilledButton.icon(
+      FilledButton.icon(
           onPressed: enrollPerson,
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
@@ -501,10 +499,7 @@ class MyHomePageState extends State<MyHomePage> {
                 TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      ),
-      SizedBox(
-        width: width,
-        child: FilledButton.icon(
+      FilledButton.icon(
           onPressed: () {
             Navigator.push(
               context,
@@ -526,10 +521,7 @@ class MyHomePageState extends State<MyHomePage> {
                 TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      ),
-      SizedBox(
-        width: width,
-        child: FilledButton.icon(
+      FilledButton.icon(
           onPressed: () {
             Navigator.push(
               context,
@@ -550,10 +542,7 @@ class MyHomePageState extends State<MyHomePage> {
                 TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      ),
-      SizedBox(
-        width: width,
-        child: FilledButton.icon(
+      FilledButton.icon(
           onPressed: () {
             Navigator.push(
               context,
@@ -577,10 +566,7 @@ class MyHomePageState extends State<MyHomePage> {
                 TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      ),
-      SizedBox(
-        width: width,
-        child: FilledButton.icon(
+      FilledButton.icon(
           onPressed: () {
             Navigator.push(
               context,
@@ -600,7 +586,6 @@ class MyHomePageState extends State<MyHomePage> {
                 TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      ),
     ];
   }
 
@@ -640,18 +625,13 @@ class MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: OrientationBuilder(
                 builder: (context, orientation) {
-                  return LayoutBuilder(
-                    builder: (context, constraints) {
-                      final count = orientation == Orientation.portrait ? 2 : 4;
-                      final buttonWidth =
-                          (constraints.maxWidth - (count - 1) * 12) / count;
-                      return Wrap(
-                        spacing: 12,
-                        runSpacing: 8,
-                        alignment: WrapAlignment.center,
-                        children: _buildActionButtons(buttonWidth),
-                      );
-                    },
+                  final count = orientation == Orientation.portrait ? 2 : 4;
+                  return GridView.count(
+                    crossAxisCount: count,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 3,
+                    children: _buildActionButtons(),
                   );
                 },
               ),

@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
     <application
-        android:label="facerecognition_flutter"
+        android:label="Luna Yüz Tanıma"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

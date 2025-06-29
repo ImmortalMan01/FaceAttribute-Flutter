@@ -508,12 +508,14 @@ class MyHomePageState extends State<MyHomePage> {
               height: 6,
             ),
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 8,
-                childAspectRatio: 3.5,
-                children: [
+              child: OrientationBuilder(
+                builder: (context, orientation) {
+                  return GridView.count(
+                    crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
+                    crossAxisSpacing: 20,
+                    mainAxisSpacing: 8,
+                    childAspectRatio: 3.5,
+                    children: [
                   FilledButton.icon(
                       onPressed: enrollPerson,
                       style: FilledButton.styleFrom(

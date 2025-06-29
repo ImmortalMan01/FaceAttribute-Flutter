@@ -107,7 +107,9 @@ To run this repo successfully, license should be required based on each `applica
   flutter clean
   flutter pub get
   flutter run
-  ```  
+  ```
+  The Android build now locks the interface to portrait orientation to prevent
+  layout issues when holding the device vertically.
   If you plan to run the iOS app, please refer to the following [link](https://docs.flutter.dev/deployment/ios) for detailed instructions.</br>
 ## About SDK
 ### 1. Setup

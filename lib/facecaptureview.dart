@@ -565,8 +565,8 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 400,
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.4,
                         ),
                         Row(
                           children: [

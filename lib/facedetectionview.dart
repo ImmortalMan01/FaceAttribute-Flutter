@@ -183,6 +183,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
 
   @override
   Widget build(BuildContext context) {
+    final double imageSize =
+        MediaQuery.of(context).size.shortestSide * 0.3;
     return WillPopScope(
       onWillPop: () async {
         faceDetectionViewController?.stopCamera();
@@ -229,8 +231,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                                             BorderRadius.circular(8.0),
                                         child: Image.memory(
                                           _enrolledFace,
-                                          width: 160,
-                                          height: 160,
+                                          width: imageSize,
+                                          height: imageSize,
                                         ),
                                       ),
                                       const SizedBox(
@@ -250,8 +252,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                                             BorderRadius.circular(8.0),
                                         child: Image.memory(
                                           _identifiedFace,
-                                          width: 160,
-                                          height: 160,
+                                          width: imageSize,
+                                          height: imageSize,
                                         ),
                                       ),
                                       const SizedBox(

@@ -83,14 +83,14 @@ class _MyAppState extends State<MyApp> {
         shape: const StadiumBorder(),
       ),
     );
-    final darkScheme = ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.dark,
-    ).copyWith(
-      surface: const Color(0xFF1E1B24),
-      background: const Color(0xFF141218),
-    );
-
+    final darkScheme =
+        ColorScheme.fromSeed(
+          seedColor: seedColor,
+          brightness: Brightness.dark,
+        ).copyWith(
+          surface: const Color(0xFF1E1B24),
+          background: const Color(0xFF141218),
+        );
 
     return AdaptiveTheme(
       light: ThemeData(
@@ -107,25 +107,26 @@ class _MyAppState extends State<MyApp> {
       ),
       initial: widget.savedThemeMode ?? AdaptiveThemeMode.system,
       builder: (theme, darkTheme) => Builder(
-            builder: (context) => MaterialApp(
-                locale: _locale,
-                supportedLocales: AppLocalizations.supportedLocales,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                title: AppLocalizations(_locale).t('appTitle'),
-                theme: theme,
-                darkTheme: darkTheme,
-                themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
-                    ? ThemeMode.dark
-                    : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
-                        ? ThemeMode.light
-                        : ThemeMode.system,
-                home:
-                    MyHomePage(title: AppLocalizations(_locale).t('appTitle')))),
+        builder: (context) => MaterialApp(
+          locale: _locale,
+          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          title: AppLocalizations(_locale).t('appTitle'),
+          theme: theme,
+          darkTheme: darkTheme,
+          themeMode: AdaptiveTheme.of(context).mode == AdaptiveThemeMode.dark
+              ? ThemeMode.dark
+              : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
+              ? ThemeMode.light
+              : ThemeMode.system,
+          home: MyHomePage(title: AppLocalizations(_locale).t('appTitle')),
+        ),
+      ),
     );
   }
 }
@@ -150,16 +151,15 @@ class MyHomePageState extends State<MyHomePage> {
 
   final _facesdkPlugin = FacesdkPlugin();
 
-
   @override
   void initState() {
     super.initState();
     BleNotificationService.instance.startScanning();
     BleNotificationService.instance.messages.listen((name) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('$name yüzü okundu')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('$name yüzü okundu')));
     });
     // Delay heavy initialization until after the first frame so that
     // the UI can render without blocking on native plugin calls.
@@ -186,27 +186,29 @@ class MyHomePageState extends State<MyHomePage> {
     try {
       if (!Platform.isAndroid && !Platform.isIOS) {
         setState(() {
-          _warningState =
-              AppLocalizations.of(context).t('unsupportedPlatform');
+          _warningState = AppLocalizations.of(context).t('unsupportedPlatform');
           _visibleWarning = true;
         });
         return;
       } else if (Platform.isAndroid) {
         await _facesdkPlugin
             .setActivation(
-                "jmmEAcBHenipyeBgRVbnncSD905Yqv5ooWGF6OIBaJVbHveX9cxtLFSOFK6lM0530bHYEKeq4lax"
-                "AotSJ08XN19t9YgBlAK3DX556BhAdjLK0cNrqp4xgV0szHh8UL1TbGGoIRQsq7cRDJHH/oqVLh1+"
-                "Lo64nz7HMPqicL0YgEPlIfcOm+SAhj6hPXsav0F87V88YyWDlmlaw07PROXkjI2YlHhyfQ+ANXhx"
-                "3aAqVfDi+SO0xwa9W405IfQ0t7hThWc/MxilEgr2+LNEOM/NnWmUOvbVKsK9RokUWyY2bDJjiJ9B"
-                "GmhjIqDnNTbHTONh6ZNcWpZBbYt3jmSWXls7Mg==")
+              "jmmEAcBHenipyeBgRVbnncSD905Yqv5ooWGF6OIBaJVbHveX9cxtLFSOFK6lM0530bHYEKeq4lax"
+              "AotSJ08XN19t9YgBlAK3DX556BhAdjLK0cNrqp4xgV0szHh8UL1TbGGoIRQsq7cRDJHH/oqVLh1+"
+              "Lo64nz7HMPqicL0YgEPlIfcOm+SAhj6hPXsav0F87V88YyWDlmlaw07PROXkjI2YlHhyfQ+ANXhx"
+              "3aAqVfDi+SO0xwa9W405IfQ0t7hThWc/MxilEgr2+LNEOM/NnWmUOvbVKsK9RokUWyY2bDJjiJ9B"
+              "GmhjIqDnNTbHTONh6ZNcWpZBbYt3jmSWXls7Mg==",
+            )
             .then((value) => facepluginState = value ?? -1);
       } else if (Platform.isIOS) {
-        facepluginState = await _facesdkPlugin.setActivation(
-            "mCl744lTkL7Dz3MZr2/oCwS0H5g9L8Fl6IiB/2EZ8Gz37x9rP8rnW/E1FKauvJdAEly2v6jiESZa"
-            "p1OT99zvcvlZ9uI0COOrDVg9e1ytM4/6AJru4i5iSybtW3P7rRkGycFikDBxRzPytTJRuqLQuQ9r"
-            "XbiiBfcN/kvgEXpY3o1r7mAQbB9wpSdrL+xeXhl86mTTo7BAoyzphfYdVd6n0l3suZSiMYMpt9t7"
-            "U5AU3CaiJW7iTbibVXjp9F60D32M4/LRlontvqJfK8s2PqI5w3Eam0ElXxfP5aQTXuh0aZ/XMp7g"
-            "NrR7GECzigNCg/vameeobUPkVd9OFk+lgQpVeg==") ??
+        facepluginState =
+            await _facesdkPlugin.setActivation(
+              "mCl744lTkL7Dz3MZr2/oCwS0H5g9L8Fl6IiB/2EZ8Gz37x9rP8rnW/E1FKauvJdAEly2v6jiESZa"
+              "p1OT99zvcvlZ9uI0COOrDVg9e1ytM4/6AJru4i5iSybtW3P7rRkGycFikDBxRzPytTJRuqLQuQ9r"
+              "XbiiBfcN/kvgEXpY3o1r7mAQbB9wpSdrL+xeXhl86mTTo7BAoyzphfYdVd6n0l3suZSiMYMpt9t7"
+              "U5AU3CaiJW7iTbibVXjp9F60D32M4/LRlontvqJfK8s2PqI5w3Eam0ElXxfP5aQTXuh0aZ/XMp7g"
+              "NrR7GECzigNCg/vameeobUPkVd9OFk+lgQpVeg==",
+            ) ??
             -1;
       }
 
@@ -227,7 +229,7 @@ class MyHomePageState extends State<MyHomePage> {
         'check_eye_closeness': true,
         'check_face_occlusion': true,
         'check_mouth_opened': true,
-        'estimate_age_gender': estimateAgeGender ?? true
+        'estimate_age_gender': estimateAgeGender ?? true,
       });
     } catch (e) {
       warningState = e.toString();
@@ -289,7 +291,8 @@ class MyHomePageState extends State<MyHomePage> {
       p.join(await getDatabasesPath(), 'log.db'),
       onCreate: (db, version) {
         return db.execute(
-            'CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text, age INTEGER, gender INTEGER)');
+          'CREATE TABLE log(id INTEGER PRIMARY KEY AUTOINCREMENT, name text, time text, age INTEGER, gender INTEGER)',
+        );
       },
       version: 1,
     );
@@ -314,8 +317,10 @@ class MyHomePageState extends State<MyHomePage> {
   Future<List<RecognitionLog>> loadAllLogs() async {
     final db = await createLogDB();
 
-    final List<Map<String, dynamic>> maps =
-        await db.query('log', orderBy: 'id DESC');
+    final List<Map<String, dynamic>> maps = await db.query(
+      'log',
+      orderBy: 'id DESC',
+    );
 
     return List.generate(maps.length, (i) {
       return RecognitionLog.fromMap(maps[i]);
@@ -325,8 +330,11 @@ class MyHomePageState extends State<MyHomePage> {
   Future<void> insertLog(RecognitionLog log) async {
     final db = await createLogDB();
 
-    await db.insert('log', log.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(
+      'log',
+      log.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
 
     setState(() {
       logList.insert(0, log);
@@ -360,55 +368,78 @@ class MyHomePageState extends State<MyHomePage> {
       personList.clear();
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppLocalizations.of(context).t('allPersonDeleted'),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context).t('allPersonDeleted'),
           style: TextStyle(
-              color: Theme.of(context).colorScheme.onErrorContainer)),
-      backgroundColor: Theme.of(context).colorScheme.errorContainer,
-      duration: const Duration(seconds: 1),
-    ));
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        duration: const Duration(seconds: 1),
+      ),
+    );
   }
 
   Future<void> deletePerson(index) async {
     // ignore: invalid_use_of_protected_member
 
     final db = await createDB();
-    await db.delete('person',
-        where: 'name=?', whereArgs: [personList[index].name]);
+    await db.delete(
+      'person',
+      where: 'name=?',
+      whereArgs: [personList[index].name],
+    );
 
     // ignore: invalid_use_of_protected_member
     setState(() {
       personList.removeAt(index);
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppLocalizations.of(context).t('personRemoved'),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context).t('personRemoved'),
           style: TextStyle(
-              color: Theme.of(context).colorScheme.onErrorContainer)),
-      backgroundColor: Theme.of(context).colorScheme.errorContainer,
-      duration: const Duration(seconds: 1),
-    ));
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        duration: const Duration(seconds: 1),
+      ),
+    );
   }
 
   Future<void> updatePersonName(int index, String newName) async {
     final db = await createDB();
-    await db.update('person', {'name': newName},
-        where: 'name=?', whereArgs: [personList[index].name]);
+    await db.update(
+      'person',
+      {'name': newName},
+      where: 'name=?',
+      whereArgs: [personList[index].name],
+    );
 
     setState(() {
       personList[index] = Person(
-          name: newName,
-          faceJpg: personList[index].faceJpg,
-          templates: personList[index].templates);
+        name: newName,
+        faceJpg: personList[index].faceJpg,
+        templates: personList[index].templates,
+      );
     });
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(AppLocalizations.of(context).t('personRenamed'),
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context).t('personRenamed'),
           style: TextStyle(
-              color: Theme.of(context).colorScheme.onErrorContainer)),
-      backgroundColor: Theme.of(context).colorScheme.errorContainer,
-      duration: const Duration(seconds: 1),
-    ));
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        duration: const Duration(seconds: 1),
+      ),
+    );
   }
 
   Future<String?> requestPersonName() async {
@@ -422,10 +453,7 @@ class MyHomePageState extends State<MyHomePage> {
       builder: (context) {
         return AlertDialog(
           title: Text(AppLocalizations.of(context).t('enterName')),
-          content: TextField(
-            controller: controller,
-            autofocus: true,
-          ),
+          content: TextField(controller: controller, autofocus: true),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -434,7 +462,7 @@ class MyHomePageState extends State<MyHomePage> {
             TextButton(
               onPressed: () => Navigator.pop(context, controller.text),
               child: Text(AppLocalizations.of(context).t('ok')),
-            )
+            ),
           ],
         );
       },
@@ -446,8 +474,9 @@ class MyHomePageState extends State<MyHomePage> {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
-      var rotatedImage =
-          await FlutterExifRotation.rotateImage(path: image.path);
+      var rotatedImage = await FlutterExifRotation.rotateImage(
+        path: image.path,
+      );
 
       final faces = await _facesdkPlugin.extractFaces(rotatedImage.path);
       for (var face in faces) {
@@ -456,28 +485,39 @@ class MyHomePageState extends State<MyHomePage> {
           continue;
         }
         Person person = Person(
-            name: name,
-            faceJpg: face['faceJpg'],
-            templates: face['templates']);
+          name: name,
+          faceJpg: face['faceJpg'],
+          templates: face['templates'],
+        );
         insertPerson(person);
       }
 
       if (faces.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context).t('noFaceDetected'),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context).t('noFaceDetected'),
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.onErrorContainer)),
-          backgroundColor: Theme.of(context).colorScheme.errorContainer,
-          duration: const Duration(seconds: 1),
-        ));
+                color: Theme.of(context).colorScheme.onErrorContainer,
+              ),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.errorContainer,
+            duration: const Duration(seconds: 1),
+          ),
+        );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(AppLocalizations.of(context).t('personEnrolled'),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context).t('personEnrolled'),
               style: TextStyle(
-                  color: Theme.of(context).colorScheme.onErrorContainer)),
-          backgroundColor: Theme.of(context).colorScheme.errorContainer,
-          duration: const Duration(seconds: 1),
-        ));
+                color: Theme.of(context).colorScheme.onErrorContainer,
+              ),
+            ),
+            backgroundColor: Theme.of(context).colorScheme.errorContainer,
+            duration: const Duration(seconds: 1),
+          ),
+        );
       }
     } catch (e) {}
   }
@@ -485,111 +525,140 @@ class MyHomePageState extends State<MyHomePage> {
   List<Widget> _buildActionButtons() {
     return [
       FilledButton.icon(
-          onPressed: enrollPerson,
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon: Icon(Icons.person_add,
-              color: Theme.of(context).colorScheme.onPrimary),
-          label: Text(
-            AppLocalizations.of(context).t('enroll'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        onPressed: enrollPerson,
+        style: FilledButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
+        icon: Icon(
+          Icons.person_add,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        label: Text(
+          AppLocalizations.of(context).t('enroll'),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
       FilledButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      FaceRecognitionView(personList: personList, addLog: insertLog)),
-            );
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon: Icon(Icons.person_search,
-              color: Theme.of(context).colorScheme.onPrimary),
-          label: Text(
-            AppLocalizations.of(context).t('identify'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FaceRecognitionView(
+                personList: personList,
+                addLog: insertLog,
+              ),
+            ),
+          );
+        },
+        style: FilledButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
+        icon: Icon(
+          Icons.person_search,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        label: Text(
+          AppLocalizations.of(context).t('identify'),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
       FilledButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SettingsPage(homePageState: this)),
-            );
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon:
-              Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary),
-          label: Text(
-            AppLocalizations.of(context).t('settings'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SettingsPage(homePageState: this),
+            ),
+          );
+        },
+        style: FilledButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
+        icon: Icon(
+          Icons.settings,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        label: Text(
+          AppLocalizations.of(context).t('settings'),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
       FilledButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => FaceCaptureView(
-                        personList: personList,
-                        insertPerson: insertPerson,
-                      )),
-            );
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon:
-              Icon(Icons.person_pin, color: Theme.of(context).colorScheme.onPrimary),
-          label: Text(
-            AppLocalizations.of(context).t('capture'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FaceCaptureView(
+                personList: personList,
+                insertPerson: insertPerson,
+              ),
+            ),
+          );
+        },
+        style: FilledButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
-      // Removed logs button for simplified layout
+        icon: Icon(
+          Icons.person_pin,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        label: Text(
+          AppLocalizations.of(context).t('capture'),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
     ];
+  }
+
+  Widget _buildLogsButton() {
+    return FilledButton.icon(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => LogView(logList: logList)),
+        );
+      },
+      style: FilledButton.styleFrom(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+      icon: Icon(Icons.list, color: Theme.of(context).colorScheme.onPrimary),
+      label: Text(
+        AppLocalizations.of(context).t('logs'),
+        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     if (_initializing) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).t('appTitle')),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).t('appTitle'))),
       body: SafeArea(
         child: Container(
-        margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Column(
-          children: <Widget>[
-            Card(
+          margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Column(
+            children: <Widget>[
+              Card(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: ListTile(
@@ -599,102 +668,112 @@ class MyHomePageState extends State<MyHomePage> {
                       style: const TextStyle(fontSize: 13),
                     ),
                   ),
-                )),
-            const SizedBox(
-              height: 6,
-            ),
-            Expanded(
-              child: OrientationBuilder(
-                builder: (context, orientation) {
-                  final actions = _buildActionButtons();
-                  if (orientation == Orientation.portrait) {
-                    return GridView.builder(
-                      itemCount: actions.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 12,
-                        mainAxisSpacing: 12,
-                        childAspectRatio: 1.4,
-                      ),
-                      itemBuilder: (context, index) => ConstrainedBox(
-                        constraints:
-                            const BoxConstraints(minWidth: 120, maxWidth: 200),
-                        child: actions[index],
-                      ),
-                    );
-                  } else {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: actions
-                          .map((w) => Expanded(
+                ),
+              ),
+              const SizedBox(height: 6),
+              Expanded(
+                child: OrientationBuilder(
+                  builder: (context, orientation) {
+                    final actions = _buildActionButtons();
+                    if (orientation == Orientation.portrait) {
+                      return GridView.builder(
+                        itemCount: actions.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childAspectRatio: 1.4,
+                            ),
+                        itemBuilder: (context, index) => ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            minWidth: 120,
+                            maxWidth: 200,
+                          ),
+                          child: actions[index],
+                        ),
+                      );
+                    } else {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: actions
+                            .map(
+                              (w) => Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                  ),
                                   child: ConstrainedBox(
                                     constraints: const BoxConstraints(
-                                        minWidth: 120, maxWidth: 200),
+                                      minWidth: 120,
+                                      maxWidth: 200,
+                                    ),
                                     child: w,
                                   ),
                                 ),
-                              ))
-                          .toList(),
-                    );
-                  }
-                },
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Expanded(
-                child: Stack(
-              children: [
-                PersonView(
-                  personList: personList,
-                  homePageState: this,
+                              ),
+                            )
+                            .toList(),
+                      );
+                    }
+                  },
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Visibility(
-                        visible: _visibleWarning,
-                        child: Container(
-                          width: double.infinity,
-                          height: 40,
-                          color:
-                              Theme.of(context).colorScheme.errorContainer,
-                          child: Center(
-                            child: Text(
-                              _warningState,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
+              ),
+              const SizedBox(height: 8),
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    minWidth: 120,
+                    maxWidth: 200,
+                  ),
+                  child: _buildLogsButton(),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Expanded(
+                child: Stack(
+                  children: [
+                    PersonView(personList: personList, homePageState: this),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Visibility(
+                          visible: _visibleWarning,
+                          child: Container(
+                            width: double.infinity,
+                            height: 40,
+                            color: Theme.of(context).colorScheme.errorContainer,
+                            child: Center(
+                              child: Text(
+                                _warningState,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
                                   fontSize: 20,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onErrorContainer),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onErrorContainer,
+                                ),
+                              ),
                             ),
                           ),
-                        ))
+                        ),
+                      ],
+                    ),
                   ],
-                )
-              ],
-            )),
-            const SizedBox(
-              height: 4,
-            ),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage('assets/ic_kby.png'),
-                  height: 32,
                 ),
-              ],
-            ),
-            const SizedBox(height: 4),
-          ],
+              ),
+              const SizedBox(height: 4),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(image: AssetImage('assets/ic_kby.png'), height: 32),
+                ],
+              ),
+              const SizedBox(height: 4),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }

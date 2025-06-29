@@ -198,7 +198,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
         ),
         body: SafeArea(
           child: OrientationBuilder(builder: (context, orientation) {
-            final quarterTurns = orientation == Orientation.portrait ? 1 : 0;
+            // Remove rotation to support both portrait and landscape properly
+            const quarterTurns = 0;
             return Stack(children: <Widget>[
               RotatedBox(
                 quarterTurns: quarterTurns,

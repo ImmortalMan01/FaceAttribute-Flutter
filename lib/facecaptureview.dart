@@ -445,7 +445,8 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
         ),
         body: SafeArea(
           child: OrientationBuilder(builder: (context, orientation) {
-            final quarterTurns = orientation == Orientation.portrait ? 1 : 0;
+            // Remove rotation to properly handle both orientations
+            const quarterTurns = 0;
             return Stack(
             children: <Widget>[
               RotatedBox(

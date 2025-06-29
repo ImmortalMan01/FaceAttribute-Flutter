@@ -482,6 +482,128 @@ class MyHomePageState extends State<MyHomePage> {
     } catch (e) {}
   }
 
+  List<Widget> _buildActionButtons(double width) {
+    return [
+      SizedBox(
+        width: width,
+        child: FilledButton.icon(
+          onPressed: enrollPerson,
+          style: FilledButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          icon: Icon(Icons.person_add,
+              color: Theme.of(context).colorScheme.onPrimary),
+          label: Text(
+            AppLocalizations.of(context).t('enroll'),
+            style:
+                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: width,
+        child: FilledButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      FaceRecognitionView(personList: personList, addLog: insertLog)),
+            );
+          },
+          style: FilledButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          icon: Icon(Icons.person_search,
+              color: Theme.of(context).colorScheme.onPrimary),
+          label: Text(
+            AppLocalizations.of(context).t('identify'),
+            style:
+                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: width,
+        child: FilledButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SettingsPage(homePageState: this)),
+            );
+          },
+          style: FilledButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          icon:
+              Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary),
+          label: Text(
+            AppLocalizations.of(context).t('settings'),
+            style:
+                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: width,
+        child: FilledButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FaceCaptureView(
+                        personList: personList,
+                        insertPerson: insertPerson,
+                      )),
+            );
+          },
+          style: FilledButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          icon:
+              Icon(Icons.person_pin, color: Theme.of(context).colorScheme.onPrimary),
+          label: Text(
+            AppLocalizations.of(context).t('capture'),
+            style:
+                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: width,
+        child: FilledButton.icon(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => LogView(logList: logList)),
+            );
+          },
+          style: FilledButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          ),
+          icon: Icon(Icons.list, color: Theme.of(context).colorScheme.onPrimary),
+          label: Text(
+            AppLocalizations.of(context).t('logs'),
+            style:
+                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+          ),
+        ),
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_initializing) {
@@ -518,124 +640,18 @@ class MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: OrientationBuilder(
                 builder: (context, orientation) {
-                  return GridView.count(
-                    crossAxisCount: orientation == Orientation.portrait ? 2 : 4,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 3.5,
-                    children: [
-                  FilledButton.icon(
-                      onPressed: enrollPerson,
-                      style: FilledButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                      ),
-                      icon: Icon(Icons.person_add,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      label: Text(
-                        AppLocalizations.of(context).t('enroll'),
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onPrimary),
-                      )),
-                  FilledButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FaceRecognitionView(
-                                    personList: personList,
-                                    addLog: insertLog,
-                                  )),
-                        );
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                      ),
-                      icon: Icon(Icons.person_search,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      label: Text(
-                        AppLocalizations.of(context).t('identify'),
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onPrimary),
-                      )),
-                  FilledButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SettingsPage(
-                                    homePageState: this,
-                                  )),
-                        );
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                      ),
-                      icon: Icon(Icons.settings,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      label: Text(
-                        AppLocalizations.of(context).t('settings'),
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                      )),
-                  FilledButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FaceCaptureView(
-                                    personList: personList,
-                                    insertPerson: insertPerson,
-                                  )),
-                        );
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                      ),
-                      icon: Icon(Icons.person_pin,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      label: Text(
-                        AppLocalizations.of(context).t('capture'),
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                      )),
-                  FilledButton.icon(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LogView(
-                                    logList: logList,
-                                  )),
-                        );
-                      },
-                      style: FilledButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
-                      ),
-                      icon: Icon(Icons.list,
-                          color: Theme.of(context).colorScheme.onPrimary),
-                      label: Text(
-                        AppLocalizations.of(context).t('logs'),
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
-                      )),
-                    ],
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
+                      final count = orientation == Orientation.portrait ? 2 : 4;
+                      final buttonWidth =
+                          (constraints.maxWidth - (count - 1) * 12) / count;
+                      return Wrap(
+                        spacing: 12,
+                        runSpacing: 8,
+                        alignment: WrapAlignment.center,
+                        children: _buildActionButtons(buttonWidth),
+                      );
+                    },
                   );
                 },
               ),

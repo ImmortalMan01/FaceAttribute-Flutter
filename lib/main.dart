@@ -623,15 +623,30 @@ class MyHomePageState extends State<MyHomePage> {
               height: 6,
             ),
             Expanded(
-              child: OrientationBuilder(
-                builder: (context, orientation) {
-                  final count = orientation == Orientation.portrait ? 2 : 4;
-                  return GridView.count(
-                    crossAxisCount: count,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 3,
-                    children: _buildActionButtons(),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final bool isPortrait =
+                      constraints.maxWidth < constraints.maxHeight;
+                  final count = isPortrait ? 2 : 4;
+                  final itemWidth =
+                      (constraints.maxWidth - (count - 1) * 12) / count;
+                  final itemHeight = itemWidth / 3;
+
+                  return SingleChildScrollView(
+                    child: Center(
+                      child: Wrap(
+                        spacing: 12,
+                        runSpacing: 8,
+                        alignment: WrapAlignment.center,
+                        children: _buildActionButtons()
+                            .map((button) => SizedBox(
+                                  width: itemWidth,
+                                  height: itemHeight,
+                                  child: button,
+                                ))
+                            .toList(),
+                      ),
+                    ),
                   );
                 },
               ),

@@ -625,14 +625,21 @@ class MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: OrientationBuilder(
                 builder: (context, orientation) {
-                  final crossAxisCount = orientation == Orientation.portrait ? 2 : 4;
+                  final isPortrait = orientation == Orientation.portrait;
+                  final crossAxisCount = isPortrait ? 2 : 4;
+                  final aspectRatio = isPortrait ? 3.0 : 3.0;
 
-                  return GridView.count(
-                    crossAxisCount: crossAxisCount,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 3,
-                    children: _buildActionButtons(),
+                  final actions = _buildActionButtons();
+
+                  return GridView.builder(
+                    itemCount: actions.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 8,
+                      childAspectRatio: aspectRatio,
+                    ),
+                    itemBuilder: (context, index) => actions[index],
                   );
                 },
               ),

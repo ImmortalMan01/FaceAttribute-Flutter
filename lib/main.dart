@@ -625,22 +625,27 @@ class MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: OrientationBuilder(
                 builder: (context, orientation) {
-                  final isPortrait = orientation == Orientation.portrait;
-                  final crossAxisCount = isPortrait ? 2 : 4;
-                  final aspectRatio = isPortrait ? 3.0 : 3.0;
-
                   final actions = _buildActionButtons();
-
-                  return GridView.builder(
-                    itemCount: actions.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: crossAxisCount,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 8,
-                      childAspectRatio: aspectRatio,
-                    ),
-                    itemBuilder: (context, index) => actions[index],
-                  );
+                  if (orientation == Orientation.portrait) {
+                    return ListView.separated(
+                      itemCount: actions.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 8),
+                      itemBuilder: (context, index) => actions[index],
+                    );
+                  } else {
+                    return GridView.builder(
+                      itemCount: actions.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 12,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 3.0,
+                      ),
+                      itemBuilder: (context, index) => actions[index],
+                    );
+                  }
                 },
               ),
             ),

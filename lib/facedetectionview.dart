@@ -197,17 +197,24 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           centerTitle: true,
         ),
         body: SafeArea(
-          child: Stack(
-          children: <Widget>[
-            FaceDetectionView(faceRecognitionViewState: this),
-            SizedBox(
-              width: double.infinity,
-              height: double.infinity,
-              child: CustomPaint(
-                painter: FacePainter(
-                    faces: _faces, livenessThreshold: _livenessThreshold),
+          child: OrientationBuilder(builder: (context, orientation) {
+            final quarterTurns = orientation == Orientation.portrait ? 1 : 0;
+            return Stack(children: <Widget>[
+              RotatedBox(
+                quarterTurns: quarterTurns,
+                child: FaceDetectionView(faceRecognitionViewState: this),
               ),
-            ),
+              RotatedBox(
+                quarterTurns: quarterTurns,
+                child: SizedBox(
+                  width: double.infinity,
+                  height: double.infinity,
+                  child: CustomPaint(
+                    painter: FacePainter(
+                        faces: _faces, livenessThreshold: _livenessThreshold),
+                  ),
+                ),
+              ),
             Visibility(
                 visible: _recognized,
                 child: Container(

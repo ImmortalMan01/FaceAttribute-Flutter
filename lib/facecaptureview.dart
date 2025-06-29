@@ -444,9 +444,14 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
           centerTitle: true,
         ),
         body: SafeArea(
-          child: Stack(
-          children: <Widget>[
-            FaceCaptureDetectionView(faceRecognitionViewState: this),
+          child: OrientationBuilder(builder: (context, orientation) {
+            final quarterTurns = orientation == Orientation.portrait ? 1 : 0;
+            return Stack(
+            children: <Widget>[
+              RotatedBox(
+                quarterTurns: quarterTurns,
+                child: FaceCaptureDetectionView(faceRecognitionViewState: this),
+              ),
             Visibility(
                 visible: _viewMode == ViewMode.NO_FACE_PREPARE,
                 child: SizedBox(

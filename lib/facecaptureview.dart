@@ -219,7 +219,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
       });
     }
 
-    FaceCaptureState faceCaptureState = checkFace(faces);
+    FaceCaptureState faceCaptureState = checkFace(faces, context);
     if (_viewMode == ViewMode.REPEAT_NO_FACE_PREPARE) {
       if (faceCaptureState.index > FaceCaptureState.NO_FACE.index) {
         setViewMode(ViewMode.TO_FACE_CIRCLE);
@@ -348,7 +348,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
     return false;
   }
 
-  FaceCaptureState checkFace(faces) {
+  FaceCaptureState checkFace(faces, BuildContext context) {
     if (faces.length == 0) return FaceCaptureState.NO_FACE;
     if (faces.length > 1) return FaceCaptureState.MULTIPLE_FACES;
 
@@ -388,8 +388,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
 
     const double sizeRate = 0.30;
     const double interRate = 0.03;
-    Size frameSize =
-        const Size(720, 1280); // Replace with your actual frame size
+    Size frameSize = MediaQuery.of(context).size;
 
     Rect roiRect = getROIRect(frameSize);
     double centerY = (face['y2'] + face['y1']) / 2;
@@ -824,7 +823,7 @@ class CapturePainter extends CustomPainter {
       ..color = scheme.outline
       ..isAntiAlias = true; // Equivalent to setAntiAlias(true) in Java
 
-    Size frameSize = const Size(720, 1280);
+    Size frameSize = size;
     Rect roiRect = getROIRect1(frameSize);
 
     double ratioView = size.width / size.height;

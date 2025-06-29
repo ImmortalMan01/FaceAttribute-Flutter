@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
-import 'package:facesdk_plugin/facesdk_plugin.dart';
+import 'facesdk_plugin_import.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:path/path.dart' as p;

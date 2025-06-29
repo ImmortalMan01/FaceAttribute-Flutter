@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:facesdk_plugin/facedetection_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:facesdk_plugin/facesdk_plugin.dart';
+import 'facesdk_plugin_import.dart';
 import 'person.dart';
 import 'localization.dart';
 

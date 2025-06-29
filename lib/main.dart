@@ -18,6 +18,7 @@ import 'personview.dart';
 import 'facedetectionview.dart';
 import 'facecaptureview.dart';
 import 'logview.dart';
+import 'ble_notification_service.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
 
@@ -153,6 +154,13 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    BleNotificationService.instance.startScanning();
+    BleNotificationService.instance.messages.listen((name) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('$name yüzü okundu')),
+      );
+    });
     // Delay heavy initialization until after the first frame so that
     // the UI can render without blocking on native plugin calls.
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -627,7 +635,9 @@ class MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary),
                       )),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(

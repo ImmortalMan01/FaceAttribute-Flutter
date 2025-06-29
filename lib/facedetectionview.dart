@@ -12,6 +12,7 @@ import 'person.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
 import 'relay_service.dart';
+import 'ble_notification_service.dart';
 
 // ignore: must_be_immutable
 class FaceRecognitionView extends StatefulWidget {
@@ -169,6 +170,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
             age: _estimateAgeGender ? maxAge : -1,
             gender: _estimateAgeGender ? maxGender : -1));
         unawaited(_relayService.sendRelay(1, true));
+        unawaited(BleNotificationService.instance.broadcastName(maxSimilarityName));
         faceDetectionViewController?.stopCamera();
         setState(() {
           _faces = null;

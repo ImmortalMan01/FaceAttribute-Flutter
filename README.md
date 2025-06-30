@@ -107,7 +107,9 @@ To run this repo successfully, license should be required based on each `applica
   flutter clean
   flutter pub get
   flutter run
-  ```  
+  ```
+  On Android devices running version 13 or higher, make sure to grant the
+  **Post Notifications** permission when prompted on first launch.
   If you plan to run the iOS app, please refer to the following [link](https://docs.flutter.dev/deployment/ios) for detailed instructions.</br>
 ## About SDK
 ### 1. Setup

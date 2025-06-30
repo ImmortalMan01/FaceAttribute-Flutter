@@ -24,6 +24,7 @@ class BleNotificationService {
       Permission.bluetoothAdvertise,
       Permission.bluetoothConnect,
       Permission.locationWhenInUse,
+      Permission.notification,
     ].request();
     statuses.forEach((permission, status) {
       if (status.isGranted) {

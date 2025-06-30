@@ -186,6 +186,7 @@ This project now supports light and dark themes using the `adaptive_theme` packa
 
 ### BLE Relay Example
 The app demonstrates how to trigger a BLE relay when a face is successfully recognized. A `RelayService` class uses the `flutter_blue_plus` plugin to connect to modules like **BT37E04** and sends the command `A0 [relay] [state] [checksum]`.
+While the relay command is being sent, BLE notification scanning is temporarily paused and restarted afterwards.
 
 ### Generating App Icons
 This project uses the [`flutter_launcher_icons` package](https://pub.dev/packages/flutter_launcher_icons) to build launcher icons for all supported platforms from a single image.

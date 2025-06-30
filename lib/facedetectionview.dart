@@ -144,8 +144,8 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
       }
     }
 
-    Future.delayed(const Duration(milliseconds: 100), () {
-      if (!mounted) return false;
+    Future.delayed(const Duration(milliseconds: 100), () async {
+      if (!mounted) return;
       setState(() {
         _recognized = recognized;
         _identifiedName = maxSimilarityName;
@@ -169,7 +169,14 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
             time: DateTime.now().toIso8601String(),
             age: _estimateAgeGender ? maxAge : -1,
             gender: _estimateAgeGender ? maxGender : -1));
-        unawaited(_relayService.sendRelay(1, true));
+        await BleNotificationService.instance.stopScanning();
+        try {
+          await _relayService.sendRelay(1, true);
+        } catch (e, st) {
+          AppLogger.e('Failed to send relay', e, st);
+        } finally {
+          await BleNotificationService.instance.startScanning();
+        }
         unawaited(BleNotificationService.instance.broadcastName(maxSimilarityName));
         faceDetectionViewController?.stopCamera();
         setState(() {

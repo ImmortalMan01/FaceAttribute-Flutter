@@ -627,14 +627,14 @@ class MyHomePageState extends State<MyHomePage> {
                 builder: (context) {
                   final orientation = MediaQuery.of(context).orientation;
                   final actions = _buildActionButtons();
+                  final isPortrait = orientation == Orientation.portrait;
                   return GridView.builder(
                     itemCount: actions.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          orientation == Orientation.portrait ? 2 : 4,
+                      crossAxisCount: isPortrait ? 2 : 4,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 8,
-                      childAspectRatio: 3.0,
+                      childAspectRatio: isPortrait ? 2.0 : 3.0,
                     ),
                     itemBuilder: (context, index) => actions[index],
                   );

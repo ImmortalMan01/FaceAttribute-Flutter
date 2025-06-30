@@ -631,7 +631,7 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
                           child: Text(AppLocalizations.of(context).t('enroll')),
                         ),
                       ]),
-                )),
+                ))),
               ]);
             }),
           ),

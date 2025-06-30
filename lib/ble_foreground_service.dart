@@ -39,6 +39,10 @@ Future<void> initializeBleForegroundService() async {
     ),
     iosConfiguration: IosConfiguration(),
   );
+
+  // Ensure the service actually starts. Without this call the background
+  // service might never begin, preventing BLE scanning and notifications.
+  await service.startService();
 }
 
 @pragma('vm:entry-point')

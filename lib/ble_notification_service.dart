@@ -7,14 +7,13 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io' show Platform;
+import 'logger.dart';
 
 int _androidSdkInt() {
   if (!Platform.isAndroid) return 0;
   final match = RegExp(r'API (\d+)').firstMatch(Platform.operatingSystemVersion);
   return match != null ? int.tryParse(match.group(1) ?? '') ?? 0 : 0;
 }
-
-import 'logger.dart';
 
 class BleNotificationService {
   BleNotificationService._internal();
@@ -37,7 +36,8 @@ class BleNotificationService {
       Permission.notification,
     ];
     if (Platform.isAndroid && _androidSdkInt() >= 34) {
-      permissions.add(Permission.foregroundService);
+      // No runtime permission exists for foreground services on Android.
+      // Only a manifest declaration is required, so skip requesting it.
     }
     final statuses = await permissions.request();
 
@@ -52,13 +52,7 @@ class BleNotificationService {
     final granted = statuses.values.every((status) => status.isGranted);
     if (!granted) {
       AppLogger.e(
-          'Required BLE permissions not granted. Please grant "Nearby devices", "Post notifications" and "Foreground service (connected device)" permissions in system settings.');
-    }
-    if (Platform.isAndroid && _androidSdkInt() >= 34) {
-      final fgStatus = statuses[Permission.foregroundService];
-      if (!(fgStatus?.isGranted ?? false)) {
-        AppLogger.e('Foreground service permission denied');
-      }
+          'Required BLE permissions not granted. Please grant "Nearby devices" and "Post notifications" permissions in system settings.');
     }
 
     bool locationEnabled = true;

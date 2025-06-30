@@ -43,10 +43,9 @@ Future<void> main() async {
   }
   var foregroundStatus = PermissionStatus.granted;
   if (Platform.isAndroid && _androidSdkInt() >= 34) {
-    foregroundStatus = await Permission.foregroundService.status;
-    if (!foregroundStatus.isGranted) {
-      foregroundStatus = await Permission.foregroundService.request();
-    }
+    // The permission_handler plugin does not provide a runtime permission
+    // for foreground services. Android 14 requires a manifest declaration
+    // only, so this step is skipped.
   }
   if (notificationStatus.isGranted && foregroundStatus.isGranted) {
     await initializeBleForegroundService();

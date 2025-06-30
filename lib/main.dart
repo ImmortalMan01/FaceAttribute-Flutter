@@ -5,6 +5,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:async';
 import 'facesdk_plugin_import.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:path/path.dart' as p;
@@ -22,6 +23,9 @@ import 'ble_notification_service.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AdaptiveThemeMode? savedThemeMode;
@@ -30,6 +34,16 @@ Future<void> main() async {
   } catch (_) {
     savedThemeMode = AdaptiveThemeMode.system;
   }
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const DarwinInitializationSettings initializationSettingsDarwin =
+      DarwinInitializationSettings();
+  final InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsDarwin,
+    macOS: initializationSettingsDarwin,
+  );
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   runApp(MyApp(savedThemeMode: savedThemeMode));
 }
 
@@ -160,6 +174,7 @@ class MyHomePageState extends State<MyHomePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('$name yüzü okundu')),
       );
+      _showNotification(name);
     });
     // Delay heavy initialization until after the first frame so that
     // the UI can render without blocking on native plugin calls.
@@ -438,6 +453,24 @@ class MyHomePageState extends State<MyHomePage> {
           ],
         );
       },
+    );
+  }
+
+  Future<void> _showNotification(String name) async {
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'face_channel',
+      'Face Notifications',
+      channelDescription: 'Notifications for face recognition',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidDetails);
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Face Detected',
+      '$name yüzü okundu',
+      notificationDetails,
     );
   }
 

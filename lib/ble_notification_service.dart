@@ -39,7 +39,14 @@ class BleNotificationService {
       // No runtime permission exists for foreground services on Android.
       // Only a manifest declaration is required, so skip requesting it.
     }
-    final statuses = await permissions.request();
+    Map<Permission, PermissionStatus> statuses;
+    if (context == null) {
+      statuses = {
+        for (final p in permissions) p: await p.status,
+      };
+    } else {
+      statuses = await permissions.request();
+    }
 
     statuses.forEach((permission, status) {
       if (status.isGranted) {

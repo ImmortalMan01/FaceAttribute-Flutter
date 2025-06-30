@@ -170,7 +170,7 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    BleNotificationService.instance.startScanning();
+    BleNotificationService.instance.startScanning(context: context);
     BleNotificationService.instance.messages.listen((name) async {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

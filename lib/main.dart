@@ -23,6 +23,7 @@ import 'logview.dart';
 import 'ble_notification_service.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -170,12 +171,18 @@ class MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     BleNotificationService.instance.startScanning();
-    BleNotificationService.instance.messages.listen((name) {
+    BleNotificationService.instance.messages.listen((name) async {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('$name yüzü okundu')),
       );
-      _showNotification(name);
+      var status = await Permission.notification.status;
+      if (!status.isGranted) {
+        status = await Permission.notification.request();
+      }
+      if (status.isGranted) {
+        _showNotification(name);
+      }
     });
     // Delay heavy initialization until after the first frame so that
     // the UI can render without blocking on native plugin calls.

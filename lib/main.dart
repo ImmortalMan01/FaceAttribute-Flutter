@@ -31,7 +31,13 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeBleForegroundService();
+  var notificationStatus = await Permission.notification.status;
+  if (!notificationStatus.isGranted) {
+    notificationStatus = await Permission.notification.request();
+  }
+  if (notificationStatus.isGranted) {
+    await initializeBleForegroundService();
+  }
   AdaptiveThemeMode? savedThemeMode;
   try {
     savedThemeMode = await AdaptiveTheme.getThemeMode();

@@ -79,7 +79,7 @@ class _MyAppState extends State<MyApp> {
     );
     final buttonTheme = FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        padding: const EdgeInsets.symmetric(vertical: 8),
         shape: const StadiumBorder(),
       ),
     );
@@ -625,16 +625,14 @@ class MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: Builder(
                 builder: (context) {
-                  final orientation = MediaQuery.of(context).orientation;
                   final actions = _buildActionButtons();
                   return GridView.builder(
                     itemCount: actions.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          orientation == Orientation.portrait ? 2 : 4,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 8,
-                      childAspectRatio: 3.0,
+                      childAspectRatio: 4.0,
                     ),
                     itemBuilder: (context, index) => actions[index],
                   );

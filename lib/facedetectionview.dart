@@ -426,7 +426,7 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
                           child: Text(AppLocalizations.of(context).t('tryAgain')),
                         ),
                       ]),
-                )),
+                ))),
               ]);
             }),
           ),

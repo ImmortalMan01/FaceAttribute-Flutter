@@ -174,10 +174,9 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           await _relayService.sendRelay(1, true);
         } catch (e, st) {
           AppLogger.e('Failed to send relay', e, st);
-        } finally {
-          await BleNotificationService.instance.startScanning();
         }
-        unawaited(BleNotificationService.instance.broadcastName(maxSimilarityName));
+        await BleNotificationService.instance.broadcastName(maxSimilarityName);
+        await BleNotificationService.instance.startScanning();
         faceDetectionViewController?.stopCamera();
         setState(() {
           _faces = null;

@@ -86,10 +86,19 @@ class BleNotificationService {
       manufacturerId: 0xffff,
       manufacturerData: Uint8List.fromList(name.codeUnits),
     );
-    await _peripheral.start(advertiseData: data);
-    AppLogger.i('BLE advertising started');
+    try {
+      await _peripheral.start(advertiseData: data);
+      AppLogger.i('BLE advertising started');
+    } catch (e, st) {
+      AppLogger.e('Failed to start BLE advertising', e, st);
+      return;
+    }
     await Future.delayed(duration);
-    await _peripheral.stop();
-    AppLogger.i('BLE advertising stopped');
+    try {
+      await _peripheral.stop();
+      AppLogger.i('BLE advertising stopped');
+    } catch (e, st) {
+      AppLogger.e('Failed to stop BLE advertising', e, st);
+    }
   }
 }

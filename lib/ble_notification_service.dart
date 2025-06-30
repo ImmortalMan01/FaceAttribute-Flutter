@@ -101,10 +101,10 @@ class BleNotificationService {
     await _scanStateSubscription?.cancel();
     _scanSubscription = FlutterBluePlus.scanResults.listen((results) {
       for (final r in results) {
-        if (r.advertisementData.manufacturerData.isNotEmpty) {
-          final bytes = r.advertisementData.manufacturerData.values.first;
+        final mfgData = r.advertisementData.manufacturerData[0xffff];
+        if (mfgData != null && mfgData.isNotEmpty) {
           try {
-            final msg = String.fromCharCodes(bytes);
+            final msg = String.fromCharCodes(mfgData);
             AppLogger.i('BLE message received: ' + msg);
             _messages.add(msg);
           } catch (_) {}

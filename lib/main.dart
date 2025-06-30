@@ -23,6 +23,7 @@ import 'logview.dart';
 import 'ble_notification_service.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
+import 'ble_foreground_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -30,6 +31,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeBleForegroundService();
   AdaptiveThemeMode? savedThemeMode;
   try {
     savedThemeMode = await AdaptiveTheme.getThemeMode();

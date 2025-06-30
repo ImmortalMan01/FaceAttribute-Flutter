@@ -448,6 +448,9 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
         body: SafeArea(
           child: OrientationBuilder(builder: (context, orientation) {
             final quarterTurns = orientation == Orientation.landscape ? 1 : 0;
+            final panelWidth = orientation == Orientation.landscape
+                ? MediaQuery.of(context).size.width * 0.6
+                : double.infinity;
             return Stack(
             children: <Widget>[
               RotatedBox(
@@ -566,8 +569,10 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
             Visibility(
                 visible:
                     _viewMode.index == ViewMode.FACE_CAPTURE_FINISHED.index,
-                child: Container(
-                  width: double.infinity,
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                  width: panelWidth,
                   height: double.infinity,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,

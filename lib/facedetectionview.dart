@@ -199,6 +199,9 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
         body: SafeArea(
           child: OrientationBuilder(builder: (context, orientation) {
             final quarterTurns = orientation == Orientation.landscape ? 1 : 0;
+            final panelWidth = orientation == Orientation.landscape
+                ? MediaQuery.of(context).size.width * 0.6
+                : double.infinity;
             return Stack(children: <Widget>[
               RotatedBox(
                 quarterTurns: quarterTurns,
@@ -217,8 +220,10 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
               ),
             Visibility(
                 visible: _recognized,
-                child: Container(
-                  width: double.infinity,
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                  width: panelWidth,
                   height: double.infinity,
                   color: Theme.of(context).colorScheme.background,
                   child: Column(

@@ -677,14 +677,15 @@ class MyHomePageState extends State<MyHomePage> {
                     final actions = _buildActionButtons();
                     if (orientation == Orientation.portrait) {
                       return GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: actions.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 12,
-                              mainAxisSpacing: 12,
-                              childAspectRatio: 1.4,
-                            ),
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 1.0,
+                        ),
                         itemBuilder: (context, index) => ConstrainedBox(
                           constraints: const BoxConstraints(
                             minWidth: 120,

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:flutter_ble_peripheral/flutter_ble_peripheral.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -111,11 +112,16 @@ class BleNotificationService {
       return;
     }
     AppLogger.i('Starting BLE advertising with name ' + name);
+    final encodedName = utf8.encode(name);
+    final truncatedBytes = encodedName.length > 20
+        ? encodedName.sublist(0, 20)
+        : encodedName;
+    final shortName = name.length > 18 ? name.substring(0, 18) : name;
     final data = AdvertiseData(
       includeDeviceName: true,
-      localName: 'face:$name',
+      localName: 'face:$shortName',
       manufacturerId: 0xffff,
-      manufacturerData: Uint8List.fromList(name.codeUnits),
+      manufacturerData: Uint8List.fromList(truncatedBytes),
     );
     try {
       await _peripheral.start(advertiseData: data);

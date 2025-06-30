@@ -5,6 +5,8 @@ import 'package:flutter_ble_peripheral/flutter_ble_peripheral.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import 'logger.dart';
+
 class BleNotificationService {
   BleNotificationService._internal();
   static final BleNotificationService instance = BleNotificationService._internal();
@@ -16,17 +18,33 @@ class BleNotificationService {
   Stream<String> get messages => _messages.stream;
 
   Future<bool> _requestPermissions() async {
+    AppLogger.i('Requesting BLE permissions');
     final statuses = await [
       Permission.bluetoothScan,
       Permission.bluetoothAdvertise,
       Permission.bluetoothConnect,
       Permission.locationWhenInUse,
     ].request();
-    return statuses.values.every((status) => status.isGranted);
+    statuses.forEach((permission, status) {
+      if (status.isGranted) {
+        AppLogger.i('Permission granted: ${permission.toString()}');
+      } else {
+        AppLogger.e('Permission denied: ${permission.toString()}');
+      }
+    });
+    final granted = statuses.values.every((status) => status.isGranted);
+    if (!granted) {
+      AppLogger.e('Required BLE permissions not granted');
+    }
+    return granted;
   }
 
   Future<void> startScanning() async {
-    if (!await _requestPermissions()) return;
+    if (!await _requestPermissions()) {
+      AppLogger.e('Cannot start scanning: permissions not granted');
+      return;
+    }
+    AppLogger.i('Starting BLE scan');
     await _scanSubscription?.cancel();
     _scanSubscription = FlutterBluePlus.scanResults.listen((results) {
       for (final r in results) {
@@ -34,24 +52,33 @@ class BleNotificationService {
           final bytes = r.advertisementData.manufacturerData.values.first;
           try {
             final msg = String.fromCharCodes(bytes);
+            AppLogger.i('BLE message received: ' + msg);
             _messages.add(msg);
           } catch (_) {}
         } else if (r.advertisementData.advName.startsWith('face:')) {
-          _messages.add(r.advertisementData.advName.substring(5));
+          final msg = r.advertisementData.advName.substring(5);
+          AppLogger.i('BLE message received: ' + msg);
+          _messages.add(msg);
         }
       }
     });
     await FlutterBluePlus.startScan(timeout: const Duration(seconds: 0));
+    AppLogger.i('BLE scan started');
   }
 
   Future<void> stopScanning() async {
     await FlutterBluePlus.stopScan();
     await _scanSubscription?.cancel();
     _scanSubscription = null;
+    AppLogger.i('Stopped BLE scan');
   }
 
   Future<void> broadcastName(String name, {Duration duration = const Duration(seconds: 5)}) async {
-    if (!await _requestPermissions()) return;
+    if (!await _requestPermissions()) {
+      AppLogger.e('Cannot advertise: permissions not granted');
+      return;
+    }
+    AppLogger.i('Starting BLE advertising with name ' + name);
     final data = AdvertiseData(
       includeDeviceName: true,
       localName: 'face:$name',
@@ -59,7 +86,9 @@ class BleNotificationService {
       manufacturerData: Uint8List.fromList(name.codeUnits),
     );
     await _peripheral.start(advertiseData: data);
+    AppLogger.i('BLE advertising started');
     await Future.delayed(duration);
     await _peripheral.stop();
+    AppLogger.i('BLE advertising stopped');
   }
 }

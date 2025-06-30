@@ -26,6 +26,12 @@ import 'localization.dart';
 import 'ble_foreground_service.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+int _androidSdkInt() {
+  if (!Platform.isAndroid) return 0;
+  final match = RegExp(r'API (\d+)').firstMatch(Platform.operatingSystemVersion);
+  return match != null ? int.tryParse(match.group(1) ?? '') ?? 0 : 0;
+}
+
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
@@ -35,7 +41,14 @@ Future<void> main() async {
   if (!notificationStatus.isGranted) {
     notificationStatus = await Permission.notification.request();
   }
-  if (notificationStatus.isGranted) {
+  var foregroundStatus = PermissionStatus.granted;
+  if (Platform.isAndroid && _androidSdkInt() >= 34) {
+    foregroundStatus = await Permission.foregroundService.status;
+    if (!foregroundStatus.isGranted) {
+      foregroundStatus = await Permission.foregroundService.request();
+    }
+  }
+  if (notificationStatus.isGranted && foregroundStatus.isGranted) {
     await initializeBleForegroundService();
   }
   AdaptiveThemeMode? savedThemeMode;

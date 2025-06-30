@@ -111,7 +111,8 @@ To run this repo successfully, license should be required based on each `applica
   On Android devices running version 12 or higher, make sure to grant the
   **Nearby devices** and **Post Notifications** permissions when prompted.
   BLE features also require **Location** permission and that location services
-  are enabled on the device.
+  are enabled on the device. On Android 14 and above you must also grant the
+  **Foreground service (connected device)** permission when requested.
   If you plan to run the iOS app, please refer to the following [link](https://docs.flutter.dev/deployment/ios) for detailed instructions.</br>
 ## About SDK
 ### 1. Setup
@@ -190,6 +191,7 @@ This project now supports light and dark themes using the `adaptive_theme` packa
 The app demonstrates how to trigger a BLE relay when a face is successfully recognized. A `RelayService` class uses the `flutter_blue_plus` plugin to connect to modules like **BT37E04** and sends the command `A0 [relay] [state] [checksum]`.
 While the relay command is being sent, BLE notification scanning is temporarily paused and restarted afterwards.
 To ensure scanning continues reliably on Android 12 and higher, a foreground service is started automatically at app launch. The scanning logic also automatically restarts if the system stops it unexpectedly.
+Android 14+ additionally requires granting the **Foreground service (connected device)** permission to keep scanning in the background.
 
 ### Generating App Icons
 This project uses the [`flutter_launcher_icons` package](https://pub.dev/packages/flutter_launcher_icons) to build launcher icons for all supported platforms from a single image.

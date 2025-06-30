@@ -623,8 +623,9 @@ class MyHomePageState extends State<MyHomePage> {
               height: 6,
             ),
             Expanded(
-              child: OrientationBuilder(
-                builder: (context, orientation) {
+              child: Builder(
+                builder: (context) {
+                  final orientation = MediaQuery.of(context).orientation;
                   final actions = _buildActionButtons();
                   return GridView.builder(
                     itemCount: actions.length,

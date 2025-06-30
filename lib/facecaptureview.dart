@@ -388,7 +388,9 @@ class FaceCaptureViewState extends State<FaceCaptureView> {
 
     const double sizeRate = 0.30;
     const double interRate = 0.03;
-    Size frameSize = MediaQuery.of(context).size;
+    Size frameSize = Size(
+        (face['frameWidth'] ?? MediaQuery.of(context).size.width).toDouble(),
+        (face['frameHeight'] ?? MediaQuery.of(context).size.height).toDouble());
 
     Rect roiRect = getROIRect(frameSize);
     double centerY = (face['y2'] + face['y1']) / 2;

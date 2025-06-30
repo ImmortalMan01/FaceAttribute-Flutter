@@ -15,6 +15,7 @@ class BleNotificationService {
 
   final FlutterBlePeripheral _peripheral = FlutterBlePeripheral();
   StreamSubscription<List<ScanResult>>? _scanSubscription;
+  StreamSubscription<bool>? _scanStateSubscription;
   final StreamController<String> _messages = StreamController<String>.broadcast();
 
   Stream<String> get messages => _messages.stream;
@@ -79,6 +80,7 @@ class BleNotificationService {
     }
     AppLogger.i('Starting BLE scan');
     await _scanSubscription?.cancel();
+    await _scanStateSubscription?.cancel();
     _scanSubscription = FlutterBluePlus.scanResults.listen((results) {
       for (final r in results) {
         if (r.advertisementData.manufacturerData.isNotEmpty) {
@@ -96,6 +98,13 @@ class BleNotificationService {
       }
     });
     await FlutterBluePlus.startScan(timeout: const Duration(seconds: 0));
+    _scanStateSubscription =
+        FlutterBluePlus.isScanning.listen((isScanning) async {
+      if (!isScanning) {
+        AppLogger.i('Scan stopped unexpectedly, restarting');
+        await FlutterBluePlus.startScan(timeout: const Duration(seconds: 0));
+      }
+    });
     AppLogger.i('BLE scan started');
   }
 
@@ -103,6 +112,8 @@ class BleNotificationService {
     await FlutterBluePlus.stopScan();
     await _scanSubscription?.cancel();
     _scanSubscription = null;
+    await _scanStateSubscription?.cancel();
+    _scanStateSubscription = null;
     AppLogger.i('Stopped BLE scan');
   }
 

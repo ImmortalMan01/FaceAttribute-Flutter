@@ -217,10 +217,16 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
               ),
             Visibility(
                 visible: _recognized,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: Theme.of(context).colorScheme.background,
+                child: Align(
+                  alignment: orientation == Orientation.landscape
+                      ? Alignment.centerRight
+                      : Alignment.topCenter,
+                  child: Container(
+                    width: orientation == Orientation.landscape
+                        ? MediaQuery.of(context).size.width * 0.6
+                        : double.infinity,
+                    height: double.infinity,
+                    color: Theme.of(context).colorScheme.background,
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [

@@ -483,11 +483,16 @@ class MyHomePageState extends State<MyHomePage> {
   }
 
   List<Widget> _buildActionButtons() {
+    final orientation = MediaQuery.of(context).orientation;
+    final buttonPadding = orientation == Orientation.landscape
+        ? const EdgeInsets.symmetric(vertical: 4)
+        : const EdgeInsets.symmetric(vertical: 8);
     return [
       FilledButton.icon(
           onPressed: enrollPerson,
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            padding: buttonPadding,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -510,6 +515,7 @@ class MyHomePageState extends State<MyHomePage> {
           },
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            padding: buttonPadding,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -531,6 +537,7 @@ class MyHomePageState extends State<MyHomePage> {
           },
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            padding: buttonPadding,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -555,6 +562,7 @@ class MyHomePageState extends State<MyHomePage> {
           },
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            padding: buttonPadding,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -576,6 +584,7 @@ class MyHomePageState extends State<MyHomePage> {
           },
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
+            padding: buttonPadding,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
@@ -625,14 +634,17 @@ class MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: Builder(
                 builder: (context) {
+                  final orientation = MediaQuery.of(context).orientation;
+                  final aspectRatio =
+                      orientation == Orientation.landscape ? 6.0 : 4.0;
                   final actions = _buildActionButtons();
                   return GridView.builder(
                     itemCount: actions.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 8,
-                      childAspectRatio: 4.0,
+                      childAspectRatio: aspectRatio,
                     ),
                     itemBuilder: (context, index) => actions[index],
                   );

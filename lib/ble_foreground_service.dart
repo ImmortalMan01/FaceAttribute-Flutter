@@ -44,6 +44,8 @@ Future<void> initializeBleForegroundService() async {
 
 @pragma('vm:entry-point')
 void bleServiceOnStart(ServiceInstance service) async {
+  // Ensure all plugins and bindings are ready for use in this isolate
+  WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       await initLocalNotifications();

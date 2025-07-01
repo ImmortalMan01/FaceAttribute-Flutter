@@ -52,6 +52,9 @@ void bleServiceOnStart(ServiceInstance service) async {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  // Local notifications must be initialized again in the background isolate
+  // otherwise `show()` will silently fail. This was the cause of notifications
+  // not appearing on other devices.
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const DarwinInitializationSettings initializationSettingsDarwin =

@@ -123,6 +123,9 @@ Local notifications are triggered from the background service. The
 `flutter_local_notifications` plugin must be initialized inside the service's
 isolate using the same notification channel; otherwise calls to `show()` will
 silently fail and no alerts will be displayed on other devices.
+The foreground service entry in `AndroidManifest.xml` now sets
+`android:stopWithTask="false"` so scanning continues even if the app is removed
+from the recent tasks list.
 
 ## About SDK
 ### 1. Setup

@@ -43,13 +43,19 @@ Future<void> initializeBleForegroundService() async {
   await service.startService();
 }
 
-@pragma('vm:entry-point')
+  @pragma('vm:entry-point')
 void bleServiceOnStart(ServiceInstance service) async {
   // Ensure all plugins and bindings are ready for use in this isolate
   WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    notificationChannelId,
+    'BLE Scan',
+    description: 'Scanning for BLE messages',
+    importance: Importance.defaultImportance,
+  );
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      await initLocalNotifications();
+      await initLocalNotifications(channel: channel);
 
   BleNotificationService.instance.messages.listen((msg) {
     flutterLocalNotificationsPlugin.show(

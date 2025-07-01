@@ -121,8 +121,8 @@ This application uses Bluetooth Low Energy to deliver face recognition alerts to
 
 Local notifications are triggered from the background service. The
 `flutter_local_notifications` plugin must be initialized inside the service's
-isolate; otherwise calls to `show()` will silently fail and no alerts will be
-displayed on other devices.
+isolate using the same notification channel; otherwise calls to `show()` will
+silently fail and no alerts will be displayed on other devices.
 
 ## About SDK
 ### 1. Setup

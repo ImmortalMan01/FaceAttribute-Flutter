@@ -15,7 +15,8 @@ Future<void> initializeBleForegroundService() async {
     notificationChannelId,
     'BLE Scan',
     description: 'Scanning for BLE messages',
-    importance: Importance.low,
+    // Use default importance so notifications appear visibly
+    importance: Importance.defaultImportance,
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

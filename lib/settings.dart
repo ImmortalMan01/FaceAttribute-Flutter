@@ -438,6 +438,13 @@ class SettingsPageState extends State<SettingsPage> {
                   widget.homePageState.deleteAllPerson();
                 },
               ),
+              SettingsTile.navigation(
+                title: Text(AppLocalizations.of(context).t('clearLogs')),
+                leading: const Icon(Icons.delete_sweep),
+                onPressed: (BuildContext context) {
+                  widget.homePageState.deleteAllLogs();
+                },
+              ),
             ],
           ),
           SettingsSection(

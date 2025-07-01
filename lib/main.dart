@@ -412,6 +412,23 @@ class MyHomePageState extends State<MyHomePage> {
     ));
   }
 
+  Future<void> deleteAllLogs() async {
+    final db = await createLogDB();
+    await db.delete('log');
+
+    setState(() {
+      logList.clear();
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppLocalizations.of(context).t('logsCleared'),
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.onErrorContainer)),
+      backgroundColor: Theme.of(context).colorScheme.errorContainer,
+      duration: const Duration(seconds: 1),
+    ));
+  }
+
   Future<void> deletePerson(index) async {
     // ignore: invalid_use_of_protected_member
 

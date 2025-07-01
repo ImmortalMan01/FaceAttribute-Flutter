@@ -115,6 +115,10 @@ To run this repo successfully, license should be required based on each `applica
   must also grant the **Foreground service (connected device)** permission when
   requested.
   If you plan to run the iOS app, please refer to the following [link](https://docs.flutter.dev/deployment/ios) for detailed instructions.</br>
+
+### Offline Notifications via BLE
+This application uses Bluetooth Low Energy to deliver face recognition alerts to nearby devices without requiring an internet connection. Ensure that the BLE foreground service is active and that all participating devices grant the **Nearby devices** and **Location** permissions so advertisements and scans can run in the background.
+
 ## About SDK
 ### 1. Setup
 #### 1.1 Setting Up Face SDK

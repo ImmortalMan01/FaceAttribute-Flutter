@@ -119,6 +119,11 @@ To run this repo successfully, license should be required based on each `applica
 ### Offline Notifications via BLE
 This application uses Bluetooth Low Energy to deliver face recognition alerts to nearby devices without requiring an internet connection. Ensure that the BLE foreground service is active and that all participating devices grant the **Nearby devices** and **Location** permissions so advertisements and scans can run in the background.
 
+Local notifications are triggered from the background service. The
+`flutter_local_notifications` plugin must be initialized inside the service's
+isolate; otherwise calls to `show()` will silently fail and no alerts will be
+displayed on other devices.
+
 ## About SDK
 ### 1. Setup
 #### 1.1 Setting Up Face SDK

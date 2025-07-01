@@ -4,6 +4,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'ble_notification_service.dart';
+import 'notification_helper.dart';
 
 const String notificationChannelId = 'ble_scan';
 const int notificationId = 999;
@@ -20,12 +21,7 @@ Future<void> initializeBleForegroundService() async {
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+      await initLocalNotifications(channel: channel);
 
   await service.configure(
     androidConfiguration: AndroidConfiguration(
@@ -49,24 +45,8 @@ Future<void> initializeBleForegroundService() async {
 @pragma('vm:entry-point')
 void bleServiceOnStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
-
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  // Local notifications must be initialized again in the background isolate
-  // otherwise `show()` will silently fail. This was the cause of notifications
-  // not appearing on other devices.
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  const DarwinInitializationSettings initializationSettingsDarwin =
-      DarwinInitializationSettings();
-  const InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: initializationSettingsDarwin,
-    macOS: initializationSettingsDarwin,
-  );
-
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+      await initLocalNotifications();
 
   BleNotificationService.instance.messages.listen((msg) {
     flutterLocalNotificationsPlugin.show(

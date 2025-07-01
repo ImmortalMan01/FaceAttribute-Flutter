@@ -7,6 +7,7 @@ import 'dart:async';
 import 'facesdk_plugin_import.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     hide Person;
+import 'notification_helper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_exif_rotation/flutter_exif_rotation.dart';
 import 'package:path/path.dart' as p;
@@ -32,8 +33,7 @@ int _androidSdkInt() {
   return match != null ? int.tryParse(match.group(1) ?? '') ?? 0 : 0;
 }
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+late final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,16 +65,7 @@ Future<void> main() async {
   } catch (_) {
     savedThemeMode = AdaptiveThemeMode.system;
   }
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  const DarwinInitializationSettings initializationSettingsDarwin =
-      DarwinInitializationSettings();
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    iOS: initializationSettingsDarwin,
-    macOS: initializationSettingsDarwin,
-  );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  flutterLocalNotificationsPlugin = await initLocalNotifications();
   runApp(MyApp(savedThemeMode: savedThemeMode));
 }
 

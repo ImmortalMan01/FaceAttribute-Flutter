@@ -20,8 +20,9 @@ Future<void> initializeBleForegroundService() async {
     importance: Importance.defaultImportance,
   );
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      await initLocalNotifications(channel: channel);
+  // Initialize the notification plugin so the background isolate
+  // can display alerts when BLE messages arrive.
+  await initLocalNotifications(channel: channel);
 
   await service.configure(
     androidConfiguration: AndroidConfiguration(

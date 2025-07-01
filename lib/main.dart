@@ -503,11 +503,10 @@ class MyHomePageState extends State<MyHomePage> {
 
   Future<void> _showNotification(String name) async {
     const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'face_channel',
-      'Face Notifications',
-      channelDescription: 'Notifications for face recognition',
-      importance: Importance.max,
-      priority: Priority.high,
+      notificationChannelId,
+      'BLE Scan',
+      channelDescription: 'Scanning for BLE messages',
+      importance: Importance.defaultImportance,
     );
     const NotificationDetails notificationDetails =
         NotificationDetails(android: androidDetails);

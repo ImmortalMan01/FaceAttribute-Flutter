@@ -13,6 +13,7 @@ import 'recognition_log.dart';
 import 'localization.dart';
 import 'relay_service.dart';
 import 'ble_notification_service.dart';
+import 'firebase_service.dart';
 
 // ignore: must_be_immutable
 class FaceRecognitionView extends StatefulWidget {
@@ -176,6 +177,11 @@ class FaceRecognitionViewState extends State<FaceRecognitionView> {
           AppLogger.e('Failed to send relay', e, st);
         }
         await BleNotificationService.instance.broadcastName(maxSimilarityName, context: context);
+        try {
+          await FirebaseService.sendNotification(maxSimilarityName);
+        } catch (e, st) {
+          AppLogger.e('Failed to send FCM notification', e, st);
+        }
         await BleNotificationService.instance.startScanning(context: context);
         faceDetectionViewController?.stopCamera();
         setState(() {

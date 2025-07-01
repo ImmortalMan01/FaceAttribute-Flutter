@@ -25,6 +25,7 @@ import 'recognition_log.dart';
 import 'localization.dart';
 import 'ble_foreground_service.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'firebase_service.dart';
 
 int _androidSdkInt() {
   if (!Platform.isAndroid) return 0;
@@ -37,6 +38,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FirebaseService.initialize();
   var notificationStatus = await Permission.notification.status;
   if (!notificationStatus.isGranted) {
     notificationStatus = await Permission.notification.request();

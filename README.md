@@ -114,6 +114,10 @@ To run this repo successfully, license should be required based on each `applica
   granted and that location services are enabled. On Android 14 and above you
   must also grant the **Foreground service (connected device)** permission when
   requested.
+  For remote notifications, place your `google-services.json` file into
+  `android/app` and make sure a valid Firebase project is configured. Devices
+  will automatically subscribe to the `face_events` topic and receive push
+  notifications when a face is recognized.
   If you plan to run the iOS app, please refer to the following [link](https://docs.flutter.dev/deployment/ios) for detailed instructions.</br>
 ## About SDK
 ### 1. Setup

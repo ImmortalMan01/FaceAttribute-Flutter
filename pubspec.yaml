@@ -51,6 +51,9 @@ dependencies:
   flutter_ble_peripheral: ^1.2.6
   permission_handler: ^12.0.0
   flutter_local_notifications: ^19.3.0
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.10
+  http: ^1.2.1
   flutter_background_service: ^5.1.0
   flutter_background_service_android: ^6.3.0
   flutter_background_service_ios: ^5.0.3

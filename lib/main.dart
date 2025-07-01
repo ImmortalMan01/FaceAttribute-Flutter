@@ -41,13 +41,22 @@ Future<void> main() async {
   if (!notificationStatus.isGranted) {
     notificationStatus = await Permission.notification.request();
   }
+  final blePermissions = [
+    Permission.bluetoothScan,
+    Permission.bluetoothAdvertise,
+    Permission.bluetoothConnect,
+    Permission.locationWhenInUse,
+  ];
+  Map<Permission, PermissionStatus> bleStatuses =
+      await blePermissions.request();
+  final bleGranted = bleStatuses.values.every((s) => s.isGranted);
   var foregroundStatus = PermissionStatus.granted;
   if (Platform.isAndroid && _androidSdkInt() >= 34) {
     // The permission_handler plugin does not provide a runtime permission
     // for foreground services. Android 14 requires a manifest declaration
     // only, so this step is skipped.
   }
-  if (notificationStatus.isGranted && foregroundStatus.isGranted) {
+  if (notificationStatus.isGranted && bleGranted && foregroundStatus.isGranted) {
     await initializeBleForegroundService();
   }
   AdaptiveThemeMode? savedThemeMode;

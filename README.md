@@ -108,11 +108,12 @@ To run this repo successfully, license should be required based on each `applica
   flutter pub get
   flutter run
   ```
-  On Android devices running version 12 or higher, make sure to grant the
-  **Nearby devices** and **Post Notifications** permissions when prompted.
-  BLE features also require **Location** permission and that location services
-  are enabled on the device. On Android 14 and above you must also grant the
-  **Foreground service (connected device)** permission when requested.
+  On Android devices running version 12 or higher, the app now requests
+  **Nearby devices**, **Location**, and **Post Notifications** permissions on
+  startup before the BLE foreground service begins. Ensure these permissions are
+  granted and that location services are enabled. On Android 14 and above you
+  must also grant the **Foreground service (connected device)** permission when
+  requested.
   If you plan to run the iOS app, please refer to the following [link](https://docs.flutter.dev/deployment/ios) for detailed instructions.</br>
 ## About SDK
 ### 1. Setup

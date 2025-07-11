@@ -1,4 +1,4 @@
-package com.kbyai.faceattribute_flutter
+package com.immortalman.faceattribute_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

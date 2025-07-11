@@ -673,6 +673,9 @@ class _FaceCaptureDetectionViewState extends State<FaceCaptureDetectionView> {
     widget.faceRecognitionViewState.faceDetectionViewController =
         FaceDetectionViewController(id, widget);
 
+    // Ensure FaceSDK is initialized before interacting with the native view.
+    await widget.faceRecognitionViewState._facesdkPlugin.init();
+
     await widget.faceRecognitionViewState.faceDetectionViewController
         ?.initHandler();
 

@@ -8,7 +8,11 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE"
         android:usesPermissionFlags="neverForLocation" />
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Align with flutter_blue_plus plugin which declares this permission
+         with android:maxSdkVersion="30" to avoid manifest merge conflicts -->
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />

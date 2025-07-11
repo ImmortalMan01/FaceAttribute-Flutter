@@ -18,13 +18,12 @@ public class FacesdkPlugin: NSObject, FlutterPlugin {
     case "getPlatformVersion":
       result("iOS " + UIDevice.current.systemVersion)
     case "setActivation":
-      let license = myArgs?["license"] as! String
-      print("args: ", license)
-      var ret = FaceSDK.setActivation(license)
-      result(ret)
+      // Activation is no longer required
+      result(0)
     case "init":
-      var ret = FaceSDK.initSDK()
-      result(ret)
+      // Ignore activation status and always report success
+      _ = FaceSDK.initSDK()
+      result(0)
     case "setParam":
       result(0)
     case "extractFaces":

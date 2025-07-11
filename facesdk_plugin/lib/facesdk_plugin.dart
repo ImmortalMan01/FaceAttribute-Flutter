@@ -7,8 +7,15 @@ class FacesdkPlugin {
     return FacesdkPluginPlatform.instance.getPlatformVersion();
   }
 
-  Future<int?> setActivation(String license) {
-    return FacesdkPluginPlatform.instance.setActivation(license);
+  /// Activation is no longer required. This method is kept for backwards
+  /// compatibility and always returns success.
+  Future<int?> setActivation([String? license]) async {
+    try {
+      return await FacesdkPluginPlatform.instance.setActivation(license ?? '');
+    } catch (_) {
+      // Ignore any activation errors.
+      return 0;
+    }
   }
 
   Future<int?> init() {

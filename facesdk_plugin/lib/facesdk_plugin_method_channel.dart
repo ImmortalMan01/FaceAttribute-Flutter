@@ -17,10 +17,10 @@ class MethodChannelFacesdkPlugin extends FacesdkPluginPlatform {
   }
 
   @override
-  Future<int?> setActivation(String license) async {
+  Future<int?> setActivation(String? license) async {
     final ret = await methodChannel
-        .invokeMethod<int>('setActivation', {"license": license});
-    return ret;
+        .invokeMethod<int>('setActivation', {"license": license ?? ''});
+    return ret ?? 0;
   }
 
   @override

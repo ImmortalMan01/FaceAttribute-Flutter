@@ -1,4 +1,4 @@
-package com.example.facerecognition_flutter
+package com.kbyai.faceattribute_flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

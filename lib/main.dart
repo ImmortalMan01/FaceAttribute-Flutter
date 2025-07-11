@@ -261,7 +261,6 @@ class MyHomePageState extends State<MyHomePage> {
     }
 
     if (!mounted) return;
-    }
 
     setState(() {
       _warningState = warningState;

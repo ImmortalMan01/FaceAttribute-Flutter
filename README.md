@@ -216,4 +216,32 @@ This project uses the [`flutter_launcher_icons` package](https://pub.dev/package
    flutter pub run flutter_launcher_icons
    ```
    Generated icons will be placed into each platform's resources.
+
+### Signing the Android App
+
+The Android project reads signing information from `android/key.properties`.
+Edit this file with your keystore values:
+
+```properties
+storePassword=YOUR_STORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=YOUR_KEY_ALIAS
+storeFile=keystore.jks
+```
+
+Replace the placeholders with your passwords, alias name and the location of
+your `.jks` file. The path for `storeFile` can be absolute or relative to the
+`android` folder.
+
+If you need to generate a new keystore, you can use the following PowerShell
+command on Windows:
+
+```powershell
+keytool -genkey -v -keystore $env:USERPROFILE\upload-keystore.jks `
+    -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 `
+    -alias upload
+```
+
+Copy the resulting `upload-keystore.jks` file into the `android` directory and
+set `storeFile` in `key.properties` to its path.
   

@@ -21,6 +21,9 @@ import 'personview.dart';
 import 'facedetectionview.dart';
 import 'facecaptureview.dart';
 import 'logview.dart';
+import 'auth_gate.dart';
+import 'account_service.dart';
+import 'account.dart';
 import 'ble_notification_service.dart';
 import 'recognition_log.dart';
 import 'localization.dart';
@@ -160,8 +163,7 @@ class _MyAppState extends State<MyApp> {
                     : AdaptiveTheme.of(context).mode == AdaptiveThemeMode.light
                         ? ThemeMode.light
                         : ThemeMode.system,
-                home:
-                    MyHomePage(title: AppLocalizations(_locale).t('appTitle')))),
+                home: const AuthGate())),
     );
   }
 }
@@ -169,8 +171,9 @@ class _MyAppState extends State<MyApp> {
 // ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
   final String title;
+  final bool isAdmin;
 
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({super.key, required this.title, required this.isAdmin});
 
   @override
   MyHomePageState createState() => MyHomePageState();
@@ -180,6 +183,7 @@ class MyHomePageState extends State<MyHomePage> {
   String _warningState = "";
   bool _visibleWarning = false;
   bool _initializing = true;
+  bool get isAdmin => widget.isAdmin;
 
   List<Person> personList = [];
   List<RecognitionLog> logList = [];
@@ -564,69 +568,89 @@ class MyHomePageState extends State<MyHomePage> {
     final buttonPadding = orientation == Orientation.landscape
         ? const EdgeInsets.symmetric(vertical: 4)
         : const EdgeInsets.symmetric(vertical: 8);
-    return [
+
+    final buttons = <Widget>[
       FilledButton.icon(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    FaceRecognitionView(personList: personList, addLog: insertLog)),
+          );
+        },
+        style: FilledButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          padding: buttonPadding,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        icon: Icon(Icons.person_search,
+            color: Theme.of(context).colorScheme.onPrimary),
+        label: Text(
+          AppLocalizations.of(context).t('identify'),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
+      FilledButton.icon(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SettingsPage(homePageState: this)),
+          );
+        },
+        style: FilledButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          padding: buttonPadding,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        icon: Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary),
+        label: Text(
+          AppLocalizations.of(context).t('settings'),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
+      FilledButton.icon(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LogView(logList: logList)),
+          );
+        },
+        style: FilledButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          padding: buttonPadding,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+        icon: Icon(Icons.list, color: Theme.of(context).colorScheme.onPrimary),
+        label: Text(
+          AppLocalizations.of(context).t('logs'),
+          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
+    ];
+
+    if (isAdmin) {
+      buttons.insert(
+        0,
+        FilledButton.icon(
           onPressed: enrollPerson,
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             padding: buttonPadding,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
           icon: Icon(Icons.person_add,
               color: Theme.of(context).colorScheme.onPrimary),
           label: Text(
             AppLocalizations.of(context).t('enroll'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      FilledButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      FaceRecognitionView(personList: personList, addLog: insertLog)),
-            );
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            padding: buttonPadding,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon: Icon(Icons.person_search,
-              color: Theme.of(context).colorScheme.onPrimary),
-          label: Text(
-            AppLocalizations.of(context).t('identify'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-          ),
-        ),
-      FilledButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => SettingsPage(homePageState: this)),
-            );
-          },
-          style: FilledButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            padding: buttonPadding,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          icon:
-              Icon(Icons.settings, color: Theme.of(context).colorScheme.onPrimary),
-          label: Text(
-            AppLocalizations.of(context).t('settings'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-          ),
-        ),
-      FilledButton.icon(
+      );
+
+      buttons.insert(
+        3,
+        FilledButton.icon(
           onPressed: () {
             Navigator.push(
               context,
@@ -640,39 +664,41 @@ class MyHomePageState extends State<MyHomePage> {
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             padding: buttonPadding,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          icon:
-              Icon(Icons.person_pin, color: Theme.of(context).colorScheme.onPrimary),
+          icon: Icon(Icons.person_pin,
+              color: Theme.of(context).colorScheme.onPrimary),
           label: Text(
             AppLocalizations.of(context).t('capture'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-      FilledButton.icon(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LogView(logList: logList)),
-            );
+      );
+
+      buttons.add(
+        FilledButton.icon(
+          onPressed: () async {
+            final username = await requestPersonName();
+            if (username == null || username.isEmpty) return;
+            await AccountService.insertAccount(
+                Account(username: username, password: '1234', isAdmin: false));
           },
           style: FilledButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             padding: buttonPadding,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          icon: Icon(Icons.list, color: Theme.of(context).colorScheme.onPrimary),
+          icon: Icon(Icons.person_add_alt,
+              color: Theme.of(context).colorScheme.onPrimary),
           label: Text(
-            AppLocalizations.of(context).t('logs'),
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+            AppLocalizations.of(context).t('createAccount'),
+            style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
           ),
         ),
-    ];
+      );
+    }
+
+    return buttons;
   }
 
   @override

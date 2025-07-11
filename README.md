@@ -83,17 +83,6 @@ You can visit our YouTube video [here](https://www.youtube.com/watch?v=-WiAethTa
   <img src="https://github.com/kby-ai/FaceAttribute-Android/assets/125717930/b1f64dba-7b58-4385-939d-949fb4be4d66" width=240/>
 </p>
 
-## SDK License
-
-To run this repo successfully, license should be required based on each `application ID`.</br>
-- The code below shows how to use the license: https://github.com/kby-ai/FaceAttribute-Flutter/blob/d5e05cd5b22bb7d57c55bcc26eb8cb29cff11993/lib/main.dart#L71-L79
-
-- To request a license, please contact us:</br>
-🧙`Email:` contact@kby-ai.com</br>
-🧙`Telegram:` [@kbyai](https://t.me/kbyai)</br>
-🧙`WhatsApp:` [+19092802609](https://wa.me/+19092802609)</br>
-🧙`Discord:` [KBY-AI](https://discord.gg/CgHtWQ3k9T)</br>
-🧙`Teams:` [KBY-AI](https://teams.live.com/l/invite/FBAYGB1-IlXkuQM3AY)</br>
 
 ## How To Run
 ### 1. Flutter Setup

@@ -244,4 +244,10 @@ keytool -genkey -v -keystore $env:USERPROFILE\upload-keystore.jks `
 
 Copy the resulting `upload-keystore.jks` file into the `android` directory and
 set `storeFile` in `key.properties` to its path.
+
+To generate the final Android bundle for release, run:
+
+```bash
+flutter build appbundle --release
+```
   

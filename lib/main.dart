@@ -240,6 +240,9 @@ class MyHomePageState extends State<MyHomePage> {
       }
 
 
+      // Initialize FaceSDK so that recognition and capture work correctly.
+      await _facesdkPlugin.init();
+
       personList = await loadAllPersons();
       logList = await loadAllLogs();
       await SettingsPageState.initSettings();

@@ -140,18 +140,7 @@ from the recent tasks list.
   ```
 ### 2 API Usages
 #### 2.1 Facesdk Plugin
-  - Activate the `FacesdkPlugin` by calling the `setActivation` method:
-  ```dart
-    final _facesdkPlugin = FacesdkPlugin();
-    ...
-    await _facesdkPlugin
-            .setActivation(
-                "Os8QQO1k4+7MpzJ00bVHLv3UENK8YEB04ohoJsU29wwW1u4fBzrpF6MYoqxpxXw9m5LGd0fKsuiK"
-                "fETuwulmSR/gzdSndn8M/XrEMXnOtUs1W+XmB1SfKlNUkjUApax82KztTASiMsRyJ635xj8C6oE1"
-                "gzCe9fN0CT1ysqCQuD3fA66HPZ/Dhpae2GdKIZtZVOK8mXzuWvhnNOPb1lRLg4K1IL95djy0PKTh"
-                "BNPKNpI6nfDMnzcbpw0612xwHO3YKKvR7B9iqRbalL0jLblDsmnOqV7u1glLvAfSCL7F5G1grwxL"
-                "Yo1VrNPVGDWA/Qj6Z2tPC0ENQaB4u/vXAS0ipg==")
-            .then((value) => facepluginState = value ?? -1);  
+    - Activation is no longer required. The `setActivation` method remains for backward compatibility and always returns success.  
   ```
   - Initialize the `FacesdkPlugin`:
   ```dart

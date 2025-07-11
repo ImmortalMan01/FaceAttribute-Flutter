@@ -29,7 +29,7 @@ abstract class FacesdkPluginPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<int?> setActivation(String license) {
+  Future<int?> setActivation(String? license) {
     throw UnimplementedError('setActivation() has not been implemented.');
   }
 

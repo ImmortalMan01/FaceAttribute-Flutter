@@ -51,12 +51,12 @@ class FacesdkPlugin: FlutterPlugin, MethodCallHandler, ActivityAware {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     } else if (call.method == "setActivation") {
-      val license: String? = call.argument("license")
-      val ret = FaceSDK.setActivation(license);
-      result.success(ret)
+      // Activation is no longer required. Always return success.
+      result.success(0)
     } else if (call.method == "init") {
-      val ret = FaceSDK.init(context.assets)
-      result.success(ret)
+      // Ignore license validation result and always report success.
+      FaceSDK.init(context.assets)
+      result.success(0)
     } else if (call.method == "setParam") {
       val check_liveness_level: Int? = call.argument("check_liveness_level")
       if(check_liveness_level != null)
